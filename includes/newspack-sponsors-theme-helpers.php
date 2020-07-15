@@ -136,7 +136,7 @@ function convert_post_to_sponsor( $post, $type = 'direct' ) {
 		'sponsor_slug'   => $post->post_name,
 		'sponsor_blurb'  => $post->post_content,
 		'sponsor_url'    => get_post_meta( $post->ID, 'newspack_sponsor_url', true ),
-		'sponsor_byline' => ! empty( $sponsor_byline ) ? $sponsor_byline : 'Sponsored by',
+		'sponsor_byline' => ! empty( $sponsor_byline ) ? $sponsor_byline : __( 'Sponsored by', 'newspack-sponsors' ),
 		'sponsor_logo'   => get_the_post_thumbnail( $post->ID, 'medium', [ 'class' => 'newspack-sponsor-logo' ] ),
 	];
 }
