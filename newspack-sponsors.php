@@ -17,9 +17,10 @@ defined( 'ABSPATH' ) || exit;
 // Define NEWSPACK_SPONSORS_PLUGIN_FILE.
 if ( ! defined( 'NEWSPACK_SPONSORS_PLUGIN_FILE' ) ) {
 	define( 'NEWSPACK_SPONSORS_PLUGIN_FILE', plugin_dir_path( __FILE__ ) );
+	define( 'NEWSPACK_SPONSORS_URL', plugin_dir_url( __FILE__ ) );
 }
 
-// Include the main Newspack Sponsors class.
-if ( ! class_exists( 'Newspack_Sponsors' ) ) {
-	include_once dirname( __FILE__ ) . '/includes/class-newspack-sponsors.php';
-}
+// Include plugin resources.
+require_once NEWSPACK_SPONSORS_PLUGIN_FILE . '/vendor/autoload.php';
+require_once NEWSPACK_SPONSORS_PLUGIN_FILE . '/includes/class-newspack-sponsors-core.php';
+require_once NEWSPACK_SPONSORS_PLUGIN_FILE . '/includes/class-newspack-sponsors-editor.php';
