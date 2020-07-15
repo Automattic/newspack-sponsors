@@ -26,7 +26,9 @@ function get_sponsors_for_post( $post_id ) {
 
 	$sponsors        = [];
 	$direct_sponsors = get_the_terms( $post_id, Core::NEWSPACK_SPONSORS_TAX );
-	$post_terms      = array_merge( get_the_category( $post_id ), get_the_tags( $post_id ) );
+	$categories      = get_the_category( $post_id );
+	$tags            = get_the_tags( $post_id );
+	$post_terms      = array_merge( is_array( $categories ) ? $categories : [], is_array( $tags ) ? $tags : [] );
 
 	// Get sponsors directly assigned to the post. These take precedence over category/tag sponsors.
 	if ( is_array( $direct_sponsors ) ) {
