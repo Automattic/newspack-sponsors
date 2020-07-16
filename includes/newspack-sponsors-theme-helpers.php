@@ -28,9 +28,8 @@ function get_sponsors_for_post( $post_id ) {
 	$direct_sponsors = get_the_terms( $post_id, Core::NEWSPACK_SPONSORS_TAX );
 	$categories      = get_the_category( $post_id );
 	$tags            = get_the_tags( $post_id );
-	$post_terms      = array_merge( is_array( $categories ) ? $categories : [], is_array( $tags ) ? $tags : [] );
 
-	// Get sponsors directly assigned to the post. These take precedence over category/tag sponsors.
+	// Get sponsors directly assigned to the post.
 	if ( is_array( $direct_sponsors ) ) {
 		foreach ( $direct_sponsors as $direct_sponsor ) {
 			$sponsor_post = get_related_post( $direct_sponsor->slug );
@@ -41,16 +40,21 @@ function get_sponsors_for_post( $post_id ) {
 		}
 	}
 
-	// Get sponsors for the post's categories and tags, if any.
-	foreach ( $post_terms as $term ) {
-		if ( ! empty( $term->taxonomy ) ) {
-			$term_sponsors = get_sponsor_posts_for_term( $term );
+	// Get sponsors for the post's categories, if any.
+	$category_sponsors = get_sponsor_posts_for_terms( $categories );
 
-			if ( ! empty( $term_sponsors ) ) {
-				foreach ( $term_sponsors as $term_sponsor ) {
-					$sponsors[] = convert_post_to_sponsor( $term_sponsor, $term->taxonomy );
-				}
-			}
+	if ( is_array( $category_sponsors ) ) {
+		foreach ( $category_sponsors as $category_sponsor ) {
+			$sponsors[] = convert_post_to_sponsor( $category_sponsor, 'category' );
+		}
+	}
+
+	// Get sponsors for the post's tags, if any.
+	$tag_sponsors = get_sponsor_posts_for_terms( $tags );
+
+	if ( is_array( $tag_sponsors ) ) {
+		foreach ( $tag_sponsors as $tag_sponsor ) {
+			$sponsors[] = convert_post_to_sponsor( $tag_sponsor, 'tag' );
 		}
 	}
 
@@ -82,14 +86,26 @@ function get_related_post( $slug ) {
 }
 
 /**
- * Get all sponsors who are associated with the given term.
+ * Get all sponsors who are associated with the given terms.
  *
- * @param array $term Term object to look up.
- * @return array|bool Array of sponsor objects, if any, or false.
+ * @param array $terms Array of term objects to look up.
+ * @return array|bool Array of sponsor post objects, if any, or false.
  */
-function get_sponsor_posts_for_term( $term ) {
-	if ( empty( $term ) || empty( $term->taxonomy ) || empty( $term->term_id ) ) {
+function get_sponsor_posts_for_terms( $terms ) {
+	if ( empty( $terms ) ) {
 		return false;
+	}
+
+	$tax_query_args = [ 'relation' => 'OR' ];
+
+	foreach ( $terms as $term ) {
+		if ( ! empty( $term->taxonomy ) && ! empty( $term->term_id ) ) {
+			$tax_query_args[] = [
+				'taxonomy' => $term->taxonomy,
+				'field'    => 'term_id',
+				'terms'    => $term->term_id,
+			];
+		}
 	}
 
 	$sponsor_posts = new \WP_Query(
@@ -98,13 +114,7 @@ function get_sponsor_posts_for_term( $term ) {
 			'posts_per_page' => 100,
 			'post_status'    => 'publish',
 			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
-			'tax_query'      => [
-				[
-					'taxonomy' => $term->taxonomy,
-					'field'    => 'term_id',
-					'terms'    => $term->term_id,
-				],
-			],
+			'tax_query'      => $tax_query_args,
 		]
 	);
 
