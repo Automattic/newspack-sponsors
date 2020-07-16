@@ -15,13 +15,14 @@ use \Newspack_Sponsors\Newspack_Sponsors_Core as Core;
  * Get sponsors associated with the given post ID.
  *
  * @param int $post_id ID for the post to look up.
- * @return array Array of sponsor IDs associated with the post.
+ * @return array|bool Array of sponsor objects associated with the post, or false if $post_id is invalid.
  */
 function get_sponsors_for_post( $post_id ) {
 	$post = get_post( $post_id );
 
+	// Return false if there's no post for this $post_id.
 	if ( empty( $post ) ) {
-		return [];
+		return false;
 	}
 
 	$sponsors        = [];
