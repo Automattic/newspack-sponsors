@@ -96,7 +96,7 @@ function get_sponsor_posts_for_terms( $terms ) {
 		return false;
 	}
 
-	$tax_query_args = [ 'relation' => 'OR' ];
+	$tax_query_args = [];
 
 	foreach ( $terms as $term ) {
 		if ( ! empty( $term->taxonomy ) && ! empty( $term->term_id ) ) {
@@ -107,6 +107,13 @@ function get_sponsor_posts_for_terms( $terms ) {
 			];
 		}
 	}
+
+	// No need to run query if there are no valid terms to query.
+	if ( empty( $tax_query_args ) ) {
+		return false;
+	}
+
+	$tax_query_args['relation'] = 'OR';
 
 	$sponsor_posts = new \WP_Query(
 		[
