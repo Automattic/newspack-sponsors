@@ -177,19 +177,18 @@ final class Newspack_Sponsors_Core {
 	 * Create a relationship between the Sponsors CPT and Sponsors tax.
 	 */
 	public static function create_shadow_relationship() {
-		add_action( 'wp_insert_post', [ __CLASS__, 'update_shadow_term' ] );
+		add_action( 'wp_insert_post', [ __CLASS__, 'update_shadow_term' ], 10, 2 );
 		add_action( 'before_delete_post', [ __CLASS__, 'delete_shadow_term' ] );
 	}
 
 	/**
 	 * Creates a new taxonomy term, or updates an existing one.
 	 *
-	 * @param int $post_id ID for the post being inserted or saved.
+	 * @param int   $post_id ID for the post being inserted or saved.
+	 * @param array $post Post object for the post being inserted or saved.
 	 * @return bool|void Nothing if successful, or false if not.
 	 */
-	public static function update_shadow_term( $post_id ) {
-		$post = get_post( $post_id );
-
+	public static function update_shadow_term( $post_id, $post ) {
 		// Bail if we don't have a valid post or post type.
 		if ( empty( $post ) || self::NEWSPACK_SPONSORS_CPT !== $post->post_type ) {
 			return false;
