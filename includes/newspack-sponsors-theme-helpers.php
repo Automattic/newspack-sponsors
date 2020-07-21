@@ -10,14 +10,29 @@
 namespace Newspack_Sponsors;
 
 use \Newspack_Sponsors\Newspack_Sponsors_Core as Core;
+use \WP_Error as WP_Error;
 
 /**
  * Get sponsors associated with the given post ID.
  *
- * @param int $post_id ID for the post to look up.
- * @return array|bool Array of sponsor objects associated with the post, or false if $post_id is invalid.
+ * @param int $post_id ID for the post to look up (optional).
+ * @return array|bool|WP_Error Array of sponsor objects associated with the
+ *                             post, false if we can't find a post with given
+ *                             $post_id, or WP_Error if no $post_id given and
+ *                             we're not on a post page.
  */
-function get_sponsors_for_post( $post_id ) {
+function get_sponsors_for_post( $post_id = null ) {
+	if ( null === $post_id ) {
+		if ( ! is_singular( 'post' ) ) {
+			return new WP_Error(
+				'newspack-sponsors__is_not_post',
+				__( 'Please provide a $post_id if not invoking within a single post.' )
+			);
+		}
+
+		$post_id = get_the_ID();
+	}
+
 	$post = get_post( $post_id );
 
 	// Return false if there's no post for this $post_id.
@@ -56,6 +71,50 @@ function get_sponsors_for_post( $post_id ) {
 	if ( is_array( $tag_sponsors ) ) {
 		foreach ( $tag_sponsors as $tag_sponsor ) {
 			$sponsors[] = convert_post_to_sponsor( $tag_sponsor, 'tag' );
+		}
+	}
+
+	return $sponsors;
+}
+
+/**
+ * Get sponsors associated with the given term ID.
+ *
+ * @param int $term_id ID for the post to look up (optional).
+ * @return array|bool|WP_Error Array of sponsor objects associated with the
+ *                             term, false if we can't find a term with given
+ *                             $term_id, or WP_Error if no $term_id given and
+ *                             we're not on a term archive page.
+ */
+function get_sponsors_for_archive( $term_id = null ) {
+	if ( null === $term_id ) {
+		if ( ! is_archive() ) {
+			return new WP_Error(
+				'newspack-sponsors__is_not_archive',
+				__( 'Please provide a $term_id if not invoking within a term archive page.' )
+			);
+		}
+
+		$term = get_queried_object();
+	} else {
+		$term = get_term( $term_id, 'category' );
+
+		if ( empty( $term ) ) {
+			$term - get_term( $term_id, 'post_tag' );
+		}
+	}
+
+	// Return false if there's no term for this $term_id.
+	if ( empty( $term ) ) {
+		return false;
+	}
+
+	$type          = 'category' === $term->taxonomy ? 'category' : 'tag';
+	$term_sponsors = get_sponsor_posts_for_terms( [ $term ] );
+
+	if ( is_array( $term_sponsors ) ) {
+		foreach ( $term_sponsors as $term_sponsor ) {
+			$sponsors[] = convert_post_to_sponsor( $term_sponsors, $type );
 		}
 	}
 

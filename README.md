@@ -21,12 +21,23 @@ To use in a theme, check for the existence of the helper function first. Then ca
 
 ```
 if ( function_exists( '\Newspack_Sponsors\get_sponsors_for_post' ) ) {
-	$sponsors = \Newspack_Sponsors\get_sponsors_for_post( get_the_ID() );
+	$sponsors = \Newspack_Sponsors\get_sponsors_for_post( $post_id );
 	var_dump( $sponsors );
 }
 ```
 
-This will return an array containing all sponsors that are associated with the post, and all info needed to display assets for each sponsor on the front-end. If the same sponsor applies as both a direct sponsor and a category or tag sponsor, that sponsor will appear multiple times but with the corresponding type in each case. Data returned for each sponsor:
+There is also a helper function to get a list of sponsors associated with a specific term ID:
+
+```
+if ( function_exists( '\Newspack_Sponsors\get_sponsors_for_archive' ) ) {
+	$sponsors = \Newspack_Sponsors\get_sponsors_for_archive( $term_id );
+	var_dump( $sponsors );
+}
+```
+
+Both helpers can be called from anywhere with a single argument with the post ID or term ID. If calling within a single post or archive page, the argument is optional and the current post ID or archive term ID will be used.
+
+Both helpers will return an array containing all sponsors that are associated with the post or archive, and all info needed to display assets for each sponsor on the front-end. If the same sponsor applies as both a direct sponsor and a category or tag sponsor, that sponsor will appear multiple times but with the corresponding type in each case. Data returned for each sponsor:
 
 - `sponsor_type` - Type of sponsorship: direct, category, or tag.
 - `sponsor_id` - Post ID of the sponsor in WP, in case you need to fetch more info on it.
