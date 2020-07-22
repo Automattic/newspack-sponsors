@@ -52,10 +52,6 @@ final class Newspack_Sponsors_Core {
 	 * After WP init.
 	 */
 	public static function init() {
-		if ( ! current_user_can( 'edit_posts' ) ) {
-			return;
-		}
-
 		self::register_cpt();
 		self::register_meta();
 		self::register_tax();
@@ -123,6 +119,21 @@ final class Newspack_Sponsors_Core {
 				'description'       => __( 'Text shown in lieu of a byline on sponsored posts. This is combined with the Sponsor Name to form a full byline.', 'newspack-sponsors' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'auth_callback'     => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
+		register_meta(
+			'post',
+			'newspack_sponsor_only_direct',
+			[
+				'object_subtype'    => self::NEWSPACK_SPONSORS_CPT,
+				'description'       => __( 'If this value is true, this sponsor will not be shown on single posts unless directly assigned to a post. It will still appear on category/tag archive pages, if applicable.', 'newspack-sponsors' ),
+				'type'              => 'boolean',
+				'sanitize_callback' => 'rest_sanitize_boolean',
 				'single'            => true,
 				'show_in_rest'      => true,
 				'auth_callback'     => function() {

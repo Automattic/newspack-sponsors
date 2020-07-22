@@ -61,7 +61,12 @@ function get_sponsors_for_post( $post_id = null ) {
 
 	if ( is_array( $category_sponsors ) ) {
 		foreach ( $category_sponsors as $category_sponsor ) {
-			$sponsors[] = convert_post_to_sponsor( $category_sponsor, 'category' );
+			$hide_term_sponsor = get_post_meta( $category_sponsor->ID, 'newspack_sponsor_only_direct', true );
+
+			// Don't add if sponsor is set to show only as direct.
+			if ( empty( $hide_term_sponsor ) ) {
+				$sponsors[] = convert_post_to_sponsor( $category_sponsor, 'category' );
+			}
 		}
 	}
 
@@ -70,7 +75,12 @@ function get_sponsors_for_post( $post_id = null ) {
 
 	if ( is_array( $tag_sponsors ) ) {
 		foreach ( $tag_sponsors as $tag_sponsor ) {
-			$sponsors[] = convert_post_to_sponsor( $tag_sponsor, 'tag' );
+			$hide_term_sponsor = get_post_meta( $tag_sponsor->ID, 'newspack_sponsor_only_direct', true );
+
+			// Don't add if sponsor is set to show only as direct.
+			if ( empty( $hide_term_sponsor ) ) {
+				$sponsors[] = convert_post_to_sponsor( $tag_sponsor, 'tag' );
+			}
 		}
 	}
 
@@ -109,12 +119,13 @@ function get_sponsors_for_archive( $term_id = null ) {
 		return false;
 	}
 
+	$sponsors      = [];
 	$type          = 'category' === $term->taxonomy ? 'category' : 'tag';
 	$term_sponsors = get_sponsor_posts_for_terms( [ $term ] );
 
 	if ( is_array( $term_sponsors ) ) {
 		foreach ( $term_sponsors as $term_sponsor ) {
-			$sponsors[] = convert_post_to_sponsor( $term_sponsors, $type );
+			$sponsors[] = convert_post_to_sponsor( $term_sponsor, $type );
 		}
 	}
 

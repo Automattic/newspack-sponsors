@@ -107,6 +107,15 @@ final class Newspack_Sponsors_Editor {
 			filemtime( NEWSPACK_SPONSORS_PLUGIN_FILE . 'dist/editor.js' ),
 			true
 		);
+
+		wp_register_style(
+			'newspack-sponsors-editor',
+			plugins_url( '../dist/editor.css', __FILE__ ),
+			[],
+			filemtime( NEWSPACK_SPONSORS_PLUGIN_FILE . 'dist/editor.css' )
+		);
+		wp_style_add_data( 'newspack-sponsors-editor', 'rtl', 'replace' );
+		wp_enqueue_style( 'newspack-sponsors-editor' );
 	}
 }
 
