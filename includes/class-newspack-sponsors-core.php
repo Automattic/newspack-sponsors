@@ -63,20 +63,24 @@ final class Newspack_Sponsors_Core {
 	 */
 	public static function register_cpt() {
 		$labels = [
-			'name'               => _x( 'Sponsors', 'post type general name', 'newspack-sponsors' ),
-			'singular_name'      => _x( 'Sponsor', 'post type singular name', 'newspack-sponsors' ),
-			'menu_name'          => _x( 'Sponsors', 'admin menu', 'newspack-sponsors' ),
-			'name_admin_bar'     => _x( 'Sponsor', 'add new on admin bar', 'newspack-sponsors' ),
-			'add_new'            => _x( 'Add New', 'popup', 'newspack-sponsors' ),
-			'add_new_item'       => __( 'Add New Sponsor', 'newspack-sponsors' ),
-			'new_item'           => __( 'New Sponsor', 'newspack-sponsors' ),
-			'edit_item'          => __( 'Edit Sponsor', 'newspack-sponsors' ),
-			'view_item'          => __( 'View Sponsor', 'newspack-sponsors' ),
-			'all_items'          => __( 'All Sponsors', 'newspack-sponsors' ),
-			'search_items'       => __( 'Search Sponsors', 'newspack-sponsors' ),
-			'parent_item_colon'  => __( 'Parent Sponsors:', 'newspack-sponsors' ),
-			'not_found'          => __( 'No sponsors found.', 'newspack-sponsors' ),
-			'not_found_in_trash' => __( 'No sponsors found in Trash.', 'newspack-sponsors' ),
+			'name'                  => _x( 'Sponsors', 'post type general name', 'newspack-sponsors' ),
+			'singular_name'         => _x( 'Sponsor', 'post type singular name', 'newspack-sponsors' ),
+			'menu_name'             => _x( 'Sponsors', 'admin menu', 'newspack-sponsors' ),
+			'name_admin_bar'        => _x( 'Sponsor', 'add new on admin bar', 'newspack-sponsors' ),
+			'add_new'               => _x( 'Add New', 'popup', 'newspack-sponsors' ),
+			'add_new_item'          => __( 'Add New Sponsor', 'newspack-sponsors' ),
+			'new_item'              => __( 'New Sponsor', 'newspack-sponsors' ),
+			'edit_item'             => __( 'Edit Sponsor', 'newspack-sponsors' ),
+			'view_item'             => __( 'View Sponsor', 'newspack-sponsors' ),
+			'all_items'             => __( 'All Sponsors', 'newspack-sponsors' ),
+			'search_items'          => __( 'Search Sponsors', 'newspack-sponsors' ),
+			'parent_item_colon'     => __( 'Parent Sponsors:', 'newspack-sponsors' ),
+			'not_found'             => __( 'No sponsors found.', 'newspack-sponsors' ),
+			'not_found_in_trash'    => __( 'No sponsors found in Trash.', 'newspack-sponsors' ),
+			'featured_image'        => __( 'Sponsor logo', 'newspack-sponsors' ),
+			'set_featured_image'    => __( 'Set sponsor logo', 'newspack-sponsors' ),
+			'remove_featured_image' => __( 'Remove sponsor Logo', 'newspack-sponsors' ),
+			'use_featured_image'    => __( 'Use as sponsor Logo', 'newspack-sponsors' ),
 		];
 
 		$cpt_args = [
