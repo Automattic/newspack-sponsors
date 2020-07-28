@@ -43,8 +43,39 @@ final class Newspack_Sponsors_Editor {
 	 * Constructor.
 	 */
 	public function __construct() {
+		add_action( 'the_post', [ __CLASS__, 'strip_editor_modifications' ] );
 		add_filter( 'wpseo_primary_term_taxonomies', [ __CLASS__, 'disable_yoast_category_picker' ] );
 		add_action( 'enqueue_block_editor_assets', [ __CLASS__, 'enqueue_block_editor_assets' ] );
+	}
+
+	/**
+	 * Remove all editor enqueued assets besides this plugins' and disable some editor features.
+	 * This is to prevent theme styles being loaded in the editor.
+	 * Remove editor color palette theme supports - the MJML parser uses a static list of default editor colors.
+	 */
+	public static function strip_editor_modifications() {
+		if ( ! self::is_editing_sponsor() ) {
+			return;
+		}
+
+		$enqueue_block_editor_assets_filters = $GLOBALS['wp_filter']['enqueue_block_editor_assets']->callbacks;
+		$allowed_assets                      = [
+			__CLASS__ . '::enqueue_block_editor_assets',
+			'Newspack_Blocks::enqueue_block_editor_assets',
+			'newspack_enqueue_scripts',
+			'newspack_editor_customizer_styles',
+			'newspack_enqueue_editor_override_assets',
+			'newspack_katharine_editor_customizer_styles',
+		];
+
+		foreach ( $enqueue_block_editor_assets_filters as $index => $filter ) {
+			$action_handlers = array_keys( $filter );
+			foreach ( $action_handlers as $handler ) {
+				if ( ! in_array( $handler, $allowed_assets ) ) {
+					remove_action( 'enqueue_block_editor_assets', $handler, $index );
+				}
+			}
+		}
 	}
 
 	/**
