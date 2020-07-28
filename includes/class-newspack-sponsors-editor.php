@@ -59,19 +59,17 @@ final class Newspack_Sponsors_Editor {
 		}
 
 		$enqueue_block_editor_assets_filters = $GLOBALS['wp_filter']['enqueue_block_editor_assets']->callbacks;
-		$allowed_assets                      = [
-			__CLASS__ . '::enqueue_block_editor_assets',
-			'Newspack_Blocks::enqueue_block_editor_assets',
-			'newspack_enqueue_scripts',
-			'newspack_editor_customizer_styles',
-			'newspack_enqueue_editor_override_assets',
-			'newspack_katharine_editor_customizer_styles',
+		$disallowed_assets                   = [
+			'Newspack_Popups::enqueue_block_editor_assets',
+			'Newspack_Newsletters_Editor::enqueue_block_editor_assets',
+			'Newspack_Ads_Blocks::enqueue_block_editor_assets',
+			'newspack_ads_enqueue_suppress_ad_assets',
 		];
 
 		foreach ( $enqueue_block_editor_assets_filters as $index => $filter ) {
 			$action_handlers = array_keys( $filter );
 			foreach ( $action_handlers as $handler ) {
-				if ( ! in_array( $handler, $allowed_assets ) ) {
+				if ( in_array( $handler, $disallowed_assets ) ) {
 					remove_action( 'enqueue_block_editor_assets', $handler, $index );
 				}
 			}
