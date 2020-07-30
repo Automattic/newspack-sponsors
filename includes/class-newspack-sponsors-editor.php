@@ -49,9 +49,7 @@ final class Newspack_Sponsors_Editor {
 	}
 
 	/**
-	 * Remove all editor enqueued assets besides this plugins' and disable some editor features.
-	 * This is to prevent theme styles being loaded in the editor.
-	 * Remove editor color palette theme supports - the MJML parser uses a static list of default editor colors.
+	 * Remove certain editor enqueued assets which might not be compatible with this post type.
 	 */
 	public static function strip_editor_modifications() {
 		if ( ! self::is_editing_sponsor() ) {
