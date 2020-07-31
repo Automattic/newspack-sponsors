@@ -1,6 +1,6 @@
 <?php
 /**
- * Newspack Sponsors setup.
+ * Newspack Sponsors Core.
  *
  * Registers Sponsors custom post type and taxonomy, and creates a shadow
  * relationship between them.
@@ -12,24 +12,11 @@ namespace Newspack_Sponsors;
 
 defined( 'ABSPATH' ) || exit;
 
-require_once NEWSPACK_SPONSORS_PLUGIN_FILE . 'vendor/autoload.php';
-
 /**
- * WP globals used in this class.
- */
-use \current_user_can as current_user_can;
-use \get_post as get_post;
-use \get_term_by as get_term_by;
-use \register_post_type as register_post_type;
-use \register_taxonomy as register_taxonomy;
-use \wp_insert_term as wp_insert_term;
-use \wp_update_term as wp_update_term;
-
-/**
- * Main Newspack_Sponsors class.
+ * Main Core class.
  * Sets up Sponsors CPT and shadow taxonomy for posts.
  */
-final class Newspack_Sponsors {
+final class Newspack_Sponsors_Core {
 
 	const NEWSPACK_SPONSORS_CPT = 'newspack_spnsrs_cpt';
 	const NEWSPACK_SPONSORS_TAX = 'newspack_spnsrs_tax';
@@ -37,7 +24,7 @@ final class Newspack_Sponsors {
 	/**
 	 * The single instance of the class.
 	 *
-	 * @var Newspack_Ads
+	 * @var Core
 	 */
 	protected static $instance = null;
 
@@ -45,7 +32,7 @@ final class Newspack_Sponsors {
 	 * Main Newspack_Sponsors instance.
 	 * Ensures only one instance of Newspack_Sponsors is loaded or can be loaded.
 	 *
-	 * @return Newspack_Sponsors - Main instance.
+	 * @return Core - Main instance.
 	 */
 	public static function instance() {
 		if ( is_null( self::$instance ) ) {
@@ -65,11 +52,8 @@ final class Newspack_Sponsors {
 	 * After WP init.
 	 */
 	public static function init() {
-		if ( ! current_user_can( 'edit_posts' ) ) {
-			return;
-		}
-
 		self::register_cpt();
+		self::register_meta();
 		self::register_tax();
 		self::create_shadow_relationship();
 	}
@@ -79,20 +63,24 @@ final class Newspack_Sponsors {
 	 */
 	public static function register_cpt() {
 		$labels = [
-			'name'               => _x( 'Sponsors', 'post type general name', 'newspack-sponsors' ),
-			'singular_name'      => _x( 'Sponsor', 'post type singular name', 'newspack-sponsors' ),
-			'menu_name'          => _x( 'Sponsors', 'admin menu', 'newspack-sponsors' ),
-			'name_admin_bar'     => _x( 'Sponsor', 'add new on admin bar', 'newspack-sponsors' ),
-			'add_new'            => _x( 'Add New', 'popup', 'newspack-sponsors' ),
-			'add_new_item'       => __( 'Add New Sponsor', 'newspack-sponsors' ),
-			'new_item'           => __( 'New Sponsor', 'newspack-sponsors' ),
-			'edit_item'          => __( 'Edit Sponsor', 'newspack-sponsors' ),
-			'view_item'          => __( 'View Sponsor', 'newspack-sponsors' ),
-			'all_items'          => __( 'All Sponsors', 'newspack-sponsors' ),
-			'search_items'       => __( 'Search Sponsors', 'newspack-sponsors' ),
-			'parent_item_colon'  => __( 'Parent Sponsors:', 'newspack-sponsors' ),
-			'not_found'          => __( 'No sponsors found.', 'newspack-sponsors' ),
-			'not_found_in_trash' => __( 'No sponsors found in Trash.', 'newspack-sponsors' ),
+			'name'                  => _x( 'Sponsors', 'post type general name', 'newspack-sponsors' ),
+			'singular_name'         => _x( 'Sponsor', 'post type singular name', 'newspack-sponsors' ),
+			'menu_name'             => _x( 'Sponsors', 'admin menu', 'newspack-sponsors' ),
+			'name_admin_bar'        => _x( 'Sponsor', 'add new on admin bar', 'newspack-sponsors' ),
+			'add_new'               => _x( 'Add New', 'popup', 'newspack-sponsors' ),
+			'add_new_item'          => __( 'Add New Sponsor', 'newspack-sponsors' ),
+			'new_item'              => __( 'New Sponsor', 'newspack-sponsors' ),
+			'edit_item'             => __( 'Edit Sponsor', 'newspack-sponsors' ),
+			'view_item'             => __( 'View Sponsor', 'newspack-sponsors' ),
+			'all_items'             => __( 'All Sponsors', 'newspack-sponsors' ),
+			'search_items'          => __( 'Search Sponsors', 'newspack-sponsors' ),
+			'parent_item_colon'     => __( 'Parent Sponsors:', 'newspack-sponsors' ),
+			'not_found'             => __( 'No sponsors found.', 'newspack-sponsors' ),
+			'not_found_in_trash'    => __( 'No sponsors found in Trash.', 'newspack-sponsors' ),
+			'featured_image'        => __( 'Sponsor logo', 'newspack-sponsors' ),
+			'set_featured_image'    => __( 'Set sponsor logo', 'newspack-sponsors' ),
+			'remove_featured_image' => __( 'Remove sponsor Logo', 'newspack-sponsors' ),
+			'use_featured_image'    => __( 'Use as sponsor Logo', 'newspack-sponsors' ),
 		];
 
 		$cpt_args = [
@@ -100,12 +88,63 @@ final class Newspack_Sponsors {
 			'public'       => false,
 			'show_ui'      => true,
 			'show_in_rest' => true,
-			'supports'     => [ 'editor', 'title', 'custom-fields' ],
+			'supports'     => [ 'editor', 'title', 'custom-fields', 'thumbnail' ],
 			'taxonomies'   => [ 'category', 'post_tag' ], // Regular post categories and tags.
 			'menu_icon'    => 'dashicons-money',
 		];
 
 		register_post_type( self::NEWSPACK_SPONSORS_CPT, $cpt_args );
+	}
+
+	/**
+	 * Register custom fields.
+	 */
+	public static function register_meta() {
+		register_meta(
+			'post',
+			'newspack_sponsor_url',
+			[
+				'object_subtype'    => self::NEWSPACK_SPONSORS_CPT,
+				'description'       => __( 'A URL to link to when displaying this sponsor’s info.', 'newspack-sponsors' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'auth_callback'     => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
+		register_meta(
+			'post',
+			'newspack_sponsor_byline_prefix',
+			[
+				'object_subtype'    => self::NEWSPACK_SPONSORS_CPT,
+				'description'       => __( 'Text shown in lieu of a byline on sponsored posts. This is combined with the Sponsor Name to form a full byline.', 'newspack-sponsors' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'auth_callback'     => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
+		register_meta(
+			'post',
+			'newspack_sponsor_only_direct',
+			[
+				'object_subtype'    => self::NEWSPACK_SPONSORS_CPT,
+				'description'       => __( 'If this value is true, this sponsor will not be shown on single posts unless directly assigned to a post. It will still appear on category/tag archive pages, if applicable.', 'newspack-sponsors' ),
+				'type'              => 'boolean',
+				'sanitize_callback' => 'rest_sanitize_boolean',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'auth_callback'     => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
 	}
 
 	/**
@@ -153,19 +192,18 @@ final class Newspack_Sponsors {
 	 * Create a relationship between the Sponsors CPT and Sponsors tax.
 	 */
 	public static function create_shadow_relationship() {
-		add_action( 'wp_insert_post', [ __CLASS__, 'update_shadow_term' ] );
+		add_action( 'wp_insert_post', [ __CLASS__, 'update_shadow_term' ], 10, 2 );
 		add_action( 'before_delete_post', [ __CLASS__, 'delete_shadow_term' ] );
 	}
 
 	/**
 	 * Creates a new taxonomy term, or updates an existing one.
 	 *
-	 * @param int $post_id ID for the post being inserted or saved.
+	 * @param int   $post_id ID for the post being inserted or saved.
+	 * @param array $post Post object for the post being inserted or saved.
 	 * @return bool|void Nothing if successful, or false if not.
 	 */
-	public static function update_shadow_term( $post_id ) {
-		$post = get_post( $post_id );
-
+	public static function update_shadow_term( $post_id, $post ) {
 		// Bail if we don't have a valid post or post type.
 		if ( empty( $post ) || self::NEWSPACK_SPONSORS_CPT !== $post->post_type ) {
 			return false;
@@ -262,4 +300,4 @@ final class Newspack_Sponsors {
 	}
 }
 
-Newspack_Sponsors::instance();
+Newspack_Sponsors_Core::instance();
