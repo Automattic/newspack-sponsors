@@ -216,6 +216,17 @@ function convert_post_to_sponsor( $post, $type = 'direct' ) {
 	}
 
 	$sponsor_byline = get_post_meta( $post->ID, 'newspack_sponsor_byline_prefix', true );
+	$sponsor_url    = get_post_meta( $post->ID, 'newspack_sponsor_url', true );
+	$sponsor_flag   = get_post_meta( $post->ID, 'newspack_sponsor_flag_override', true );
+	$sponsor_scope  = get_post_meta( $post->ID, 'newspack_sponsor_sponsorship_scope', true );
+
+	// Check for single-sponsor overrides, default to site-wide options.
+	if ( empty( $sponsor_byline ) ) {
+		$sponsor_byline = get_option( 'newspack_sponsors_default_byline', __( 'Sponsored buy', 'newspack-sponsors' ) );
+	}
+	if ( empty( $sponsor_flag ) ) {
+		$sponsor_flag = get_option( 'newspack_sponsors_default_flag', __( 'Sponsored', 'newspack-sponsors' ) );
+	}
 
 	return [
 		'sponsor_type'   => $type,
@@ -223,8 +234,10 @@ function convert_post_to_sponsor( $post, $type = 'direct' ) {
 		'sponsor_name'   => $post->post_title,
 		'sponsor_slug'   => $post->post_name,
 		'sponsor_blurb'  => $post->post_content,
-		'sponsor_url'    => get_post_meta( $post->ID, 'newspack_sponsor_url', true ),
-		'sponsor_byline' => ! empty( $sponsor_byline ) ? $sponsor_byline : __( 'Sponsored by', 'newspack-sponsors' ),
+		'sponsor_url'    => $sponsor_url,
+		'sponsor_byline' => $sponsor_byline,
 		'sponsor_logo'   => get_the_post_thumbnail( $post->ID, 'medium', [ 'class' => 'newspack-sponsor-logo' ] ),
+		'sponsor_flag'   => $sponsor_flag,
+		'sponsor_scope'  => ! empty( $sponsor_scope ) ? $sponsor_scope : 'native', // Default: native, not underwritten.
 	];
 }

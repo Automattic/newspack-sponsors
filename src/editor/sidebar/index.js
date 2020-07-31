@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { TextControl, ToggleControl } from '@wordpress/components';
+import { SelectControl, TextControl, ToggleControl } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withDispatch, withSelect } from '@wordpress/data';
 import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
@@ -13,10 +13,12 @@ import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
 import './style.scss';
 
 const SidebarComponent = props => {
-	const { meta, updateByline, updateUrl, updateIsDirect } = props;
+	const { meta, updateMetaValue } = props;
 	const {
 		newspack_sponsor_url,
+		newspack_sponsor_flag_override,
 		newspack_sponsor_byline_prefix,
+		newspack_sponsor_sponsorship_scope,
 		newspack_sponsor_only_direct,
 	} = meta;
 
@@ -26,21 +28,55 @@ const SidebarComponent = props => {
 			name="newspack-sponsors"
 			title={ __( 'Sponsor Settings', 'newspack-sponsors' ) }
 		>
-			<TextControl
-				className="newspack-sponsors__text-control"
-				label={ __( 'Sponsor URL', 'newspack-sponsors' ) }
-				placeholder="URL to link to for this sponsor"
-				type="url"
-				value={ newspack_sponsor_url }
-				onChange={ value => updateUrl( value ) }
+			<SelectControl
+				className="newspack-sponsors__select-control"
+				label={ __( 'Sponsorship Scope', 'newspack-sponsors' ) }
+				value={ newspack_sponsor_sponsorship_scope || 'native' }
+				options={ [
+					{ value: 'native', label: __( 'Native content', 'newspack-sponsors' ) },
+					{ value: 'underwritten', label: __( 'Underwritten content', 'newspack-sponsors' ) },
+				] }
+				onChange={ value => updateMetaValue( 'newspack_sponsor_sponsorship_scope', value ) }
+				help={ __(
+					'Generally, native content is authored by the sponsor, while underwritten content is authored by editorial staff but supported by the sponsor. This option allows you to select a different visual treatment for native vs. underwitten content.',
+					'newspack-sponsors'
+				) }
 			/>
 			<TextControl
 				className="newspack-sponsors__text-control"
-				label={ __( 'Sponsor Byline Prefix', 'newspack-sponsors' ) }
-				placeholder="Default: “Sponsored by”"
+				label={ __( 'Sponsor URL', 'newspack-sponsors' ) }
+				placeholder={ __( 'URL to link to for this sponsor', 'newspack-sponsors' ) }
+				help={ __(
+					'Required if you want to link the sponsor logo to an external URL.',
+					'newspack-sponsors'
+				) }
+				type="url"
+				value={ newspack_sponsor_url }
+				onChange={ value => updateMetaValue( 'newspack_sponsor_url', value ) }
+			/>
+			<TextControl
+				className="newspack-sponsors__text-control"
+				label={ __( 'Sponsor Flag Override (Optional)', 'newspack-sponsors' ) }
+				placeholder={ __( 'Default: “Sponsored”', 'newspack-sponsors' ) }
+				help={ __(
+					'The label for the flag that appears in lieu of category flags. If not empty, this field will override the site-wide setting.',
+					'newspack-sponsors'
+				) }
+				type="url"
+				value={ newspack_sponsor_flag_override }
+				onChange={ value => updateMetaValue( 'newspack_sponsor_flag_override', value ) }
+			/>
+			<TextControl
+				className="newspack-sponsors__text-control"
+				label={ __( 'Sponsor Byline Prefix (Optional)', 'newspack-sponsors' ) }
+				help={ __(
+					'The prefix for the sponsor attribution that appears in lieu of author byline. If not empty, this field will override the site-wide setting.',
+					'newspack-sponsors'
+				) }
+				placeholder={ __( 'Default: “Sponsored by”', 'newspack-sponsors' ) }
 				type="url"
 				value={ newspack_sponsor_byline_prefix }
-				onChange={ value => updateByline( value ) }
+				onChange={ value => updateMetaValue( 'newspack_sponsor_byline_prefix', value ) }
 			/>
 			<ToggleControl
 				className="newspack-sponsors__toggle-control"
@@ -49,7 +85,7 @@ const SidebarComponent = props => {
 					'If this option is enabled, this sponsor will only be shown on single posts if assigned as a direct sponsor. It will still appear on category and tag archive pages, if applicable.'
 				) }
 				checked={ newspack_sponsor_only_direct }
-				onChange={ value => updateIsDirect( value ) }
+				onChange={ value => updateMetaValue( 'newspack_sponsor_only_direct', value ) }
 			/>
 		</PluginDocumentSettingPanel>
 	);
@@ -67,9 +103,7 @@ const mapDispatchToProps = dispatch => {
 	const { editPost } = dispatch( 'core/editor' );
 
 	return {
-		updateUrl: value => editPost( { meta: { newspack_sponsor_url: value } } ),
-		updateByline: value => editPost( { meta: { newspack_sponsor_byline_prefix: value } } ),
-		updateIsDirect: value => editPost( { meta: { newspack_sponsor_only_direct: value } } ),
+		updateMetaValue: ( key, value ) => editPost( { meta: { [ key ]: value } } ),
 	};
 };
 

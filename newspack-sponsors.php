@@ -24,4 +24,5 @@ if ( ! defined( 'NEWSPACK_SPONSORS_PLUGIN_FILE' ) ) {
 require_once NEWSPACK_SPONSORS_PLUGIN_FILE . '/vendor/autoload.php';
 require_once NEWSPACK_SPONSORS_PLUGIN_FILE . '/includes/class-newspack-sponsors-core.php';
 require_once NEWSPACK_SPONSORS_PLUGIN_FILE . '/includes/class-newspack-sponsors-editor.php';
+require_once NEWSPACK_SPONSORS_PLUGIN_FILE . '/includes/class-newspack-sponsors-settings.php';
 require_once NEWSPACK_SPONSORS_PLUGIN_FILE . '/includes/newspack-sponsors-theme-helpers.php';
