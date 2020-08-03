@@ -24,29 +24,82 @@ final class Newspack_Sponsors_Settings {
 	}
 
 	/**
+	 * Default values for site-wide settings.
+	 *
+	 * @return array Array of default settings.
+	 */
+	public static function get_default_settings() {
+		$defaults = [
+			'byline'     => __( 'Sponsored by', 'newspack-sponsors' ),
+			'flag'       => __( 'Sponsored', 'newspack-sponsors' ),
+			'disclaimer' => sprintf(
+				// Translators: Default value for Sponsor Disclaimer field.
+				__(
+					'This content is paid for by [sponsor name]. It does not necessarily reflect the views and opinions of %s or its editorial staff.',
+					'newspack-sponsors'
+				),
+				get_bloginfo( 'name' )
+			),
+		];
+
+		return $defaults;
+	}
+
+	/**
+	 * Get current site-wide settings, or defaults if not set.
+	 *
+	 * @return array Array of current site-wide settings.
+	 */
+	public static function get_settings() {
+		$defaults = self::get_default_settings();
+
+		return [
+			'byline'     => get_option( 'newspack_sponsors_default_byline', $defaults['byline'] ),
+			'flag'       => get_option( 'newspack_sponsors_default_flag', $defaults['flag'] ),
+			'disclaimer' => get_option( 'newspack_sponsors_default_disclaimer', $defaults['disclaimer'] ),
+		];
+	}
+
+	/**
 	 * Retreives list of settings.
 	 *
 	 * @return array Settings list.
 	 */
 	public static function get_settings_list() {
-		return array(
-			array(
+		$defaults = self::get_default_settings();
+
+		return [
+			[
 				'label'       => __( 'Default Sponsor Byline Prefix', 'newspack-sponsors' ),
-				'placeholder' => __( 'Default: “Sponsored by”', 'newspack-sponsors' ),
+				'placeholder' => sprintf(
+					// Translators: placeholder for default byline value.
+					__( 'Default: “%s”', 'newspack-sponsors' ),
+					$defaults['byline']
+				),
 				'key'         => 'newspack_sponsors_default_byline',
-			),
-			array(
+				'type'        => 'input',
+			],
+			[
 				'label'       => __( 'Default Sponsored Flag Label', 'newspack-sponsors' ),
-				'placeholder' => __( 'Default: “Sponsored”', 'newspack-sponsors' ),
+				'placeholder' => sprintf(
+					// Translators: placeholder for default flag value.
+					__( 'Default: “%s”', 'newspack-sponsors' ),
+					$defaults['flag']
+				),
 				'key'         => 'newspack_sponsors_default_flag',
-			),
-			array(
-				'label'       => __( 'Default Sponsorship Explanation', 'newspack-sponsors' ),
-				'placeholder' => __( 'Default: none', 'newspack-sponsors' ),
-				'key'         => 'newspack_sponsors_explanation',
+				'type'        => 'input',
+			],
+			[
+				'label'       => __( 'Default Sponsorship Disclaimer', 'newspack-sponsors' ),
+				'placeholder' => sprintf(
+					// Translators: placeholder for default disclaimer value.
+					__( 'Default: “%s”', 'newspack-sponsors' ),
+					$defaults['disclaimer']
+				),
+				'key'         => 'newspack_sponsors_default_disclaimer',
 				'type'        => 'textarea',
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -55,7 +108,7 @@ final class Newspack_Sponsors_Settings {
 	public static function add_plugin_page() {
 		add_submenu_page(
 			'edit.php?post_type=' . Core::NEWSPACK_SPONSORS_CPT,
-			__( 'Newspack Sponsors: Site-wide Settings', 'newspack-sponsors' ),
+			__( 'Newspack Sponsors: Site-Wide Settings', 'newspack-sponsors' ),
 			__( 'Settings', 'newspack-sponsors' ),
 			'manage_options',
 			'newspack-sponsors-settings-admin',
@@ -69,7 +122,7 @@ final class Newspack_Sponsors_Settings {
 	public static function create_admin_page() {
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'Newspack Sponsors: Site-wide Settings', 'newspack-sponsors' ); ?></h1>
+			<h1><?php esc_html_e( 'Newspack Sponsors: Site-Wide Settings', 'newspack-sponsors' ); ?></h1>
 			<form method="post" action="options.php">
 			<?php
 				settings_fields( 'newspack_sponsors_options_group' );

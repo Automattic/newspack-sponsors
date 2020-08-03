@@ -1,8 +1,8 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
-import { SelectControl, TextControl, ToggleControl } from '@wordpress/components';
+import { __, sprintf } from '@wordpress/i18n';
+import { SelectControl, TextareaControl, TextControl, ToggleControl } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withDispatch, withSelect } from '@wordpress/data';
 import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
@@ -13,14 +13,16 @@ import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
 import './style.scss';
 
 const SidebarComponent = props => {
-	const { meta, updateMetaValue } = props;
+	const { meta, title, updateMetaValue } = props;
 	const {
 		newspack_sponsor_url,
 		newspack_sponsor_flag_override,
 		newspack_sponsor_byline_prefix,
 		newspack_sponsor_sponsorship_scope,
 		newspack_sponsor_only_direct,
+		newspack_sponsor_disclaimer_override,
 	} = meta;
+	const { settings, defaults } = window.newspack_sponsors_data;
 
 	return (
 		<PluginDocumentSettingPanel
@@ -57,7 +59,11 @@ const SidebarComponent = props => {
 			<TextControl
 				className="newspack-sponsors__text-control"
 				label={ __( 'Sponsor Flag Override (Optional)', 'newspack-sponsors' ) }
-				placeholder={ __( 'Default: “Sponsored”', 'newspack-sponsors' ) }
+				placeholder={ sprintf(
+					// Translators: placeholder text for Sponsor Flag field.
+					__( 'Default: “%s”', 'newspack-sponsors' ),
+					settings.flag || defaults.flag
+				) }
 				help={ __(
 					'The label for the flag that appears in lieu of category flags. If not empty, this field will override the site-wide setting.',
 					'newspack-sponsors'
@@ -66,6 +72,21 @@ const SidebarComponent = props => {
 				value={ newspack_sponsor_flag_override }
 				onChange={ value => updateMetaValue( 'newspack_sponsor_flag_override', value ) }
 			/>
+			<TextareaControl
+				className="newspack-sponsors__textarea-control"
+				label={ __( 'Sponsor Disclaimer Override (Optional)', 'newspack-sponsors' ) }
+				placeholder={ sprintf(
+					// Translators: placeholder text for Sponsor Disclaimer field.
+					__( 'Default: “%s”', 'newspack-sponsors' ),
+					( settings.disclaimer || defaults.disclaimer ).replace( '[sponsor name]', title )
+				) }
+				help={ __(
+					'Text shown to explain sponsorship by this sponsor. If not empty, this field will override the site-wide setting.',
+					'newspack-sponsors'
+				) }
+				value={ newspack_sponsor_disclaimer_override }
+				onChange={ value => updateMetaValue( 'newspack_sponsor_disclaimer_override', value ) }
+			/>
 			<TextControl
 				className="newspack-sponsors__text-control"
 				label={ __( 'Sponsor Byline Prefix (Optional)', 'newspack-sponsors' ) }
@@ -73,7 +94,11 @@ const SidebarComponent = props => {
 					'The prefix for the sponsor attribution that appears in lieu of author byline. If not empty, this field will override the site-wide setting.',
 					'newspack-sponsors'
 				) }
-				placeholder={ __( 'Default: “Sponsored by”', 'newspack-sponsors' ) }
+				placeholder={ sprintf(
+					// Translators: placeholder text for Sponsor Byline Prefix field.
+					__( 'Default: “%s”', 'newspack-sponsors' ),
+					settings.byline || defaults.byline
+				) }
 				type="url"
 				value={ newspack_sponsor_byline_prefix }
 				onChange={ value => updateMetaValue( 'newspack_sponsor_byline_prefix', value ) }
@@ -96,6 +121,7 @@ const mapStateToProps = select => {
 
 	return {
 		meta: getEditedPostAttribute( 'meta' ),
+		title: getEditedPostAttribute( 'title' ),
 	};
 };
 
