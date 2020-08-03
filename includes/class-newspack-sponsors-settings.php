@@ -61,7 +61,7 @@ final class Newspack_Sponsors_Settings {
 	}
 
 	/**
-	 * Retreives list of settings.
+	 * Get list of settings fields.
 	 *
 	 * @return array Settings list.
 	 */
