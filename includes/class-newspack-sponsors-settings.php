@@ -35,7 +35,7 @@ final class Newspack_Sponsors_Settings {
 			'disclaimer' => sprintf(
 				// Translators: Default value for Sponsor Disclaimer field.
 				__(
-					'This content is paid for by [sponsor name]. It does not necessarily reflect the views and opinions of %s or its editorial staff.',
+					'Advertiser content: This content was commissioned and paid for by [sponsor name]. The news and editorial staff of %s had no role in the creation or production of this story.',
 					'newspack-sponsors'
 				),
 				get_bloginfo( 'name' )
