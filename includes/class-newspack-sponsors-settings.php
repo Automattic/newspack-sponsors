@@ -52,12 +52,20 @@ final class Newspack_Sponsors_Settings {
 	 */
 	public static function get_settings() {
 		$defaults = self::get_default_settings();
-
-		return [
+		$settings = [
 			'byline'     => get_option( 'newspack_sponsors_default_byline', $defaults['byline'] ),
 			'flag'       => get_option( 'newspack_sponsors_default_flag', $defaults['flag'] ),
 			'disclaimer' => get_option( 'newspack_sponsors_default_disclaimer', $defaults['disclaimer'] ),
 		];
+
+		// Guard against empty strings, which can happen if an option is set and then unset.
+		foreach ( $settings as $key => $value ) {
+			if ( empty( $value ) ) {
+				$settings[ $key ] = $defaults[ $key ];
+			}
+		}
+
+		return $settings;
 	}
 
 	/**
