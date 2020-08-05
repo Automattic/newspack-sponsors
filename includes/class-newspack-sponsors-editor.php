@@ -10,6 +10,7 @@
 namespace Newspack_Sponsors;
 
 use \Newspack_Sponsors\Newspack_Sponsors_Core as Core;
+use \Newspack_Sponsors\Newspack_Sponsors_Settings as Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -109,6 +110,15 @@ final class Newspack_Sponsors_Editor {
 			[],
 			filemtime( NEWSPACK_SPONSORS_PLUGIN_FILE . 'dist/editor.js' ),
 			true
+		);
+
+		wp_localize_script(
+			'newspack-sponsors-editor',
+			'newspack_sponsors_data',
+			[
+				'settings' => Settings::get_settings(),
+				'defaults' => Settings::get_default_settings(),
+			]
 		);
 
 		wp_register_style(

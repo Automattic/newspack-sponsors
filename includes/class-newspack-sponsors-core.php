@@ -117,10 +117,55 @@ final class Newspack_Sponsors_Core {
 		);
 		register_meta(
 			'post',
+			'newspack_sponsor_flag_override',
+			[
+				'object_subtype'    => self::NEWSPACK_SPONSORS_CPT,
+				'description'       => __( '(Optional) Text shown in category flag. This text will override site-wide default settings.', 'newspack-sponsors' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'auth_callback'     => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
+		register_meta(
+			'post',
+			'newspack_sponsor_disclaimer_override',
+			[
+				'object_subtype'    => self::NEWSPACK_SPONSORS_CPT,
+				'description'       => __( '(Optional) Text shown to explain sponsorship by this sponsor.', 'newspack-sponsors' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'auth_callback'     => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
+		register_meta(
+			'post',
 			'newspack_sponsor_byline_prefix',
 			[
 				'object_subtype'    => self::NEWSPACK_SPONSORS_CPT,
-				'description'       => __( 'Text shown in lieu of a byline on sponsored posts. This is combined with the Sponsor Name to form a full byline.', 'newspack-sponsors' ),
+				'description'       => __( '(Optional) Text shown in lieu of a byline on sponsored posts. This is combined with the Sponsor Name to form a full byline.', 'newspack-sponsors' ),
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'auth_callback'     => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
+		register_meta(
+			'post',
+			'newspack_sponsor_sponsorship_scope',
+			[
+				'object_subtype'    => self::NEWSPACK_SPONSORS_CPT,
+				'description'       => __( 'Scope of sponsorship this sponsor offers (native content vs. underwritten).', 'newspack-sponsors' ),
 				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
 				'single'            => true,

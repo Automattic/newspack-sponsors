@@ -10,6 +10,7 @@
 namespace Newspack_Sponsors;
 
 use \Newspack_Sponsors\Newspack_Sponsors_Core as Core;
+use \Newspack_Sponsors\Newspack_Sponsors_Settings as Settings;
 use \WP_Error as WP_Error;
 
 /**
@@ -215,16 +216,36 @@ function convert_post_to_sponsor( $post, $type = 'direct' ) {
 		return false;
 	}
 
-	$sponsor_byline = get_post_meta( $post->ID, 'newspack_sponsor_byline_prefix', true );
+	$sponsor_sitewide_settings = Settings::get_settings();
+
+	$sponsor_byline     = get_post_meta( $post->ID, 'newspack_sponsor_byline_prefix', true );
+	$sponsor_url        = get_post_meta( $post->ID, 'newspack_sponsor_url', true );
+	$sponsor_flag       = get_post_meta( $post->ID, 'newspack_sponsor_flag_override', true );
+	$sponsor_scope      = get_post_meta( $post->ID, 'newspack_sponsor_sponsorship_scope', true );
+	$sponsor_disclaimer = get_post_meta( $post->ID, 'newspack_sponsor_disclaimer_override', true );
+
+	// Check for single-sponsor overrides, default to site-wide options.
+	if ( empty( $sponsor_byline ) ) {
+		$sponsor_byline = $sponsor_sitewide_settings['byline'];
+	}
+	if ( empty( $sponsor_flag ) ) {
+		$sponsor_flag = $sponsor_sitewide_settings['flag'];
+	}
+	if ( empty( $sponsor_disclaimer ) ) {
+		$sponsor_disclaimer = str_replace( '[sponsor name]', $post->post_title, $sponsor_sitewide_settings['disclaimer'] );
+	}
 
 	return [
-		'sponsor_type'   => $type,
-		'sponsor_id'     => $post->ID,
-		'sponsor_name'   => $post->post_title,
-		'sponsor_slug'   => $post->post_name,
-		'sponsor_blurb'  => $post->post_content,
-		'sponsor_url'    => get_post_meta( $post->ID, 'newspack_sponsor_url', true ),
-		'sponsor_byline' => ! empty( $sponsor_byline ) ? $sponsor_byline : __( 'Sponsored by', 'newspack-sponsors' ),
-		'sponsor_logo'   => get_the_post_thumbnail( $post->ID, 'medium', [ 'class' => 'newspack-sponsor-logo' ] ),
+		'sponsor_type'       => $type,
+		'sponsor_id'         => $post->ID,
+		'sponsor_name'       => $post->post_title,
+		'sponsor_slug'       => $post->post_name,
+		'sponsor_blurb'      => $post->post_content,
+		'sponsor_url'        => $sponsor_url,
+		'sponsor_byline'     => $sponsor_byline,
+		'sponsor_logo'       => get_the_post_thumbnail( $post->ID, 'medium', [ 'class' => 'newspack-sponsor-logo' ] ),
+		'sponsor_flag'       => $sponsor_flag,
+		'sponsor_scope'      => ! empty( $sponsor_scope ) ? $sponsor_scope : 'native', // Default: native, not underwritten.
+		'sponsor_disclaimer' => $sponsor_disclaimer,
 	];
 }
