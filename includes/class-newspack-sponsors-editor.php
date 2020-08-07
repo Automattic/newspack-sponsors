@@ -45,7 +45,7 @@ final class Newspack_Sponsors_Editor {
 	 */
 	public function __construct() {
 		add_action( 'the_post', [ __CLASS__, 'strip_editor_modifications' ] );
-		add_filter( 'wpseo_primary_term_taxonomies', [ __CLASS__, 'disable_yoast_category_picker' ] );
+		add_filter( 'wpseo_primary_term_taxonomies', [ __CLASS__, 'disable_yoast_primary_category_picker' ], 10, 2 );
 		add_action( 'enqueue_block_editor_assets', [ __CLASS__, 'enqueue_block_editor_assets' ] );
 	}
 
@@ -76,16 +76,23 @@ final class Newspack_Sponsors_Editor {
 	}
 
 	/**
-	 * Disable the Yoast primary category picker for Sponsor posts.
+	 * Disable the Yoast primary category picker for Sponsor posts and terms.
 	 *
-	 * @param array $categories Array of categories.
+	 * @param array  $taxonomies Array of taxonomies.
+	 * @param string $post_type Post type of the current post.
 	 */
-	public static function disable_yoast_category_picker( $categories ) {
-		if ( Core::NEWSPACK_SPONSORS_CPT === get_post_type() ) {
+	public static function disable_yoast_primary_category_picker( $taxonomies, $post_type ) {
+		// Disable for all taxonomies on Sponsor posts.
+		if ( Core::NEWSPACK_SPONSORS_CPT === $post_type ) {
 			return [];
 		}
 
-		return $categories;
+		// Disable for sponsor tax terms everywhere.
+		if ( isset( $taxonomies[ Core::NEWSPACK_SPONSORS_TAX ] ) ) {
+			unset( $taxonomies[ Core::NEWSPACK_SPONSORS_TAX ] );
+		}
+
+		return $taxonomies;
 	}
 
 	/**
