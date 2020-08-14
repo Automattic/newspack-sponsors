@@ -14,15 +14,53 @@ use \Newspack_Sponsors\Newspack_Sponsors_Settings as Settings;
 use \WP_Error as WP_Error;
 
 /**
+ * Get all sponsors associated with the given ID. Can be a post or term ID.
+ * All params are optional, and the function will attempt to guess the $id if
+ * not provided.
+ *
+ * @param int|null    $id    ID of the post or archive term to get sponsors for.
+ *                           If not provided, we will try to guess based on context.
+ * @param string|null $scope Scope of the sponsors to get. Can be 'native' or
+ *                           'underwritten'. If provided, only sponsors with the
+ *                           matching scope will be returned. If not, all sponsors
+ *                           will be returned regardless of scope.
+ * @param string|null $type  Type of the $id given: 'post' or 'archive'. If not
+ *                           provided, we will try to guess based on context.
+ *
+ * @return array|bool Array of associated sponsors, or false if none.
+ */
+function get_all_sponsors( $id = null, $scope = null, $type = null ) {
+	$sponsors = false;
+
+	// If no type given, try to guess based on the current page context.
+	if ( null === $type ) {
+		if ( is_singular( 'post' ) ) {
+			$type = 'post';
+		} elseif ( is_archive() ) {
+			$type = 'archive';
+		}
+	}
+
+	if ( 'post' === $type ) {
+		$sponsors = get_sponsors_for_post( $id, $scope );
+	} elseif ( 'archive' === $type ) {
+		$sponsors = get_sponsors_for_archive( $id, $scope );
+	}
+
+	return $sponsors;
+}
+
+/**
  * Get sponsors associated with the given post ID.
  *
- * @param int $post_id ID for the post to look up (optional).
+ * @param int         $post_id ID for the post to look up (optional).
+ * @param string|null $scope   Scope of the sponsors to get: 'native'|'underwritten'.
  * @return array|bool|WP_Error Array of sponsor objects associated with the
  *                             post, false if we can't find a post with given
- *                             $post_id, or WP_Error if no $post_id given and
- *                             we're not on a post page.
+ *                             $post_id or any sponsors for it, or WP_Error if
+ *                             no $post_id given and we're not on a post page.
  */
-function get_sponsors_for_post( $post_id = null ) {
+function get_sponsors_for_post( $post_id = null, $scope = null ) {
 	if ( null === $post_id ) {
 		if ( ! is_singular( 'post' ) ) {
 			return new WP_Error(
@@ -52,7 +90,11 @@ function get_sponsors_for_post( $post_id = null ) {
 			$sponsor_post = get_related_post( $direct_sponsor->slug );
 
 			if ( ! empty( $sponsor_post ) ) {
-				$sponsors[] = convert_post_to_sponsor( $sponsor_post );
+				$sponsor_object = convert_post_to_sponsor( $sponsor_post );
+
+				if ( null === $scope || $scope === $sponsor_object['sponsor_scope'] ) {
+					$sponsors[] = $sponsor_object;
+				}
 			}
 		}
 	}
@@ -71,7 +113,11 @@ function get_sponsors_for_post( $post_id = null ) {
 
 			// Don't add if sponsor is set to show only as direct.
 			if ( empty( $hide_term_sponsor ) ) {
-				$sponsors[] = convert_post_to_sponsor( $category_sponsor, 'category' );
+				$sponsor_object = convert_post_to_sponsor( $category_sponsor, 'category' );
+
+				if ( null === $scope || $scope === $sponsor_object['sponsor_scope'] ) {
+					$sponsors[] = $sponsor_object;
+				}
 			}
 		}
 	}
@@ -90,42 +136,33 @@ function get_sponsors_for_post( $post_id = null ) {
 
 			// Don't add if sponsor is set to show only as direct.
 			if ( empty( $hide_term_sponsor ) ) {
-				$sponsors[] = convert_post_to_sponsor( $tag_sponsor, 'tag' );
+				$sponsor_object = convert_post_to_sponsor( $tag_sponsor, 'tag' );
+
+				if ( null === $scope || $scope === $sponsor_object['sponsor_scope'] ) {
+					$sponsors[] = $sponsor_object;
+				}
 			}
 		}
+	}
+
+	if ( 0 === count( $sponsors ) ) {
+		return false;
 	}
 
 	return $sponsors;
 }
 
 /**
- * Check the given $id against $sponsors to see if it exists in the array.
- *
- * @param array $sponsors Array of sponsor objects to check for dupes.
- * @param int   $id Sponsor ID to check whether it's a dupe.
- * @return boolean Whether or not the ID is already in the $sponsors array.
- */
-function is_duplicate_sponsor( $sponsors, $id ) {
-	$duplicates = array_filter(
-		$sponsors,
-		function( $sponsor ) use ( $id ) {
-			return $sponsor['sponsor_id'] === $id;
-		}
-	);
-
-	return 0 < count( $duplicates );
-}
-
-/**
  * Get sponsors associated with the given term ID.
  *
- * @param int $term_id ID for the post to look up (optional).
+ * @param int         $term_id ID for the post to look up (optional).
+ * @param string|null $scope   Scope of the sponsors to get: 'native'|'underwritten'.
  * @return array|bool|WP_Error Array of sponsor objects associated with the
  *                             term, false if we can't find a term with given
- *                             $term_id, or WP_Error if no $term_id given and
- *                             we're not on a term archive page.
+ *                             $term_id or any sponsors for it, or WP_Error if
+ *                             no $term_id given and we're not on a term archive.
  */
-function get_sponsors_for_archive( $term_id = null ) {
+function get_sponsors_for_archive( $term_id = null, $scope = null ) {
 	if ( null === $term_id ) {
 		if ( ! is_archive() ) {
 			return new WP_Error(
@@ -154,11 +191,37 @@ function get_sponsors_for_archive( $term_id = null ) {
 
 	if ( is_array( $term_sponsors ) ) {
 		foreach ( $term_sponsors as $term_sponsor ) {
-			$sponsors[] = convert_post_to_sponsor( $term_sponsor, $type );
+			$sponsor_object = convert_post_to_sponsor( $term_sponsor, $type );
+
+			if ( null === $scope || $scope === $sponsor_object['sponsor_scope'] ) {
+				$sponsors[] = $sponsor_object;
+			}
 		}
 	}
 
+	if ( 0 === count( $sponsors ) ) {
+		return false;
+	}
+
 	return $sponsors;
+}
+
+/**
+ * Check the given $id against $sponsors to see if it exists in the array.
+ *
+ * @param array $sponsors Array of sponsor objects to check for dupes.
+ * @param int   $id Sponsor ID to check whether it's a dupe.
+ * @return boolean Whether or not the ID is already in the $sponsors array.
+ */
+function is_duplicate_sponsor( $sponsors, $id ) {
+	$duplicates = array_filter(
+		$sponsors,
+		function( $sponsor ) use ( $id ) {
+			return $sponsor['sponsor_id'] === $id;
+		}
+	);
+
+	return 0 < count( $duplicates );
 }
 
 /**
