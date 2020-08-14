@@ -62,6 +62,11 @@ function get_sponsors_for_post( $post_id = null ) {
 
 	if ( is_array( $category_sponsors ) ) {
 		foreach ( $category_sponsors as $category_sponsor ) {
+			// Don't add this sponsor if it's already assigned as a different type.
+			if ( true === is_duplicate_sponsor( $sponsors, $category_sponsor->ID ) ) {
+				continue;
+			}
+
 			$hide_term_sponsor = get_post_meta( $category_sponsor->ID, 'newspack_sponsor_only_direct', true );
 
 			// Don't add if sponsor is set to show only as direct.
@@ -76,6 +81,11 @@ function get_sponsors_for_post( $post_id = null ) {
 
 	if ( is_array( $tag_sponsors ) ) {
 		foreach ( $tag_sponsors as $tag_sponsor ) {
+			// Don't add this sponsor if it's already assigned as a different type.
+			if ( true === is_duplicate_sponsor( $sponsors, $tag_sponsor->ID ) ) {
+				continue;
+			}
+
 			$hide_term_sponsor = get_post_meta( $tag_sponsor->ID, 'newspack_sponsor_only_direct', true );
 
 			// Don't add if sponsor is set to show only as direct.
@@ -86,6 +96,24 @@ function get_sponsors_for_post( $post_id = null ) {
 	}
 
 	return $sponsors;
+}
+
+/**
+ * Check the given $id against $sponsors to see if it exists in the array.
+ *
+ * @param array $sponsors Array of sponsor objects to check for dupes.
+ * @param int   $id Sponsor ID to check whether it's a dupe.
+ * @return boolean Whether or not the ID is already in the $sponsors array.
+ */
+function is_duplicate_sponsor( $sponsors, $id ) {
+	$duplicates = array_filter(
+		$sponsors,
+		function( $sponsor ) use ( $id ) {
+			return $sponsor['sponsor_id'] === $id;
+		}
+	);
+
+	return 0 < count( $duplicates );
 }
 
 /**
