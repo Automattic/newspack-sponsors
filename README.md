@@ -16,20 +16,11 @@ Run `composer update && npm install`.
 
 Run `npm run build`.
 
-To use in a theme, check for the existence of the helper function first. Then call the helper function with the post ID to get a list of all sponsors associated with that post:
+To use in a theme, check for the existence of the helper function first. Then call the helper function, optionally passing the ID of the post or term and the scope of the sponsors you want to get (if you don't provide params, the function will attempt to guess based on the current page):
 
 ```
-if ( function_exists( '\Newspack_Sponsors\get_sponsors_for_post' ) ) {
-	$sponsors = \Newspack_Sponsors\get_sponsors_for_post( $post_id );
-	var_dump( $sponsors );
-}
-```
-
-There is also a helper function to get a list of sponsors associated with a specific term ID:
-
-```
-if ( function_exists( '\Newspack_Sponsors\get_sponsors_for_archive' ) ) {
-	$sponsors = \Newspack_Sponsors\get_sponsors_for_archive( $term_id );
+if ( function_exists( '\Newspack_Sponsors\get_all_sponsors' ) ) {
+	$sponsors = \Newspack_Sponsors\get_all_sponsors( get_the_ID(), 'native' );
 	var_dump( $sponsors );
 }
 ```

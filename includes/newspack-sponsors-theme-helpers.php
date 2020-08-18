@@ -14,15 +14,59 @@ use \Newspack_Sponsors\Newspack_Sponsors_Settings as Settings;
 use \WP_Error as WP_Error;
 
 /**
+ * Get all sponsors associated with the given ID. Can be a post or term ID.
+ * All params are optional, and the function will attempt to guess the $id if
+ * not provided.
+ *
+ * @param int|null    $id    ID of the post or archive term to get sponsors for.
+ *                           If not provided, we will try to guess based on context.
+ * @param string|null $scope Scope of the sponsors to get. Can be 'native' or
+ *                           'underwritten'. If provided, only sponsors with the
+ *                           matching scope will be returned. If not, all sponsors
+ *                           will be returned regardless of scope.
+ * @param string|null $type  Type of the $id given: 'post' or 'archive'. If not
+ *                           provided, we will try to guess based on context.
+ * @param array       $logo_options Optional array of logo options. Valid options:
+ *                                  maxwidth: max width of the logo image, in pixels.
+ *                                  maxheight: max height of the logo image, in pixels.
+ *
+ * @return array|bool Array of associated sponsors, or false if none.
+ */
+function get_all_sponsors( $id = null, $scope = null, $type = null, $logo_options = [] ) {
+	$sponsors = false;
+
+	// If no type given, try to guess based on the current page context.
+	if ( null === $type ) {
+		if ( is_singular( 'post' ) ) {
+			$type = 'post';
+		} elseif ( is_archive() ) {
+			$type = 'archive';
+		}
+	}
+
+	if ( 'post' === $type ) {
+		$sponsors = get_sponsors_for_post( $id, $scope, $logo_options );
+	} elseif ( 'archive' === $type ) {
+		$sponsors = get_sponsors_for_archive( $id, $scope, $logo_options );
+	}
+
+	return $sponsors;
+}
+
+/**
  * Get sponsors associated with the given post ID.
  *
- * @param int $post_id ID for the post to look up (optional).
+ * @param int         $post_id ID for the post to look up (optional).
+ * @param string|null $scope   Scope of the sponsors to get: 'native'|'underwritten'.
+ * @param array       $logo_options Optional array of logo options. Valid options:
+ *                                  maxwidth: max width of the logo image, in pixels.
+ *                                  maxheight: max height of the logo image, in pixels.
  * @return array|bool|WP_Error Array of sponsor objects associated with the
  *                             post, false if we can't find a post with given
- *                             $post_id, or WP_Error if no $post_id given and
- *                             we're not on a post page.
+ *                             $post_id or any sponsors for it, or WP_Error if
+ *                             no $post_id given and we're not on a post page.
  */
-function get_sponsors_for_post( $post_id = null ) {
+function get_sponsors_for_post( $post_id = null, $scope = null, $logo_options = [] ) {
 	if ( null === $post_id ) {
 		if ( ! is_singular( 'post' ) ) {
 			return new WP_Error(
@@ -52,7 +96,11 @@ function get_sponsors_for_post( $post_id = null ) {
 			$sponsor_post = get_related_post( $direct_sponsor->slug );
 
 			if ( ! empty( $sponsor_post ) ) {
-				$sponsors[] = convert_post_to_sponsor( $sponsor_post );
+				$sponsor_object = convert_post_to_sponsor( $sponsor_post, 'direct', $logo_options );
+
+				if ( null === $scope || $scope === $sponsor_object['sponsor_scope'] ) {
+					$sponsors[] = $sponsor_object;
+				}
 			}
 		}
 	}
@@ -62,11 +110,20 @@ function get_sponsors_for_post( $post_id = null ) {
 
 	if ( is_array( $category_sponsors ) ) {
 		foreach ( $category_sponsors as $category_sponsor ) {
+			// Don't add this sponsor if it's already assigned as a different type.
+			if ( true === is_duplicate_sponsor( $sponsors, $category_sponsor->ID ) ) {
+				continue;
+			}
+
 			$hide_term_sponsor = get_post_meta( $category_sponsor->ID, 'newspack_sponsor_only_direct', true );
 
 			// Don't add if sponsor is set to show only as direct.
 			if ( empty( $hide_term_sponsor ) ) {
-				$sponsors[] = convert_post_to_sponsor( $category_sponsor, 'category' );
+				$sponsor_object = convert_post_to_sponsor( $category_sponsor, 'category', $logo_options );
+
+				if ( null === $scope || $scope === $sponsor_object['sponsor_scope'] ) {
+					$sponsors[] = $sponsor_object;
+				}
 			}
 		}
 	}
@@ -76,13 +133,26 @@ function get_sponsors_for_post( $post_id = null ) {
 
 	if ( is_array( $tag_sponsors ) ) {
 		foreach ( $tag_sponsors as $tag_sponsor ) {
+			// Don't add this sponsor if it's already assigned as a different type.
+			if ( true === is_duplicate_sponsor( $sponsors, $tag_sponsor->ID ) ) {
+				continue;
+			}
+
 			$hide_term_sponsor = get_post_meta( $tag_sponsor->ID, 'newspack_sponsor_only_direct', true );
 
 			// Don't add if sponsor is set to show only as direct.
 			if ( empty( $hide_term_sponsor ) ) {
-				$sponsors[] = convert_post_to_sponsor( $tag_sponsor, 'tag' );
+				$sponsor_object = convert_post_to_sponsor( $tag_sponsor, 'tag', $logo_options );
+
+				if ( null === $scope || $scope === $sponsor_object['sponsor_scope'] ) {
+					$sponsors[] = $sponsor_object;
+				}
 			}
 		}
+	}
+
+	if ( 0 === count( $sponsors ) ) {
+		return false;
 	}
 
 	return $sponsors;
@@ -91,13 +161,17 @@ function get_sponsors_for_post( $post_id = null ) {
 /**
  * Get sponsors associated with the given term ID.
  *
- * @param int $term_id ID for the post to look up (optional).
+ * @param int         $term_id ID for the post to look up (optional).
+ * @param string|null $scope   Scope of the sponsors to get: 'native'|'underwritten'.
+ * @param array       $logo_options Optional array of logo options. Valid options:
+ *                                  maxwidth: max width of the logo image, in pixels.
+ *                                  maxheight: max height of the logo image, in pixels.
  * @return array|bool|WP_Error Array of sponsor objects associated with the
  *                             term, false if we can't find a term with given
- *                             $term_id, or WP_Error if no $term_id given and
- *                             we're not on a term archive page.
+ *                             $term_id or any sponsors for it, or WP_Error if
+ *                             no $term_id given and we're not on a term archive.
  */
-function get_sponsors_for_archive( $term_id = null ) {
+function get_sponsors_for_archive( $term_id = null, $scope = null, $logo_options = [] ) {
 	if ( null === $term_id ) {
 		if ( ! is_archive() ) {
 			return new WP_Error(
@@ -126,11 +200,37 @@ function get_sponsors_for_archive( $term_id = null ) {
 
 	if ( is_array( $term_sponsors ) ) {
 		foreach ( $term_sponsors as $term_sponsor ) {
-			$sponsors[] = convert_post_to_sponsor( $term_sponsor, $type );
+			$sponsor_object = convert_post_to_sponsor( $term_sponsor, $type, $logo_options );
+
+			if ( null === $scope || $scope === $sponsor_object['sponsor_scope'] ) {
+				$sponsors[] = $sponsor_object;
+			}
 		}
 	}
 
+	if ( 0 === count( $sponsors ) ) {
+		return false;
+	}
+
 	return $sponsors;
+}
+
+/**
+ * Check the given $id against $sponsors to see if it exists in the array.
+ *
+ * @param array $sponsors Array of sponsor objects to check for dupes.
+ * @param int   $id Sponsor ID to check whether it's a dupe.
+ * @return boolean Whether or not the ID is already in the $sponsors array.
+ */
+function is_duplicate_sponsor( $sponsors, $id ) {
+	$duplicates = array_filter(
+		$sponsors,
+		function( $sponsor ) use ( $id ) {
+			return $sponsor['sponsor_id'] === $id;
+		}
+	);
+
+	return 0 < count( $duplicates );
 }
 
 /**
@@ -209,9 +309,12 @@ function get_sponsor_posts_for_terms( $terms ) {
  *
  * @param array  $post Post object to convert.
  * @param string $type Type of sponsorship: direct, category, or tag?. Default: 'direct'.
+ * @param array  $logo_options Optional array of logo options. Valid options:
+ *                             maxwidth: max width of the logo image, in pixels.
+ *                             maxheight: max height of the logo image, in pixels.
  * @return array|bool Sponsor object, or false.
  */
-function convert_post_to_sponsor( $post, $type = 'direct' ) {
+function convert_post_to_sponsor( $post, $type = 'direct', $logo_options = [] ) {
 	if ( empty( $post ) ) {
 		return false;
 	}
@@ -223,6 +326,7 @@ function convert_post_to_sponsor( $post, $type = 'direct' ) {
 	$sponsor_flag       = get_post_meta( $post->ID, 'newspack_sponsor_flag_override', true );
 	$sponsor_scope      = get_post_meta( $post->ID, 'newspack_sponsor_sponsorship_scope', true );
 	$sponsor_disclaimer = get_post_meta( $post->ID, 'newspack_sponsor_disclaimer_override', true );
+	$sponsor_logo       = get_logo_info( $post->ID, $logo_options );
 
 	// Check for single-sponsor overrides, default to site-wide options.
 	if ( empty( $sponsor_byline ) ) {
@@ -243,9 +347,44 @@ function convert_post_to_sponsor( $post, $type = 'direct' ) {
 		'sponsor_blurb'      => $post->post_content,
 		'sponsor_url'        => $sponsor_url,
 		'sponsor_byline'     => $sponsor_byline,
-		'sponsor_logo'       => get_the_post_thumbnail( $post->ID, 'medium', [ 'class' => 'newspack-sponsor-logo' ] ),
+		'sponsor_logo'       => $sponsor_logo,
 		'sponsor_flag'       => $sponsor_flag,
 		'sponsor_scope'      => ! empty( $sponsor_scope ) ? $sponsor_scope : 'native', // Default: native, not underwritten.
 		'sponsor_disclaimer' => $sponsor_disclaimer,
 	];
+}
+
+/**
+ * Returns scaled down logo sizes based on the provided width and height;
+ * this is necessary for AMP.
+ *
+ * @param int   $sponsor_id ID of the sponsor post to get logo info for.
+ * @param array $logo_options Optional array of logo options. Valid options:
+ *                            maxwidth: max width of the logo image, in pixels.
+ *                            maxheight: max height of the logo image, in pixels.
+ */
+function get_logo_info( $sponsor_id, $logo_options = [] ) {
+	$sponsor_logo = wp_get_attachment_image_src( get_post_thumbnail_id( $sponsor_id ), 'medium' );
+	$logo_info    = [];
+	$maxwidth     = ! empty( $logo_options['maxwidth'] ) && is_numeric( $logo_options['maxwidth'] ) ? $logo_options['maxwidth'] : 130;
+	$maxheight    = ! empty( $logo_options['maxheight'] ) && is_numeric( $logo_options['maxheight'] ) ? $logo_options['maxheight'] : 45;
+
+	if ( ! empty( $sponsor_logo ) ) {
+		// Break out src, original width and original height.
+		$logo_info['src'] = $sponsor_logo[0];
+		$image_width      = $sponsor_logo[1];
+		$image_height     = $sponsor_logo[2];
+
+		// Set the max-height, and width based off that to maintain aspect ratio.
+		$logo_info['img_height'] = $maxheight;
+		$logo_info['img_width']  = ( $image_width / $image_height ) * $logo_info['img_height'];
+
+		// If the new width is too wide, set to the max-width and update height based off that to maintain aspect ratio.
+		if ( $maxwidth < $logo_info['img_width'] ) {
+			$logo_info['img_width']  = $maxwidth;
+			$logo_info['img_height'] = ( $image_height / $image_width ) * $logo_info['img_width'];
+		}
+	}
+
+	return $logo_info;
 }
