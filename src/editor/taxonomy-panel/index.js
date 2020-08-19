@@ -1,7 +1,8 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
+import { select } from '@wordpress/data';
 import { Fragment } from '@wordpress/element';
 
 /**
@@ -13,23 +14,37 @@ import { Fragment } from '@wordpress/element';
  */
 export const TaxonomyPanel = PostTaxonomies => {
 	return props => {
-		const { slug } = props;
-		const message =
-			'category' === slug
-				? __(
-						'Select one or more post categories to associate this sponsor with those categories.',
-						'newspack-sponsors'
-				  )
-				: __(
-						'Add one or more post tags to associate this sponsor with those tags.',
-						'newspack-sponsors'
-				  );
+		const postType = select( 'core/editor' ).getCurrentPostType();
+
+		if ( 'newspack_spnsrs_cpt' !== postType && 'post' !== postType ) {
+			return <PostTaxonomies { ...props } />;
+		}
+
+		const { slug, taxonomy } = props;
+		const { hierarchical, labels } = taxonomy;
+		const message = sprintf(
+			__(
+				// Translators: explanation for applying sponsors to a taxonomy term.
+				'%s one or more post %s to associate this sponsor with those %s.',
+				'newspack-sponsors'
+			),
+			hierarchical ? __( 'Select ', 'newspack-sponsors' ) : __( 'Add ', 'newspack-sponsors' ),
+			labels.name.toLowerCase(),
+			labels.name.toLowerCase()
+		);
+
+		// Remove "Add new sponsors" link since sponsor terms are shadow terms of sponsor posts.
+		if ( 'newspack_spnsrs_tax' === slug ) {
+			props.hasCreateAction = false;
+		}
 
 		return (
 			<Fragment>
-				<p>
-					<em>{ message }</em>
-				</p>
+				{ 'newspack_spnsrs_cpt' === postType && ( slug === 'category' || slug === 'post_tag' ) && (
+					<p>
+						<em>{ message }</em>
+					</p>
+				) }
 				<PostTaxonomies { ...props } />
 			</Fragment>
 		);

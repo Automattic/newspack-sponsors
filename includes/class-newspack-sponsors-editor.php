@@ -107,7 +107,7 @@ final class Newspack_Sponsors_Editor {
 	 * Load up JS/CSS for editor.
 	 */
 	public static function enqueue_block_editor_assets() {
-		if ( ! self::is_editing_sponsor() ) {
+		if ( ! self::is_editing_sponsor() && 'post' !== get_post_type() ) {
 			return;
 		}
 
