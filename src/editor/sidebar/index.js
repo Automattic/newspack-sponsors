@@ -13,6 +13,10 @@ import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
 import './style.scss';
 
 const SidebarComponent = props => {
+	if ( props.postType !== 'newspack_spnsrs_cpt' ) {
+		return null;
+	}
+
 	const { meta, title, updateMetaValue } = props;
 	const {
 		newspack_sponsor_url,
@@ -117,10 +121,11 @@ const SidebarComponent = props => {
 };
 
 const mapStateToProps = select => {
-	const { getEditedPostAttribute } = select( 'core/editor' );
+	const { getCurrentPostType, getEditedPostAttribute } = select( 'core/editor' );
 
 	return {
 		meta: getEditedPostAttribute( 'meta' ),
+		postType: getCurrentPostType(),
 		title: getEditedPostAttribute( 'title' ),
 	};
 };
