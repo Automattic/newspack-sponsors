@@ -41,14 +41,14 @@
 			[
 				"semantic-release-version-bump",
 				{
-					"files": "newspack-new-plugin-boilerplate.php",
+					"files": "newspack-sponsors.php",
 					"callback": "npm run release:archive"
 				}
 			],
 			{
 				"path": "@semantic-release/git",
 				"assets": [
-					"newspack-new-plugin-boilerplate.php",
+					"newspack-sponsors.php",
 					"package.json",
 					"package-lock.json",
 					"CHANGELOG.md"
@@ -71,8 +71,8 @@
 				{
 					"assets": [
 						{
-							"path": "./release/newspack-new-plugin-boilerplate.zip",
-							"label": "newspack-new-plugin-boilerplate.zip"
+							"path": "./release/newspack-sponsors.zip",
+							"label": "newspack-sponsors.zip"
 						}
 					]
 				}
@@ -86,11 +86,11 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Automattic/newspack-new-plugin-boilerplate.git"
+		"url": "git+https://github.com/Automattic/newspack-sponsors.git"
 	},
 	"license": "GPL-2.0-or-later",
 	"bugs": {
-		"url": "https://github.com/Automattic/newspack-new-plugin-boilerplate/issues"
+		"url": "https://github.com/Automattic/newspack-sponsors/issues"
 	},
 	"dependencies": {
 		"@wordpress/api-fetch": "^3.12.0",
