@@ -1,5 +1,7 @@
 # newspack-sponsors
 
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release) [![newspack-plugin](https://circleci.com/gh/Automattic/newspack-plugin/tree/master.svg?style=shield)](https://circleci.com/gh/Automattic/newspack-plugin)
+
 Create sponsors, edit sponsor info, and associate sponsors with posts, categories and tags. Allows special visual treatment for sponsored content.
 
 ## Usage
@@ -20,7 +22,7 @@ To use in a theme, check for the existence of the helper function first. Then ca
 
 ```
 if ( function_exists( '\Newspack_Sponsors\get_all_sponsors' ) ) {
-	$sponsors = \Newspack_Sponsors\get_all_sponsors( get_the_ID(), 'native' );
+	$sponsors = \Newspack_Sponsors\get_all_sponsors( get_the_ID(), 'native', [ 'maxwidth' => 130, 'maxheight' => 45 ] );
 	var_dump( $sponsors );
 }
 ```
@@ -37,6 +39,6 @@ Both helpers will return an array containing all sponsors that are associated wi
 - `sponsor_blurb` - Content which can be displayed with any sponsored post. This is the `content` of the sponsor.
 - `sponsor_url` - A URL to link to when displaying the Sponsor Name on the front-end.
 - `sponsor_byline` - The copy shown in lieu of a byline on sponsored posts. This is combined with the `sponsor_name` to form a full byline. (Default: “Sponsored by” or “Paid for by”)
-- `sponsor_logo` - HTML for a medium-sized image to be displayed with any sponsored post. This is the `thumbnail` of the sponsor.
+- `sponsor_logo` - Object containing properties for a medium-sized image to be displayed with any sponsored post. This is the `thumbnail` of the sponsor. Contains `src`, `img_width` and `img_height` properties.
 - `sponsor_flag` - The label that appears in lieu of a category tag for sponsored content. This can be set site-wide and overridden per sponsor.
 - `sponsor_disclaimer` - The disclaimer that explains sponsored content. This can be set site-wide and overridden per sponsor.
