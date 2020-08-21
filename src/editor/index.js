@@ -19,6 +19,6 @@ addFilter( 'editor.PostTaxonomyType', 'newspack-sponsors-editor', TaxonomyPanel 
  * Register plugin editor settings.
  */
 registerPlugin( 'newspack-sponsors-editor', {
-	icon: 'money',
 	render: Sidebar,
+	icon: null,
 } );
