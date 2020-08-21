@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __, sprintf } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 import { SelectControl, TextareaControl, TextControl, ToggleControl } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withDispatch, withSelect } from '@wordpress/data';
@@ -63,11 +63,7 @@ const SidebarComponent = props => {
 			<TextControl
 				className="newspack-sponsors__text-control"
 				label={ __( 'Sponsor Flag Override (Optional)', 'newspack-sponsors' ) }
-				placeholder={ sprintf(
-					// Translators: placeholder text for Sponsor Flag field.
-					__( 'Default: “%s”', 'newspack-sponsors' ),
-					settings.flag || defaults.flag
-				) }
+				placeholder={ settings.flag || defaults.flag }
 				help={ __(
 					'The label for the flag that appears in lieu of category flags. If not empty, this field will override the site-wide setting.',
 					'newspack-sponsors'
@@ -79,10 +75,9 @@ const SidebarComponent = props => {
 			<TextareaControl
 				className="newspack-sponsors__textarea-control"
 				label={ __( 'Sponsor Disclaimer Override (Optional)', 'newspack-sponsors' ) }
-				placeholder={ sprintf(
-					// Translators: placeholder text for Sponsor Disclaimer field.
-					__( 'Default: “%s”', 'newspack-sponsors' ),
-					( settings.disclaimer || defaults.disclaimer ).replace( '[sponsor name]', title )
+				placeholder={ ( settings.disclaimer || defaults.disclaimer ).replace(
+					'[sponsor name]',
+					title
 				) }
 				help={ __(
 					'Text shown to explain sponsorship by this sponsor. If not empty, this field will override the site-wide setting.',
@@ -98,11 +93,7 @@ const SidebarComponent = props => {
 					'The prefix for the sponsor attribution that appears in lieu of author byline. If not empty, this field will override the site-wide setting.',
 					'newspack-sponsors'
 				) }
-				placeholder={ sprintf(
-					// Translators: placeholder text for Sponsor Byline Prefix field.
-					__( 'Default: “%s”', 'newspack-sponsors' ),
-					settings.byline || defaults.byline
-				) }
+				placeholder={ settings.byline || defaults.byline }
 				type="url"
 				value={ newspack_sponsor_byline_prefix }
 				onChange={ value => updateMetaValue( 'newspack_sponsor_byline_prefix', value ) }
