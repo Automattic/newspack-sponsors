@@ -60,7 +60,7 @@ jobs:
     docker:
       - image: circleci/node:12
     steps:
-      - checkout
+      - checkout_with_workspace
       - run:
           name: Set tip of alpha branch on top of release and force-push it to remote
           command: |
