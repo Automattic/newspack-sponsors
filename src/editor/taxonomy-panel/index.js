@@ -32,10 +32,11 @@ export const TaxonomyPanel = PostTaxonomies => {
 			labels.name.toLowerCase(),
 			labels.name.toLowerCase()
 		);
+		const newProps = { ...props };
 
 		// Remove "Add new sponsors" link since sponsor terms are shadow terms of sponsor posts.
 		if ( 'newspack_spnsrs_tax' === slug ) {
-			props.hasCreateAction = false;
+			newProps.hasCreateAction = null;
 		}
 
 		return (
@@ -45,7 +46,7 @@ export const TaxonomyPanel = PostTaxonomies => {
 						<em>{ message }</em>
 					</p>
 				) }
-				<PostTaxonomies { ...props } />
+				<PostTaxonomies { ...newProps } />
 			</Fragment>
 		);
 	};
