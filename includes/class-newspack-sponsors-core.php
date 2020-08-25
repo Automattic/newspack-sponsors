@@ -77,10 +77,10 @@ final class Newspack_Sponsors_Core {
 			'parent_item_colon'     => __( 'Parent Sponsors:', 'newspack-sponsors' ),
 			'not_found'             => __( 'No sponsors found.', 'newspack-sponsors' ),
 			'not_found_in_trash'    => __( 'No sponsors found in Trash.', 'newspack-sponsors' ),
-			'featured_image'        => __( 'Sponsor logo', 'newspack-sponsors' ),
+			'featured_image'        => __( 'Sponsor Logo', 'newspack-sponsors' ),
 			'set_featured_image'    => __( 'Set sponsor logo', 'newspack-sponsors' ),
-			'remove_featured_image' => __( 'Remove sponsor Logo', 'newspack-sponsors' ),
-			'use_featured_image'    => __( 'Use as sponsor Logo', 'newspack-sponsors' ),
+			'remove_featured_image' => __( 'Remove sponsor logo', 'newspack-sponsors' ),
+			'use_featured_image'    => __( 'Use as sponsor logo', 'newspack-sponsors' ),
 		];
 
 		$cpt_args = [
@@ -90,7 +90,7 @@ final class Newspack_Sponsors_Core {
 			'show_in_rest' => true,
 			'supports'     => [ 'editor', 'title', 'custom-fields', 'thumbnail' ],
 			'taxonomies'   => [ 'category', 'post_tag' ], // Regular post categories and tags.
-			'menu_icon'    => 'dashicons-money',
+			'menu_icon'    => 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0Ij48cGF0aCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0xLjQxIDE2LjA5VjIwaC0yLjY3di0xLjkzYy0xLjcxLS4zNi0zLjE2LTEuNDYtMy4yNy0zLjRoMS45NmMuMSAxLjA1LjgyIDEuODcgMi42NSAxLjg3IDEuOTYgMCAyLjQtLjk4IDIuNC0xLjU5IDAtLjgzLS40NC0xLjYxLTIuNjctMi4xNC0yLjQ4LS42LTQuMTgtMS42Mi00LjE4LTMuNjcgMC0xLjcyIDEuMzktMi44NCAzLjExLTMuMjFWNGgyLjY3djEuOTVjMS44Ni40NSAyLjc5IDEuODYgMi44NSAzLjM5SDE0LjNjLS4wNS0xLjExLS42NC0xLjg3LTIuMjItMS44Ny0xLjUgMC0yLjQuNjgtMi40IDEuNjQgMCAuODQuNjUgMS4zOSAyLjY3IDEuOTFzNC4xOCAxLjM5IDQuMTggMy45MWMtLjAxIDEuODMtMS4zOCAyLjgzLTMuMTIgMy4xNnoiIGZpbGw9IiNhMGE1YWEiLz48L3N2Zz4K',
 		];
 
 		register_post_type( self::NEWSPACK_SPONSORS_CPT, $cpt_args );

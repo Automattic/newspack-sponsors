@@ -78,34 +78,22 @@ final class Newspack_Sponsors_Settings {
 
 		return [
 			[
-				'label'       => __( 'Default Sponsor Byline Prefix', 'newspack-sponsors' ),
-				'placeholder' => sprintf(
-					// Translators: placeholder for default byline value.
-					__( 'Default: “%s”', 'newspack-sponsors' ),
-					$defaults['byline']
-				),
-				'key'         => 'newspack_sponsors_default_byline',
-				'type'        => 'input',
+				'label' => __( 'Default Sponsor Byline Prefix', 'newspack-sponsors' ),
+				'value' => $defaults['byline'],
+				'key'   => 'newspack_sponsors_default_byline',
+				'type'  => 'input',
 			],
 			[
-				'label'       => __( 'Default Sponsored Flag Label', 'newspack-sponsors' ),
-				'placeholder' => sprintf(
-					// Translators: placeholder for default flag value.
-					__( 'Default: “%s”', 'newspack-sponsors' ),
-					$defaults['flag']
-				),
-				'key'         => 'newspack_sponsors_default_flag',
-				'type'        => 'input',
+				'label' => __( 'Default Sponsored Flag Label', 'newspack-sponsors' ),
+				'value' => $defaults['flag'],
+				'key'   => 'newspack_sponsors_default_flag',
+				'type'  => 'input',
 			],
 			[
-				'label'       => __( 'Default Sponsorship Disclaimer', 'newspack-sponsors' ),
-				'placeholder' => sprintf(
-					// Translators: placeholder for default disclaimer value.
-					__( 'Default: “%s”', 'newspack-sponsors' ),
-					$defaults['disclaimer']
-				),
-				'key'         => 'newspack_sponsors_default_disclaimer',
-				'type'        => 'textarea',
+				'label' => __( 'Default Sponsorship Disclaimer', 'newspack-sponsors' ),
+				'value' => $defaults['disclaimer'],
+				'key'   => 'newspack_sponsors_default_disclaimer',
+				'type'  => 'textarea',
 			],
 		];
 	}
@@ -174,25 +162,22 @@ final class Newspack_Sponsors_Settings {
 	 * @param array $setting Settings array.
 	 */
 	public static function newspack_sponsors_settings_callback( $setting ) {
-		$key         = $setting['key'];
-		$type        = $setting['type'];
-		$placeholder = $setting['placeholder'];
-		$value       = get_option( $key, false );
+		$key   = $setting['key'];
+		$type  = $setting['type'];
+		$value = ( '' !== get_option( $key, false ) ) ? get_option( $key, false ) : $setting['value'];
 
 		if ( 'textarea' === $type ) {
 			printf(
-				'<textarea id="%s" name="%s" class="widefat" rows="4" placeholder="%s">%s</textarea>',
+				'<textarea id="%s" name="%s" class="widefat" rows="4">%s</textarea>',
 				esc_attr( $key ),
 				esc_attr( $key ),
-				esc_attr( $placeholder ),
 				esc_attr( $value )
 			);
 		} else {
 			printf(
-				'<input type="text" id="%s" name="%s" placeholder="%s" value="%s" class="widefat" />',
+				'<input type="text" id="%s" name="%s" value="%s" class="widefat" />',
 				esc_attr( $key ),
 				esc_attr( $key ),
-				esc_attr( $placeholder ),
 				esc_attr( $value )
 			);
 		}
