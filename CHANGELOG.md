@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/Automattic/newspack-sponsors/compare/v1.2.0...v1.2.1) (2020-09-08)
+
+
+### Bug Fixes
+
+* harden post type check to prevent notices ([60879a9](https://github.com/Automattic/newspack-sponsors/commit/60879a9ce83d0846db537c085ed03b783a03fc69))
+
 # [1.2.0](https://github.com/Automattic/newspack-sponsors/compare/v1.1.0...v1.2.0) (2020-08-25)
 
 
