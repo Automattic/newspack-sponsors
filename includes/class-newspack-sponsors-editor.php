@@ -99,8 +99,7 @@ final class Newspack_Sponsors_Editor {
 	 * Is editing a sponsor?
 	 */
 	public static function is_editing_sponsor() {
-		$post_type = get_post()->post_type;
-		return Core::NEWSPACK_SPONSORS_CPT === $post_type;
+		return Core::NEWSPACK_SPONSORS_CPT === get_post_type();
 	}
 
 	/**
