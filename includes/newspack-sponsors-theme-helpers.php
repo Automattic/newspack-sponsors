@@ -182,11 +182,7 @@ function get_sponsors_for_archive( $term_id = null, $scope = null, $logo_options
 
 		$term = get_queried_object();
 	} else {
-		$term = get_term( $term_id, 'category' );
-
-		if ( empty( $term ) ) {
-			$term - get_term( $term_id, 'post_tag' );
-		}
+		$term = get_term_by( 'id', $term_id );
 	}
 
 	// Return false if there's no term for this $term_id.
