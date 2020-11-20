@@ -35,6 +35,11 @@ use \WP_Error as WP_Error;
 function get_all_sponsors( $id = null, $scope = null, $type = null, $logo_options = [] ) {
 	$sponsors = false;
 
+	// Bail early if we don't have any sponsors.
+	if ( ! site_has_sponsors() ) {
+		return $sponsors;
+	}
+
 	// If no type given, try to guess based on the current page context.
 	if ( null === $type ) {
 		if ( is_singular( 'post' ) ) {
@@ -54,6 +59,14 @@ function get_all_sponsors( $id = null, $scope = null, $type = null, $logo_option
 }
 
 /**
+ * Checks whether the current site has any published sponsors.
+ * If not, lets us short-circuit the helper functions to avoid unnecessary queries.
+ */
+function site_has_sponsors() {
+	return 0 < wp_count_posts( Core::NEWSPACK_SPONSORS_CPT )->publish;
+}
+
+/**
  * Get sponsors associated with the given post ID.
  *
  * @param int         $post_id ID for the post to look up (optional).
@@ -67,6 +80,11 @@ function get_all_sponsors( $id = null, $scope = null, $type = null, $logo_option
  *                             no $post_id given and we're not on a post page.
  */
 function get_sponsors_for_post( $post_id = null, $scope = null, $logo_options = [] ) {
+	// Bail early if we don't have any sponsors.
+	if ( ! site_has_sponsors() ) {
+		return false;
+	}
+
 	if ( null === $post_id ) {
 		if ( ! is_singular( 'post' ) ) {
 			return new WP_Error(
@@ -172,6 +190,11 @@ function get_sponsors_for_post( $post_id = null, $scope = null, $logo_options = 
  *                             no $term_id given and we're not on a term archive.
  */
 function get_sponsors_for_archive( $term_id = null, $scope = null, $logo_options = [] ) {
+	// Bail early if we don't have any sponsors.
+	if ( ! site_has_sponsors() ) {
+		return false;
+	}
+
 	if ( null === $term_id ) {
 		if ( ! is_archive() ) {
 			return new WP_Error(
