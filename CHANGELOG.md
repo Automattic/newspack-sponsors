@@ -1,3 +1,10 @@
+# [1.3.0-alpha.1](https://github.com/Automattic/newspack-sponsors/compare/v1.2.1...v1.3.0-alpha.1) (2020-11-24)
+
+
+### Features
+
+* avoid unnecessary queries if there are no published sponsors ([#46](https://github.com/Automattic/newspack-sponsors/issues/46)) ([587729c](https://github.com/Automattic/newspack-sponsors/commit/587729cb6fc99382008c668dce7b37ef6e78a77b))
+
 ## [1.2.1](https://github.com/Automattic/newspack-sponsors/compare/v1.2.0...v1.2.1) (2020-09-08)
 
 
