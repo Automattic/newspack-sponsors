@@ -1,0 +1,282 @@
+# Copyright (C) 2021 Automattic
+# This file is distributed under the same license as the Newspack Sponsors plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Newspack Sponsors 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/newspack-sponsors\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2021-03-11T10:56:52+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.5.0-alpha-59d879d\n"
+"X-Domain: newspack-sponsors\n"
+
+#. Plugin Name of the plugin
+msgid "Newspack Sponsors"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://newspack.pub"
+msgstr ""
+
+#. Description of the plugin
+msgid "Add sponsors and sponsor info to posts. Allows special visual treatment for sponsored content."
+msgstr ""
+
+#. Author of the plugin
+msgid "Automattic"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:66
+msgctxt "post type general name"
+msgid "Sponsors"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:67
+msgctxt "post type singular name"
+msgid "Sponsor"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:68
+msgctxt "admin menu"
+msgid "Sponsors"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:69
+msgctxt "add new on admin bar"
+msgid "Sponsor"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:70
+msgctxt "popup"
+msgid "Add New"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:71
+#: includes/class-newspack-sponsors-core.php:210
+msgid "Add New Sponsor"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:72
+msgid "New Sponsor"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:73
+#: includes/class-newspack-sponsors-core.php:207
+msgid "Edit Sponsor"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:74
+#: includes/class-newspack-sponsors-core.php:208
+msgid "View Sponsor"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:75
+msgid "All Sponsors"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:76
+#: includes/class-newspack-sponsors-core.php:203
+msgid "Search Sponsors"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:77
+msgid "Parent Sponsors:"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:78
+#: includes/class-newspack-sponsors-core.php:212
+msgid "No sponsors found."
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:79
+msgid "No sponsors found in Trash."
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:80
+msgid "Sponsor Logo"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:81
+msgid "Set sponsor logo"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:82
+msgid "Remove sponsor logo"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:83
+msgid "Use as sponsor logo"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:108
+msgid "A URL to link to when displaying this sponsor’s info."
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:123
+msgid "(Optional) Text shown in category flag. This text will override site-wide default settings."
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:138
+msgid "(Optional) Text shown to explain sponsorship by this sponsor."
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:153
+msgid "(Optional) Text shown in lieu of a byline on sponsored posts. This is combined with the Sponsor Name to form a full byline."
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:168
+msgid "Scope of sponsorship this sponsor offers (native content vs. underwritten)."
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:183
+msgid "If this value is true, this sponsor will not be shown on single posts unless directly assigned to a post. It will still appear on category/tag archive pages, if applicable."
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:201
+#: includes/class-newspack-sponsors-core.php:202
+#: includes/class-newspack-sponsors-core.php:204
+#: includes/class-newspack-sponsors-core.php:217
+#: includes/class-newspack-sponsors-core.php:218
+#: includes/class-newspack-sponsors-core.php:219
+msgid "Sponsors"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:205
+msgid "Parent Sponsor"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:206
+msgid "Parent Sponsor:"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:209
+msgid "Update Sponsor"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:211
+msgid "New Sponsor Name"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:213
+msgid "No sponsors"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:214
+msgid "Sponsors list navigation"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:215
+msgid "Sponsors list"
+msgstr ""
+
+#: includes/class-newspack-sponsors-core.php:216
+msgid "&larr; Back to Sponsors"
+msgstr ""
+
+#: includes/class-newspack-sponsors-settings.php:33
+msgid "Sponsored by"
+msgstr ""
+
+#: includes/class-newspack-sponsors-settings.php:34
+msgid "Sponsored"
+msgstr ""
+
+#. Translators: Default value for Sponsor Disclaimer field.
+#: includes/class-newspack-sponsors-settings.php:37
+msgid "Advertiser content: This content was commissioned and paid for by [sponsor name]. The news and editorial staff of %s had no role in the creation or production of this story."
+msgstr ""
+
+#: includes/class-newspack-sponsors-settings.php:81
+msgid "Default Sponsor Byline Prefix"
+msgstr ""
+
+#: includes/class-newspack-sponsors-settings.php:87
+msgid "Default Sponsored Flag Label"
+msgstr ""
+
+#: includes/class-newspack-sponsors-settings.php:93
+msgid "Default Sponsorship Disclaimer"
+msgstr ""
+
+#: includes/class-newspack-sponsors-settings.php:107
+#: includes/class-newspack-sponsors-settings.php:121
+msgid "Newspack Sponsors: Site-Wide Settings"
+msgstr ""
+
+#: includes/class-newspack-sponsors-settings.php:108
+msgid "Settings"
+msgstr ""
+
+#: src/editor/sidebar/index.js:35
+msgid "Sponsor Settings"
+msgstr ""
+
+#: src/editor/sidebar/index.js:39
+msgid "Sponsorship Scope"
+msgstr ""
+
+#: src/editor/sidebar/index.js:42
+msgid "Native content"
+msgstr ""
+
+#: src/editor/sidebar/index.js:43
+msgid "Underwritten content"
+msgstr ""
+
+#: src/editor/sidebar/index.js:46
+msgid "Generally, native content is authored by the sponsor, while underwritten content is authored by editorial staff but supported by the sponsor. This option allows you to select a different visual treatment for native vs. underwitten content."
+msgstr ""
+
+#: src/editor/sidebar/index.js:53
+msgid "Sponsor URL"
+msgstr ""
+
+#: src/editor/sidebar/index.js:54
+msgid "URL to link to for this sponsor"
+msgstr ""
+
+#: src/editor/sidebar/index.js:55
+msgid "Required if you want to link the sponsor logo to an external URL."
+msgstr ""
+
+#: src/editor/sidebar/index.js:65
+msgid "Sponsor Flag Override (Optional)"
+msgstr ""
+
+#: src/editor/sidebar/index.js:67
+msgid "The label for the flag that appears in lieu of category flags. If not empty, this field will override the site-wide setting."
+msgstr ""
+
+#: src/editor/sidebar/index.js:77
+msgid "Sponsor Disclaimer Override (Optional)"
+msgstr ""
+
+#: src/editor/sidebar/index.js:82
+msgid "Text shown to explain sponsorship by this sponsor. If not empty, this field will override the site-wide setting."
+msgstr ""
+
+#: src/editor/sidebar/index.js:91
+msgid "Sponsor Byline Prefix (Optional)"
+msgstr ""
+
+#: src/editor/sidebar/index.js:92
+msgid "The prefix for the sponsor attribution that appears in lieu of author byline. If not empty, this field will override the site-wide setting."
+msgstr ""
+
+#. Translators: explanation for applying sponsors to a taxonomy term.
+#: src/editor/taxonomy-panel/index.js:26
+msgid "%s one or more post %s to associate this sponsor with those %s."
+msgstr ""
+
+#: src/editor/taxonomy-panel/index.js:31
+msgid "Select "
+msgstr ""
+
+#: src/editor/taxonomy-panel/index.js:31
+msgid "Add "
+msgstr ""
