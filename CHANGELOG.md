@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/Automattic/newspack-sponsors/compare/v1.4.0...v1.4.1) (2021-05-13)
+
+
+### Bug Fixes
+
+* ensure that sponsors can't be applied to other sponsors ([#55](https://github.com/Automattic/newspack-sponsors/issues/55)) ([8410d5e](https://github.com/Automattic/newspack-sponsors/commit/8410d5e50c94e8f9d1a506245bb3921be750c9cc))
+
 # [1.4.0](https://github.com/Automattic/newspack-sponsors/compare/v1.3.0...v1.4.0) (2021-05-04)
 
 
