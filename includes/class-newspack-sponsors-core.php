@@ -230,7 +230,12 @@ final class Newspack_Sponsors_Core {
 			'show_ui'       => true,
 		];
 
-		register_taxonomy( self::NEWSPACK_SPONSORS_TAX, 'post', $tax_args );
+		$post_types = apply_filters(
+			'newspack_sponsors_post_types',
+			[ 'post', 'page' ]
+		);
+
+		register_taxonomy( self::NEWSPACK_SPONSORS_TAX, $post_types, $tax_args );
 	}
 
 	/**
