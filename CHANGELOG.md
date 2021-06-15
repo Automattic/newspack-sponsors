@@ -1,3 +1,10 @@
+# [1.5.0-alpha.1](https://github.com/Automattic/newspack-sponsors/compare/v1.4.1...v1.5.0-alpha.1) (2021-06-15)
+
+
+### Features
+
+* create filter to let other plugins add supported post types ([#58](https://github.com/Automattic/newspack-sponsors/issues/58)) ([e58d61c](https://github.com/Automattic/newspack-sponsors/commit/e58d61cb320bae4a1b2badbdc5a6278254793d1c))
+
 ## [1.4.1](https://github.com/Automattic/newspack-sponsors/compare/v1.4.0...v1.4.1) (2021-05-13)
 
 
