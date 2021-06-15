@@ -42,7 +42,12 @@ function get_all_sponsors( $id = null, $scope = null, $type = null, $logo_option
 
 	// If no type given, try to guess based on the current page context.
 	if ( null === $type ) {
-		if ( is_singular( 'post' ) ) {
+		$post_types = apply_filters(
+			'newspack_sponsors_post_types',
+			[ 'post', 'page' ]
+		);
+
+		if ( is_singular( $post_types ) ) {
 			$type = 'post';
 		} elseif ( is_archive() ) {
 			$type = 'archive';
@@ -85,8 +90,13 @@ function get_sponsors_for_post( $post_id = null, $scope = null, $logo_options = 
 		return false;
 	}
 
+	$post_types = apply_filters(
+		'newspack_sponsors_post_types',
+		[ 'post', 'page' ]
+	);
+
 	if ( null === $post_id ) {
-		if ( ! is_singular( 'post' ) ) {
+		if ( ! is_singular( $post_types ) ) {
 			return new WP_Error(
 				'newspack-sponsors__is_not_post',
 				__( 'Please provide a $post_id if not invoking within a single post.' )
