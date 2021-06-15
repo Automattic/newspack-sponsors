@@ -230,7 +230,12 @@ final class Newspack_Sponsors_Core {
 			'show_ui'       => true,
 		];
 
-		register_taxonomy( self::NEWSPACK_SPONSORS_TAX, 'post', $tax_args );
+		$post_types = apply_filters(
+			'newspack_sponsors_post_types',
+			[ 'post', 'page' ]
+		);
+
+		register_taxonomy( self::NEWSPACK_SPONSORS_TAX, $post_types, $tax_args );
 	}
 
 	/**
@@ -249,11 +254,44 @@ final class Newspack_Sponsors_Core {
 	 * @return void
 	 */
 	public static function update_or_delete_shadow_term( $post_id, $post ) {
-		if ( 'publish' === $post->post_status ) {
+		// If the post is a valid post, update or create the shadow term. Otherwise, delete it.
+		if ( self::should_update_shadow_term( $post ) ) {
 			self::update_shadow_term( $post_id, $post );
 		} else {
 			self::delete_shadow_term( $post_id );
 		}
+	}
+
+	/**
+	 * Check whether a given post object should have a shadow term.
+	 *
+	 * @param object $post Post object to check.
+	 * @return bool True if the post should have a shadow term, otherwise false.
+	 */
+	public static function should_update_shadow_term( $post ) {
+		$should_update_shadow_term = true;
+
+		// If post isn't published.
+		if ( 'publish' !== $post->post_status ) {
+			$should_update_shadow_term = false;
+		}
+
+		// If post lacks a valid title.
+		if ( ! $post->post_title || 'Auto Draft' === $post->post_title ) {
+			$should_update_shadow_term = false;
+		}
+
+		// If post lacks a valid slug.
+		if ( ! $post->post_name ) {
+			$should_update_shadow_term = false;
+		}
+
+		// If post isn't the right post type.
+		if ( self::NEWSPACK_SPONSORS_CPT !== $post->post_type ) {
+			return false;
+		}
+
+		return $should_update_shadow_term;
 	}
 
 	/**
@@ -265,12 +303,7 @@ final class Newspack_Sponsors_Core {
 	 */
 	public static function update_shadow_term( $post_id, $post ) {
 		// Bail if we don't have a valid post or post type.
-		if ( empty( $post ) || self::NEWSPACK_SPONSORS_CPT !== $post->post_type ) {
-			return false;
-		}
-
-		// Bail if post is an auto draft.
-		if ( 'auto-draft' === $post->post_status || 'Auto Draft' === $post->post_title ) {
+		if ( empty( $post ) ) {
 			return false;
 		}
 
@@ -328,7 +361,13 @@ final class Newspack_Sponsors_Core {
 			return false;
 		}
 
-		$shadow_term = get_term_by( 'name', $post->post_title, self::NEWSPACK_SPONSORS_TAX );
+		// Try finding the shadow term by slug first.
+		$shadow_term = get_term_by( 'slug', $post->post_name, self::NEWSPACK_SPONSORS_TAX );
+
+		// If we can't find a term by slug, the post slug may have been updated. Try finding by title instead.
+		if ( empty( $shadow_term ) ) {
+			$shadow_term = get_term_by( 'name', $post->post_title, self::NEWSPACK_SPONSORS_TAX );
+		}
 
 		if ( empty( $shadow_term ) ) {
 			return false;
