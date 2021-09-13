@@ -46,6 +46,21 @@ final class Newspack_Sponsors_Core {
 	 */
 	public function __construct() {
 		add_action( 'init', [ __CLASS__, 'init' ] );
+		add_filter( 'newspack_ads_should_display_for_post', [ __CLASS__, 'suppress_ads' ], 10, 2 );
+	}
+
+	/**
+	 * Add Sponsors CPT to the CPTs which should have ads suppressed.
+	 *
+	 * @param bool $should_display Should ads be displayed on this post.
+	 * @param int  $post_id Post ID.
+	 */
+	public static function suppress_ads( $should_display, $post_id ) {
+		$sponsors = get_sponsors_for_post( $post_id );
+		if ( $sponsors && count( $sponsors ) ) {
+			return false;
+		}
+		return $should_display;
 	}
 
 	/**
