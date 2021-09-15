@@ -46,7 +46,7 @@ final class Newspack_Sponsors_Core {
 	 */
 	public function __construct() {
 		add_action( 'init', [ __CLASS__, 'init' ] );
-		add_filter( 'newspack_ads_should_display_for_post', [ __CLASS__, 'suppress_ads' ], 10, 2 );
+		add_filter( 'newspack_ads_should_show_ads', [ __CLASS__, 'suppress_ads' ], 10, 2 );
 	}
 
 	/**
