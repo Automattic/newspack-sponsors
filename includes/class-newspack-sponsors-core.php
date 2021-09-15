@@ -50,7 +50,7 @@ final class Newspack_Sponsors_Core {
 	}
 
 	/**
-	 * Add Sponsors CPT to the CPTs which should have ads suppressed.
+	 * Disable ads if the post is sponsored.
 	 *
 	 * @param bool $should_display Should ads be displayed on this post.
 	 * @param int  $post_id Post ID.
