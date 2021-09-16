@@ -56,6 +56,9 @@ final class Newspack_Sponsors_Core {
 	 * @param int  $post_id Post ID.
 	 */
 	public static function suppress_ads( $should_display, $post_id ) {
+		if ( ! is_single() ) {
+			return $should_display;
+		}
 		$sponsors = get_sponsors_for_post( $post_id );
 		if ( $sponsors && count( $sponsors ) ) {
 			return false;
