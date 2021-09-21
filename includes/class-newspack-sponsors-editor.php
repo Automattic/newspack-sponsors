@@ -44,35 +44,8 @@ final class Newspack_Sponsors_Editor {
 	 * Constructor.
 	 */
 	public function __construct() {
-		add_action( 'the_post', [ __CLASS__, 'strip_editor_modifications' ] );
 		add_filter( 'wpseo_primary_term_taxonomies', [ __CLASS__, 'disable_yoast_primary_category_picker' ], 10, 2 );
 		add_action( 'enqueue_block_editor_assets', [ __CLASS__, 'enqueue_block_editor_assets' ] );
-	}
-
-	/**
-	 * Remove certain editor enqueued assets which might not be compatible with this post type.
-	 */
-	public static function strip_editor_modifications() {
-		if ( ! self::is_editing_sponsor() ) {
-			return;
-		}
-
-		$enqueue_block_editor_assets_filters = $GLOBALS['wp_filter']['enqueue_block_editor_assets']->callbacks;
-		$disallowed_assets                   = [
-			'Newspack_Popups::enqueue_block_editor_assets',
-			'Newspack_Newsletters_Editor::enqueue_block_editor_assets',
-			'Newspack_Ads_Blocks::enqueue_block_editor_assets',
-			'newspack_ads_enqueue_suppress_ad_assets',
-		];
-
-		foreach ( $enqueue_block_editor_assets_filters as $index => $filter ) {
-			$action_handlers = array_keys( $filter );
-			foreach ( $action_handlers as $handler ) {
-				if ( in_array( $handler, $disallowed_assets ) ) {
-					remove_action( 'enqueue_block_editor_assets', $handler, $index );
-				}
-			}
-		}
 	}
 
 	/**

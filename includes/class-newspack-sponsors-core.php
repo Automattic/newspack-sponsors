@@ -46,6 +46,24 @@ final class Newspack_Sponsors_Core {
 	 */
 	public function __construct() {
 		add_action( 'init', [ __CLASS__, 'init' ] );
+		add_filter( 'newspack_ads_should_show_ads', [ __CLASS__, 'suppress_ads' ], 10, 2 );
+	}
+
+	/**
+	 * Disable ads if the post is sponsored.
+	 *
+	 * @param bool $should_display Should ads be displayed on this post.
+	 * @param int  $post_id Post ID.
+	 */
+	public static function suppress_ads( $should_display, $post_id ) {
+		if ( ! is_single() ) {
+			return $should_display;
+		}
+		$sponsors = get_sponsors_for_post( $post_id );
+		if ( $sponsors && count( $sponsors ) ) {
+			return false;
+		}
+		return $should_display;
 	}
 
 	/**
