@@ -1,3 +1,15 @@
+# [1.6.0](https://github.com/Automattic/newspack-sponsors/compare/v1.5.0...v1.6.0) (2021-09-21)
+
+
+### Bug Fixes
+
+* ad suppression tweak ([c555e57](https://github.com/Automattic/newspack-sponsors/commit/c555e576cdf1e35999a5fc4ac243ad7d02fb09ea))
+
+
+### Features
+
+* suppress ads on sponsored posts ([#62](https://github.com/Automattic/newspack-sponsors/issues/62)) ([ac533c5](https://github.com/Automattic/newspack-sponsors/commit/ac533c558f14af44f2fad245aa67cac7a87707b2))
+
 # [1.5.0](https://github.com/Automattic/newspack-sponsors/compare/v1.4.1...v1.5.0) (2021-06-15)
 
 
