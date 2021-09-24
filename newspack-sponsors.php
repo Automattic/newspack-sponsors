@@ -7,7 +7,7 @@
  * Author URI:      https://newspack.pub
  * Text Domain:     newspack-sponsors
  * Domain Path:     /languages
- * Version:         1.6.0
+ * Version:         1.7.0-alpha.1
  *
  * @package         Newspack_Sponsors
  */
