@@ -40,6 +40,7 @@ final class Newspack_Sponsors_Settings {
 				),
 				get_bloginfo( 'name' )
 			),
+			'suppress'   => false,
 		];
 
 		return $defaults;
@@ -48,14 +49,17 @@ final class Newspack_Sponsors_Settings {
 	/**
 	 * Get current site-wide settings, or defaults if not set.
 	 *
+	 * @param string $setting Key name of a setting to retrieve. If given, only the matching setting's value will be returned.
+	 *
 	 * @return array Array of current site-wide settings.
 	 */
-	public static function get_settings() {
+	public static function get_settings( $setting = null ) {
 		$defaults = self::get_default_settings();
 		$settings = [
 			'byline'     => get_option( 'newspack_sponsors_default_byline', $defaults['byline'] ),
 			'flag'       => get_option( 'newspack_sponsors_default_flag', $defaults['flag'] ),
 			'disclaimer' => get_option( 'newspack_sponsors_default_disclaimer', $defaults['disclaimer'] ),
+			'suppress'   => get_option( 'newspack_sponsors_suppress_ads', $defaults['suppress'] ),
 		];
 
 		// Guard against empty strings, which can happen if an option is set and then unset.
@@ -63,6 +67,10 @@ final class Newspack_Sponsors_Settings {
 			if ( empty( $value ) ) {
 				$settings[ $key ] = $defaults[ $key ];
 			}
+		}
+
+		if ( $setting && isset( $settings[ $setting ] ) ) {
+			return $settings[ $setting ];
 		}
 
 		return $settings;
@@ -94,6 +102,12 @@ final class Newspack_Sponsors_Settings {
 				'value' => $defaults['disclaimer'],
 				'key'   => 'newspack_sponsors_default_disclaimer',
 				'type'  => 'textarea',
+			],
+			[
+				'label' => __( 'Suppress Ads for All Sponsored Posts', 'newspack-sponsors' ),
+				'value' => $defaults['suppress'],
+				'key'   => 'newspack_sponsors_suppress_ads',
+				'type'  => 'checkbox',
 			],
 		];
 	}
@@ -166,7 +180,15 @@ final class Newspack_Sponsors_Settings {
 		$type  = $setting['type'];
 		$value = ( '' !== get_option( $key, false ) ) ? get_option( $key, false ) : $setting['value'];
 
-		if ( 'textarea' === $type ) {
+		if ( 'checkbox' === $type ) {
+			printf(
+				'<input type="checkbox" id="%s" name="%s" %s />',
+				esc_attr( $key ),
+				esc_attr( $key ),
+				! empty( $value ) ? 'checked' : '',
+				esc_attr( $key )
+			);
+		} elseif ( 'textarea' === $type ) {
 			printf(
 				'<textarea id="%s" name="%s" class="widefat" rows="4">%s</textarea>',
 				esc_attr( $key ),
