@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/Automattic/newspack-sponsors/compare/v1.6.0...v1.7.0) (2021-09-24)
+
+
+### Features
+
+* add a global setting to suppress ads on sponsored posts ([#68](https://github.com/Automattic/newspack-sponsors/issues/68)) ([ce45916](https://github.com/Automattic/newspack-sponsors/commit/ce4591623443774d7198e09e378d79445808f0ff))
+
 # [1.6.0](https://github.com/Automattic/newspack-sponsors/compare/v1.5.0...v1.6.0) (2021-09-21)
 
 
