@@ -10,6 +10,8 @@
 
 namespace Newspack_Sponsors;
 
+use Newspack_Sponsors\Newspack_Sponsors_Settings as Settings;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -59,8 +61,10 @@ final class Newspack_Sponsors_Core {
 		if ( ! is_single() ) {
 			return $should_display;
 		}
-		$sponsors = get_sponsors_for_post( $post_id );
-		if ( $sponsors && count( $sponsors ) ) {
+
+		$suppress_ads = Settings::get_settings( 'suppress' );
+		$sponsors     = get_sponsors_for_post( $post_id );
+		if ( boolval( $suppress_ads ) && $sponsors && count( $sponsors ) ) {
 			return false;
 		}
 		return $should_display;
