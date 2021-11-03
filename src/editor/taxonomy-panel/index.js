@@ -23,11 +23,12 @@ export const TaxonomyPanel = PostTaxonomies => {
 		const { slug, taxonomy } = props;
 		const { hierarchical, labels } = taxonomy;
 		const message = sprintf(
+			// Translators: explanation for applying sponsors to a taxonomy term.
 			__(
-				// Translators: explanation for applying sponsors to a taxonomy term.
-				'%s one or more post %s to associate this sponsor with those %s.',
+				'%1$s one or more post %2$s to associate this sponsor with those %3$s.',
 				'newspack-sponsors'
 			),
+			// Translators: "Select" terms if none added yet, or "Add" terms if there's at least one selected already.
 			hierarchical ? __( 'Select ', 'newspack-sponsors' ) : __( 'Add ', 'newspack-sponsors' ),
 			labels.name.toLowerCase(),
 			labels.name.toLowerCase()
