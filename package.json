@@ -104,7 +104,7 @@
 		"@wordpress/element": "^4.0.1",
 		"@wordpress/hooks": "^3.2.1",
 		"@wordpress/html-entities": "^3.2.2",
-		"@wordpress/i18n": "^4.2.2",
+		"@wordpress/i18n": "^4.2.4",
 		"@wordpress/plugins": "^4.0.4"
 	},
 	"devDependencies": {
