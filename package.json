@@ -98,7 +98,7 @@
 		"@wordpress/block-editor": "^7.0.4",
 		"@wordpress/components": "^17.0.0",
 		"@wordpress/compose": "^5.0.4",
-		"@wordpress/data": "^6.1.0",
+		"@wordpress/data": "^6.1.4",
 		"@wordpress/dom-ready": "^3.2.2",
 		"@wordpress/edit-post": "^5.0.4",
 		"@wordpress/element": "^4.0.1",
@@ -132,6 +132,6 @@
 		"stylelint-config-prettier": "^9.0.3",
 		"stylelint-prettier": "^1.2.0",
 		"webpack": "^5.64.4",
-		"webpack-cli": "^4.7.2"
+		"webpack-cli": "^4.9.1"
 	}
 }
