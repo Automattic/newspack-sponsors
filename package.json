@@ -108,7 +108,7 @@
 		"@wordpress/plugins": "^4.0.4"
 	},
 	"devDependencies": {
-		"@automattic/calypso-build": "^9.0.0",
+		"@automattic/calypso-build": "^10.0.0",
 		"@babel/core": "^7.15.0",
 		"@commitlint/cli": "^14.1.0",
 		"@commitlint/config-conventional": "^14.1.0",
@@ -131,7 +131,7 @@
 		"stylelint": "^13.3.1",
 		"stylelint-config-prettier": "^9.0.3",
 		"stylelint-prettier": "^1.2.0",
-		"webpack": "^5.46.0",
+		"webpack": "^5.64.4",
 		"webpack-cli": "^4.9.1"
 	}
 }
