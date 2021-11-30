@@ -100,7 +100,7 @@
 		"@wordpress/compose": "^5.0.4",
 		"@wordpress/data": "^6.1.4",
 		"@wordpress/dom-ready": "^3.2.2",
-		"@wordpress/edit-post": "^5.0.4",
+		"@wordpress/edit-post": "^5.0.12",
 		"@wordpress/element": "^4.0.1",
 		"@wordpress/hooks": "^3.2.1",
 		"@wordpress/html-entities": "^3.2.3",
