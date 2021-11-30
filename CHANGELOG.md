@@ -1,3 +1,10 @@
+## [1.7.1-alpha.1](https://github.com/Automattic/newspack-sponsors/compare/v1.7.0...v1.7.1-alpha.1) (2021-11-03)
+
+
+### Bug Fixes
+
+* update ci images and NPM packages ([#72](https://github.com/Automattic/newspack-sponsors/issues/72)) ([21ccfbf](https://github.com/Automattic/newspack-sponsors/commit/21ccfbf075b80441e77185ed36148bcc024bb8eb))
+
 # [1.7.0](https://github.com/Automattic/newspack-sponsors/compare/v1.6.0...v1.7.0) (2021-09-24)
 
 
