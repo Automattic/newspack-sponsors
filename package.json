@@ -95,7 +95,7 @@
 	"dependencies": {
 		"@wordpress/api-fetch": "^5.2.4",
 		"@wordpress/base-styles": "^4.0.4",
-		"@wordpress/block-editor": "^8.0.9",
+		"@wordpress/block-editor": "^8.0.10",
 		"@wordpress/components": "^19.1.0",
 		"@wordpress/compose": "^5.0.4",
 		"@wordpress/data": "^6.1.4",
