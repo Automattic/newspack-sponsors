@@ -96,7 +96,7 @@
 		"@wordpress/api-fetch": "^5.2.4",
 		"@wordpress/base-styles": "^4.0.4",
 		"@wordpress/block-editor": "^8.0.12",
-		"@wordpress/components": "^19.1.6",
+		"@wordpress/components": "^19.2.0",
 		"@wordpress/compose": "^5.0.7",
 		"@wordpress/data": "^6.1.4",
 		"@wordpress/dom-ready": "^3.2.2",
