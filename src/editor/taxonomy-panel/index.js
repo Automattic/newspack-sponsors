@@ -32,7 +32,7 @@ export const TaxonomyPanel = PostTaxonomies => {
 				'%1$s one or more post %2$s to associate this sponsor with those %3$s.',
 				'newspack-sponsors'
 			),
-			// Translators: "Select" terms if none added yet, or "Add" terms if there's at least one selected already.
+			// Translators: "Select" terms if the taxonomy is hierarchical, or "Add" terms if not.
 			hierarchical ? __( 'Select ', 'newspack-sponsors' ) : __( 'Add ', 'newspack-sponsors' ),
 			label,
 			label
