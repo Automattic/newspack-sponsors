@@ -20,8 +20,12 @@ export const TaxonomyPanel = PostTaxonomies => {
 			return <PostTaxonomies { ...props } />;
 		}
 
-		const { slug, taxonomy } = props;
-		const { hierarchical, labels } = taxonomy;
+		const { slug } = props;
+		const hierarchical = 'category' === slug;
+		const label =
+			'category' === slug
+				? __( 'categories', 'newspack-sponsors' )
+				: __( 'tags', 'newspack-sponsors' );
 		const message = sprintf(
 			// Translators: explanation for applying sponsors to a taxonomy term.
 			__(
@@ -30,8 +34,8 @@ export const TaxonomyPanel = PostTaxonomies => {
 			),
 			// Translators: "Select" terms if none added yet, or "Add" terms if there's at least one selected already.
 			hierarchical ? __( 'Select ', 'newspack-sponsors' ) : __( 'Add ', 'newspack-sponsors' ),
-			labels.name.toLowerCase(),
-			labels.name.toLowerCase()
+			label,
+			label
 		);
 
 		return (
