@@ -1,3 +1,15 @@
+# [1.8.0-alpha.1](https://github.com/Automattic/newspack-sponsors/compare/v1.7.1...v1.8.0-alpha.1) (2022-01-13)
+
+
+### Bug Fixes
+
+* **wp5.9:** taxonomy panel filter ([#149](https://github.com/Automattic/newspack-sponsors/issues/149)) ([9a1fe03](https://github.com/Automattic/newspack-sponsors/commit/9a1fe03ef602ffbdce14c86ce3bb58c73359f698))
+
+
+### Features
+
+* try enabling dependabot to keep dependencies up to date ([#74](https://github.com/Automattic/newspack-sponsors/issues/74)) ([e2d7458](https://github.com/Automattic/newspack-sponsors/commit/e2d74586bdd428b1cadacfc50979dfd140812132))
+
 ## [1.7.1](https://github.com/Automattic/newspack-sponsors/compare/v1.7.0...v1.7.1) (2021-11-30)
 
 
