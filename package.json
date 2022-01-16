@@ -100,7 +100,7 @@
 		"@wordpress/compose": "^5.0.7",
 		"@wordpress/data": "^6.1.4",
 		"@wordpress/dom-ready": "^3.2.2",
-		"@wordpress/edit-post": "^5.0.13",
+		"@wordpress/edit-post": "^5.0.20",
 		"@wordpress/element": "^4.0.1",
 		"@wordpress/hooks": "^3.2.1",
 		"@wordpress/html-entities": "^3.2.3",
@@ -131,7 +131,7 @@
 		"stylelint": "^13.3.1",
 		"stylelint-config-prettier": "^9.0.3",
 		"stylelint-prettier": "^1.2.0",
-		"webpack": "^5.65.0",
+		"webpack": "^5.66.0",
 		"webpack-cli": "^4.9.1"
 	}
 }
