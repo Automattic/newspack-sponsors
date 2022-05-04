@@ -49,6 +49,7 @@ final class Newspack_Sponsors_Core {
 	public function __construct() {
 		add_action( 'init', [ __CLASS__, 'init' ] );
 		add_filter( 'newspack_ads_should_show_ads', [ __CLASS__, 'suppress_ads' ], 10, 2 );
+		add_filter( 'newspack_ads_ad_targeting', [ __CLASS__, 'ad_targeting' ], 10, 2 );
 	}
 
 	/**
@@ -68,6 +69,29 @@ final class Newspack_Sponsors_Core {
 			return false;
 		}
 		return $should_display;
+	}
+
+	/**
+	 * Set ad targeting for sponsored posts.
+	 *
+	 * @param array $targeting Ad targeting.
+	 *
+	 * @return array
+	 */
+	public static function ad_targeting( $targeting ) {
+		if ( ! is_singular() ) {
+			return $targeting;
+		}
+		$sponsors = get_sponsors_for_post( get_the_ID() );
+		if ( ! empty( $sponsors ) && ! isset( $targeting['sponsors'] ) ) {
+			$targeting['sponsors'] = array_map(
+				function( $sponsor ) {
+					return $sponsor['sponsor_slug'];
+				},
+				$sponsors
+			);
+		}
+		return $targeting;
 	}
 
 	/**
