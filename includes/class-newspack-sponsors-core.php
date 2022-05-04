@@ -79,11 +79,13 @@ final class Newspack_Sponsors_Core {
 	 * @return array
 	 */
 	public static function ad_targeting( $targeting ) {
-		if ( ! is_singular() ) {
-			return $targeting;
+		$sponsors = [];
+		if ( is_singular() ) {
+			$sponsors = get_sponsors_for_post( get_the_ID() );
+		} elseif ( is_archive() ) {
+			$sponsors = get_sponsors_for_archive();
 		}
-		$sponsors = get_sponsors_for_post( get_the_ID() );
-		if ( ! empty( $sponsors ) && ! isset( $targeting['sponsors'] ) ) {
+		if ( ! is_wp_error( $sponsors ) && ! empty( $sponsors ) && ! isset( $targeting['sponsors'] ) ) {
 			$targeting['sponsors'] = array_map(
 				function( $sponsor ) {
 					return $sponsor['sponsor_slug'];
