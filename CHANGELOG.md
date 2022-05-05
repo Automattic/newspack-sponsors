@@ -1,3 +1,15 @@
+# [1.9.0-alpha.1](https://github.com/Automattic/newspack-sponsors/compare/v1.8.0...v1.9.0-alpha.1) (2022-05-05)
+
+
+### Bug Fixes
+
+* do not include child terms for sponsored categories ([#179](https://github.com/Automattic/newspack-sponsors/issues/179)) ([7834583](https://github.com/Automattic/newspack-sponsors/commit/7834583d215d62a0ca10a3340c15e15c047f4cff))
+
+
+### Features
+
+* ad targeting for gpt ([#180](https://github.com/Automattic/newspack-sponsors/issues/180)) ([6ab54ce](https://github.com/Automattic/newspack-sponsors/commit/6ab54ce7233596cf6f90df0054bc80a497d60690))
+
 # [1.8.0](https://github.com/Automattic/newspack-sponsors/compare/v1.7.1...v1.8.0) (2022-01-19)
 
 
