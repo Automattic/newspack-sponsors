@@ -307,9 +307,10 @@ function get_sponsor_posts_for_terms( $terms ) {
 	foreach ( $terms as $term ) {
 		if ( ! empty( $term->taxonomy ) && ! empty( $term->term_id ) ) {
 			$tax_query_args[] = [
-				'taxonomy' => $term->taxonomy,
-				'field'    => 'term_id',
-				'terms'    => $term->term_id,
+				'taxonomy'         => $term->taxonomy,
+				'field'            => 'term_id',
+				'terms'            => $term->term_id,
+				'include_children' => false,
 			];
 		}
 	}

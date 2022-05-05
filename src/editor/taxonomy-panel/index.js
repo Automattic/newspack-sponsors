@@ -9,11 +9,11 @@ import { Fragment } from '@wordpress/element';
  * Filters the PostTaxonomies component to add explanations unique to Newspack Sponsor posts.
  *
  * @param {Function} PostTaxonomies The original PostTaxonomies component to filter.
- *                                         https://github.com/WordPress/gutenberg/tree/master/packages/editor/src/components/post-taxonomies
+ *                                  https://github.com/WordPress/gutenberg/tree/master/packages/editor/src/components/post-taxonomies
  * @return {Function} The filtered component.
  */
 export const TaxonomyPanel = PostTaxonomies => {
-	return props => {
+	const OriginalComponent = props => {
 		const postType = select( 'core/editor' ).getCurrentPostType();
 
 		if ( 'newspack_spnsrs_cpt' !== postType && 'post' !== postType ) {
@@ -53,4 +53,6 @@ export const TaxonomyPanel = PostTaxonomies => {
 			</Fragment>
 		);
 	};
+
+	return OriginalComponent;
 };
