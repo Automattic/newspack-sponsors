@@ -356,12 +356,16 @@ function convert_post_to_sponsor( $post, $type = 'direct', $logo_options = [] ) 
 
 	$sponsor_sitewide_settings = Settings::get_settings();
 
-	$sponsor_byline     = get_post_meta( $post->ID, 'newspack_sponsor_byline_prefix', true );
-	$sponsor_url        = get_post_meta( $post->ID, 'newspack_sponsor_url', true );
-	$sponsor_flag       = get_post_meta( $post->ID, 'newspack_sponsor_flag_override', true );
-	$sponsor_scope      = get_post_meta( $post->ID, 'newspack_sponsor_sponsorship_scope', true );
-	$sponsor_disclaimer = get_post_meta( $post->ID, 'newspack_sponsor_disclaimer_override', true );
-	$sponsor_logo       = get_logo_info( $post->ID, $logo_options );
+	$sponsor_byline                = get_post_meta( $post->ID, 'newspack_sponsor_byline_prefix', true );
+	$sponsor_url                   = get_post_meta( $post->ID, 'newspack_sponsor_url', true );
+	$sponsor_flag                  = get_post_meta( $post->ID, 'newspack_sponsor_flag_override', true );
+	$sponsor_scope                 = get_post_meta( $post->ID, 'newspack_sponsor_sponsorship_scope', true );
+	$sponsor_byline_display        = get_post_meta( $post->ID, 'newspack_sponsor_native_byline_display', true );
+	$sponsor_category_display      = get_post_meta( $post->ID, 'newspack_sponsor_native_category_display', true );
+	$sponsor_underwriter_style     = get_post_meta( $post->ID, 'newspack_sponsor_underwriter_style', true );
+	$sponsor_underwriter_placement = get_post_meta( $post->ID, 'newspack_sponsor_underwriter_placement', true );
+	$sponsor_disclaimer            = get_post_meta( $post->ID, 'newspack_sponsor_disclaimer_override', true );
+	$sponsor_logo                  = get_logo_info( $post->ID, $logo_options );
 
 	// Check for single-sponsor overrides, default to site-wide options.
 	if ( empty( $sponsor_byline ) ) {
@@ -374,7 +378,7 @@ function convert_post_to_sponsor( $post, $type = 'direct', $logo_options = [] ) 
 		$sponsor_disclaimer = str_replace( '[sponsor name]', $post->post_title, $sponsor_sitewide_settings['disclaimer'] );
 	}
 
-	return [
+	$sponsor = [
 		'sponsor_type'       => $type,
 		'sponsor_id'         => $post->ID,
 		'sponsor_name'       => $post->post_title,
@@ -387,6 +391,16 @@ function convert_post_to_sponsor( $post, $type = 'direct', $logo_options = [] ) 
 		'sponsor_scope'      => ! empty( $sponsor_scope ) ? $sponsor_scope : 'native', // Default: native, not underwritten.
 		'sponsor_disclaimer' => $sponsor_disclaimer,
 	];
+
+	if ( 'native' === $sponsor['sponsor_scope'] ) {
+		$sponsor['sponsor_byline_display']   = $sponsor_byline_display;
+		$sponsor['sponsor_category_display'] = $sponsor_category_display;
+	} else {
+		$sponsor['sponsor_underwriter_style']     = $sponsor_underwriter_style;
+		$sponsor['sponsor_underwriter_placement'] = $sponsor_underwriter_placement;
+	}
+
+	return $sponsor;
 }
 
 /**

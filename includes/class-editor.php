@@ -69,17 +69,18 @@ final class Editor {
 	}
 
 	/**
-	 * Is editing a sponsor?
-	 */
-	public static function is_editing_sponsor() {
-		return Core::NEWSPACK_SPONSORS_CPT === get_post_type();
-	}
-
-	/**
 	 * Load up JS/CSS for editor.
 	 */
 	public static function enqueue_block_editor_assets() {
-		if ( ! self::is_editing_sponsor() && 'post' !== get_post_type() ) {
+		$allowed_post_types = apply_filters(
+			'newspack_sponsors_post_types',
+			[ 'post', 'page' ]
+		);
+
+		$allowed_post_types[] = Core::NEWSPACK_SPONSORS_CPT;
+
+		// Only enqueue assets for allowed post types.
+		if ( ! in_array( get_post_type(), $allowed_post_types, true ) ) {
 			return;
 		}
 
