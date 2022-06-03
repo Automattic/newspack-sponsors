@@ -437,3 +437,63 @@ function get_logo_info( $sponsor_id, $logo_options = [] ) {
 
 	return $logo_info;
 }
+
+/**
+ * If at least one native sponsor is set to display both sponsors and authors, show the authors.
+ *
+ * @param array $sponsors Array of sponsors.
+ *
+ * @return boolean True if we should display both sponsors and categories, false if we should display only sponsors.
+ */
+function newspack_display_sponsors_and_authors( $sponsors ) {
+	if ( ! is_array( $sponsors ) ) {
+		return false;
+	}
+
+	// If the post is set to display author, show it.
+	$override = get_post_meta( get_the_ID(), 'newspack_sponsor_native_byline_display', true );
+	if ( 'author' === $override ) {
+		return true;
+	}
+
+	return array_reduce(
+		$sponsors,
+		function( $acc, $sponsor ) {
+			if ( isset( $sponsor['sponsor_byline_display'] ) && 'author' === $sponsor['sponsor_byline_display'] ) {
+				$acc = true;
+			}
+			return $acc;
+		},
+		false
+	);
+}
+
+/**
+ * If at least one native sponsor is set to display both sponsors and categories, show the categories.
+ *
+ * @param array $sponsors Array of sponsors.
+ *
+ * @return boolean True if we should display both sponsors and categories, false if we should display only sponsors.
+ */
+function newspack_display_sponsors_and_categories( $sponsors ) {
+	if ( ! is_array( $sponsors ) ) {
+		return false;
+	}
+
+	// If the post is set to display categories, show them.
+	$override = get_post_meta( get_the_ID(), 'newspack_sponsor_native_category_display', true );
+	if ( 'category' === $override ) {
+		return true;
+	}
+
+	return array_reduce(
+		$sponsors,
+		function( $acc, $sponsor ) {
+			if ( isset( $sponsor['sponsor_category_display'] ) && 'category' === $sponsor['sponsor_category_display'] ) {
+				$acc = true;
+			}
+			return $acc;
+		},
+		false
+	);
+}
