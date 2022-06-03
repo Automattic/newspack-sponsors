@@ -7,14 +7,14 @@
 
 namespace Newspack_Sponsors;
 
-use \Newspack_Sponsors\Newspack_Sponsors_Core as Core;
+use \Newspack_Sponsors\Core;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Manages Settings page.
  */
-final class Newspack_Sponsors_Settings {
+final class Settings {
 	/**
 	 * Set up hooks.
 	 */
@@ -207,5 +207,5 @@ final class Newspack_Sponsors_Settings {
 }
 
 if ( is_admin() ) {
-	Newspack_Sponsors_Settings::init();
+	Settings::init();
 }

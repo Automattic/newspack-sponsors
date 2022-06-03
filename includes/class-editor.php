@@ -9,8 +9,8 @@
 
 namespace Newspack_Sponsors;
 
-use \Newspack_Sponsors\Newspack_Sponsors_Core as Core;
-use \Newspack_Sponsors\Newspack_Sponsors_Settings as Settings;
+use \Newspack_Sponsors\Core;
+use \Newspack_Sponsors\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * Editor class.
  * Editor resources needed for the Sponsors CPT.
  */
-final class Newspack_Sponsors_Editor {
+final class Editor {
 
 	/**
 	 * The single instance of the class.
@@ -111,4 +111,4 @@ final class Newspack_Sponsors_Editor {
 	}
 }
 
-Newspack_Sponsors_Editor::instance();
+Editor::instance();

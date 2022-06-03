@@ -10,7 +10,7 @@
 
 namespace Newspack_Sponsors;
 
-use Newspack_Sponsors\Newspack_Sponsors_Settings as Settings;
+use Newspack_Sponsors\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * Main Core class.
  * Sets up Sponsors CPT and shadow taxonomy for posts.
  */
-final class Newspack_Sponsors_Core {
+final class Core {
 
 	const NEWSPACK_SPONSORS_CPT = 'newspack_spnsrs_cpt';
 	const NEWSPACK_SPONSORS_TAX = 'newspack_spnsrs_tax';
@@ -447,4 +447,4 @@ final class Newspack_Sponsors_Core {
 	}
 }
 
-Newspack_Sponsors_Core::instance();
+Core::instance();

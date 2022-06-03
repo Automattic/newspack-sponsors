@@ -9,8 +9,8 @@
 
 namespace Newspack_Sponsors;
 
-use \Newspack_Sponsors\Newspack_Sponsors_Core as Core;
-use \Newspack_Sponsors\Newspack_Sponsors_Settings as Settings;
+use \Newspack_Sponsors\Core;
+use \Newspack_Sponsors\Settings;
 use \WP_Error as WP_Error;
 
 /**
