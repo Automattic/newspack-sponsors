@@ -153,7 +153,7 @@ const SidebarComponent = props => {
 						label={ __( 'Sponsor URL', 'newspack-sponsors' ) }
 						placeholder={ __( 'URL to link to for this sponsor', 'newspack-sponsors' ) }
 						help={ __(
-							'Required if you want to link the sponsor logo to an external URL.',
+							'Required if you want to show a link to an external URL.',
 							'newspack-sponsors'
 						) }
 						type="url"
