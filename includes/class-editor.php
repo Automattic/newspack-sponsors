@@ -99,7 +99,7 @@ final class Editor {
 				'post_type' => get_post_type(),
 				'settings'  => Settings::get_settings(),
 				'defaults'  => Settings::get_default_settings(),
-				'slug'      => Core::NEWSPACK_SPONSORS_CPT,
+				'cpt'       => Core::NEWSPACK_SPONSORS_CPT,
 				'tax'       => Core::NEWSPACK_SPONSORS_TAX,
 			]
 		);

@@ -12,7 +12,7 @@ import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
 import { Sidebar } from './sidebar';
 import { TaxonomyPanel } from './taxonomy-panel';
 
-const { post_type: postType, slug } = window.newspack_sponsors_data;
+const { post_type: postType, cpt } = window.newspack_sponsors_data;
 
 /**
  * Filter the PostTaxonomies component.
@@ -24,7 +24,7 @@ addFilter( 'editor.PostTaxonomyType', 'newspack-sponsors-editor', TaxonomyPanel 
  * For sponsor posts, this is a separate sidebar panel.
  * For all other post types, it is pre-pended to the Sponsors sidebar panel.
  */
-if ( slug === postType ) {
+if ( cpt === postType ) {
 	registerPlugin( 'newspack-sponsors-editor', {
 		render: () => (
 			<PluginDocumentSettingPanel

@@ -18,7 +18,7 @@ import { Sidebar } from '../sidebar';
  */
 export const TaxonomyPanel = PostTaxonomies => {
 	const OriginalComponent = props => {
-		const { post_type: postType, slug: sponsorsSlug, tax } = window.newspack_sponsors_data;
+		const { post_type: postType, cpt, tax } = window.newspack_sponsors_data;
 		const { slug } = props;
 		const isSponsorsTax = tax === slug;
 		const hasAssignedSponsors = useSelect( select => {
@@ -61,7 +61,7 @@ export const TaxonomyPanel = PostTaxonomies => {
 
 		return (
 			<>
-				{ sponsorsSlug === postType && ( slug === 'category' || slug === 'post_tag' ) && (
+				{ cpt === postType && ( slug === 'category' || slug === 'post_tag' ) && (
 					<p>
 						<em>{ message }</em>
 					</p>

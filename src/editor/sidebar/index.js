@@ -12,7 +12,6 @@ import { withDispatch, withSelect } from '@wordpress/data';
 import './style.scss';
 
 const SidebarComponent = props => {
-	const { post_type: postType, slug } = window.newspack_sponsors_data;
 	const { meta, title, updateMetaValue } = props;
 	const {
 		newspack_sponsor_url,
@@ -26,8 +25,8 @@ const SidebarComponent = props => {
 		newspack_sponsor_only_direct,
 		newspack_sponsor_disclaimer_override,
 	} = meta;
-	const { settings, defaults } = window.newspack_sponsors_data;
-	const isSponsor = slug === postType; // True if the post being edited is a sponsor, false if a post type that can be sponsored.
+	const { settings, defaults, post_type: postType, cpt } = window.newspack_sponsors_data;
+	const isSponsor = cpt === postType; // True if the post being edited is a sponsor, false if a post type that can be sponsored.
 
 	// If the post is not a sponsor but a post that can be sponsored, add default options to inherit values from the sponsor.
 	const scopeDefault = isSponsor ? 'native' : '';
