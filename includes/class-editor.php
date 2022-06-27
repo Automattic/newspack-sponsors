@@ -96,8 +96,11 @@ final class Editor {
 			'newspack-sponsors-editor',
 			'newspack_sponsors_data',
 			[
-				'settings' => Settings::get_settings(),
-				'defaults' => Settings::get_default_settings(),
+				'post_type' => get_post_type(),
+				'settings'  => Settings::get_settings(),
+				'defaults'  => Settings::get_default_settings(),
+				'slug'      => Core::NEWSPACK_SPONSORS_CPT,
+				'tax'       => Core::NEWSPACK_SPONSORS_TAX,
 			]
 		);
 

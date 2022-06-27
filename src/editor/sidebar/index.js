@@ -5,7 +5,6 @@ import { __ } from '@wordpress/i18n';
 import { SelectControl, TextareaControl, TextControl, ToggleControl } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withDispatch, withSelect } from '@wordpress/data';
-import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
 
 /**
  * Internal dependencies
@@ -13,7 +12,8 @@ import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
 import './style.scss';
 
 const SidebarComponent = props => {
-	const { meta, postType, title, updateMetaValue } = props;
+	const { post_type: postType, slug } = window.newspack_sponsors_data;
+	const { meta, title, updateMetaValue } = props;
 	const {
 		newspack_sponsor_url,
 		newspack_sponsor_flag_override,
@@ -27,7 +27,7 @@ const SidebarComponent = props => {
 		newspack_sponsor_disclaimer_override,
 	} = meta;
 	const { settings, defaults } = window.newspack_sponsors_data;
-	const isSponsor = 'newspack_spnsrs_cpt' === postType; // True if the post being edited is a sponsor, false if a post type that can be sponsored.
+	const isSponsor = slug === postType; // True if the post being edited is a sponsor, false if a post type that can be sponsored.
 
 	// If the post is not a sponsor but a post that can be sponsored, add default options to inherit values from the sponsor.
 	const scopeDefault = isSponsor ? 'native' : '';
@@ -68,20 +68,19 @@ const SidebarComponent = props => {
 	}
 
 	return (
-		<PluginDocumentSettingPanel
-			className="newspack-sponsors"
-			name="newspack-sponsors"
-			title={ __( 'Sponsor Settings', 'newspack-sponsors' ) }
-		>
+		<>
 			{ ! isSponsor && (
-				<p>
-					<em>
-						{ __(
-							'The following settings optionally override the settings of assigned sponsors.',
-							'newspack-sponsors'
-						) }
-					</em>
-				</p>
+				<>
+					<h2>{ __( 'Sponsor Display Overrides', 'newspack-sponsors' ) }</h2>
+					<p>
+						<em>
+							{ __(
+								'The following settings optionally override the settings of assigned sponsors.',
+								'newspack-sponsors'
+							) }
+						</em>
+					</p>
+				</>
 			) }
 			<SelectControl
 				className="newspack-sponsors__select-control"
@@ -210,16 +209,15 @@ const SidebarComponent = props => {
 					/>
 				</>
 			) }
-		</PluginDocumentSettingPanel>
+		</>
 	);
 };
 
 const mapStateToProps = select => {
-	const { getCurrentPostType, getEditedPostAttribute } = select( 'core/editor' );
+	const { getEditedPostAttribute } = select( 'core/editor' );
 
 	return {
 		meta: getEditedPostAttribute( 'meta' ),
-		postType: getCurrentPostType(),
 		title: getEditedPostAttribute( 'title' ),
 	};
 };
