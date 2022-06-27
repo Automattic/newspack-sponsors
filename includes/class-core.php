@@ -336,6 +336,11 @@ final class Core {
 		];
 
 		$tax_args = [
+			'capabilities'  => [
+				'manage_terms' => '',
+				'edit_terms'   => '',
+				'delete_terms' => '',
+			],
 			'hierarchical'  => true,
 			'labels'        => $labels,
 			'public'        => true,
