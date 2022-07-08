@@ -455,6 +455,9 @@ function newspack_display_sponsors_and_authors( $sponsors ) {
 	if ( 'author' === $override ) {
 		return true;
 	}
+	if ( 'sponsor' === $override ) {
+		return false;
+	}
 
 	return array_reduce(
 		$sponsors,
@@ -484,6 +487,9 @@ function newspack_display_sponsors_and_categories( $sponsors ) {
 	$override = get_post_meta( get_the_ID(), 'newspack_sponsor_native_category_display', true );
 	if ( 'category' === $override ) {
 		return true;
+	}
+	if ( 'sponsor' === $override ) {
+		return false;
 	}
 
 	return array_reduce(
