@@ -356,12 +356,16 @@ function convert_post_to_sponsor( $post, $type = 'direct', $logo_options = [] ) 
 
 	$sponsor_sitewide_settings = Settings::get_settings();
 
-	$sponsor_byline     = get_post_meta( $post->ID, 'newspack_sponsor_byline_prefix', true );
-	$sponsor_url        = get_post_meta( $post->ID, 'newspack_sponsor_url', true );
-	$sponsor_flag       = get_post_meta( $post->ID, 'newspack_sponsor_flag_override', true );
-	$sponsor_scope      = get_post_meta( $post->ID, 'newspack_sponsor_sponsorship_scope', true );
-	$sponsor_disclaimer = get_post_meta( $post->ID, 'newspack_sponsor_disclaimer_override', true );
-	$sponsor_logo       = get_logo_info( $post->ID, $logo_options );
+	$sponsor_byline                = get_post_meta( $post->ID, 'newspack_sponsor_byline_prefix', true );
+	$sponsor_url                   = get_post_meta( $post->ID, 'newspack_sponsor_url', true );
+	$sponsor_flag                  = get_post_meta( $post->ID, 'newspack_sponsor_flag_override', true );
+	$sponsor_scope                 = get_post_meta( $post->ID, 'newspack_sponsor_sponsorship_scope', true );
+	$sponsor_byline_display        = get_post_meta( $post->ID, 'newspack_sponsor_native_byline_display', true );
+	$sponsor_category_display      = get_post_meta( $post->ID, 'newspack_sponsor_native_category_display', true );
+	$sponsor_underwriter_style     = get_post_meta( $post->ID, 'newspack_sponsor_underwriter_style', true );
+	$sponsor_underwriter_placement = get_post_meta( $post->ID, 'newspack_sponsor_underwriter_placement', true );
+	$sponsor_disclaimer            = get_post_meta( $post->ID, 'newspack_sponsor_disclaimer_override', true );
+	$sponsor_logo                  = get_logo_info( $post->ID, $logo_options );
 
 	// Check for single-sponsor overrides, default to site-wide options.
 	if ( empty( $sponsor_byline ) ) {
@@ -374,7 +378,7 @@ function convert_post_to_sponsor( $post, $type = 'direct', $logo_options = [] ) 
 		$sponsor_disclaimer = str_replace( '[sponsor name]', $post->post_title, $sponsor_sitewide_settings['disclaimer'] );
 	}
 
-	return [
+	$sponsor = [
 		'sponsor_type'       => $type,
 		'sponsor_id'         => $post->ID,
 		'sponsor_name'       => $post->post_title,
@@ -387,6 +391,16 @@ function convert_post_to_sponsor( $post, $type = 'direct', $logo_options = [] ) 
 		'sponsor_scope'      => ! empty( $sponsor_scope ) ? $sponsor_scope : 'native', // Default: native, not underwritten.
 		'sponsor_disclaimer' => $sponsor_disclaimer,
 	];
+
+	if ( 'native' === $sponsor['sponsor_scope'] ) {
+		$sponsor['sponsor_byline_display']   = $sponsor_byline_display;
+		$sponsor['sponsor_category_display'] = $sponsor_category_display;
+	} else {
+		$sponsor['sponsor_underwriter_style']     = $sponsor_underwriter_style;
+		$sponsor['sponsor_underwriter_placement'] = $sponsor_underwriter_placement;
+	}
+
+	return $sponsor;
 }
 
 /**
@@ -422,4 +436,70 @@ function get_logo_info( $sponsor_id, $logo_options = [] ) {
 	}
 
 	return $logo_info;
+}
+
+/**
+ * If at least one native sponsor is set to display both sponsors and authors, show the authors.
+ *
+ * @param array $sponsors Array of sponsors.
+ *
+ * @return boolean True if we should display both sponsors and categories, false if we should display only sponsors.
+ */
+function newspack_display_sponsors_and_authors( $sponsors ) {
+	if ( ! is_array( $sponsors ) ) {
+		return false;
+	}
+
+	// If the post is set to display author, show it.
+	$override = get_post_meta( get_the_ID(), 'newspack_sponsor_native_byline_display', true );
+	if ( 'author' === $override ) {
+		return true;
+	}
+	if ( 'sponsor' === $override ) {
+		return false;
+	}
+
+	return array_reduce(
+		$sponsors,
+		function( $acc, $sponsor ) {
+			if ( isset( $sponsor['sponsor_byline_display'] ) && 'author' === $sponsor['sponsor_byline_display'] ) {
+				$acc = true;
+			}
+			return $acc;
+		},
+		false
+	);
+}
+
+/**
+ * If at least one native sponsor is set to display both sponsors and categories, show the categories.
+ *
+ * @param array $sponsors Array of sponsors.
+ *
+ * @return boolean True if we should display both sponsors and categories, false if we should display only sponsors.
+ */
+function newspack_display_sponsors_and_categories( $sponsors ) {
+	if ( ! is_array( $sponsors ) ) {
+		return false;
+	}
+
+	// If the post is set to display categories, show them.
+	$override = get_post_meta( get_the_ID(), 'newspack_sponsor_native_category_display', true );
+	if ( 'category' === $override ) {
+		return true;
+	}
+	if ( 'sponsor' === $override ) {
+		return false;
+	}
+
+	return array_reduce(
+		$sponsors,
+		function( $acc, $sponsor ) {
+			if ( isset( $sponsor['sponsor_category_display'] ) && 'category' === $sponsor['sponsor_category_display'] ) {
+				$acc = true;
+			}
+			return $acc;
+		},
+		false
+	);
 }
