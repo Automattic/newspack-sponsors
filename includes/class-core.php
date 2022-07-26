@@ -10,7 +10,7 @@
 
 namespace Newspack_Sponsors;
 
-use Newspack_Sponsors\Newspack_Sponsors_Settings as Settings;
+use Newspack_Sponsors\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * Main Core class.
  * Sets up Sponsors CPT and shadow taxonomy for posts.
  */
-final class Newspack_Sponsors_Core {
+final class Core {
 
 	const NEWSPACK_SPONSORS_CPT = 'newspack_spnsrs_cpt';
 	const NEWSPACK_SPONSORS_TAX = 'newspack_spnsrs_tax';
@@ -104,6 +104,15 @@ final class Newspack_Sponsors_Core {
 		self::register_meta();
 		self::register_tax();
 		self::create_shadow_relationship();
+	}
+
+	/**
+	 * Is the current post a sponsor?
+	 *
+	 * @return boolean True if a sponsor.
+	 */
+	public static function is_sponsor() {
+		return self::NEWSPACK_SPONSORS_CPT === get_post_type();
 	}
 
 	/**
@@ -212,9 +221,68 @@ final class Newspack_Sponsors_Core {
 			'post',
 			'newspack_sponsor_sponsorship_scope',
 			[
-				'object_subtype'    => self::NEWSPACK_SPONSORS_CPT,
 				'description'       => __( 'Scope of sponsorship this sponsor offers (native content vs. underwritten).', 'newspack-sponsors' ),
 				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'auth_callback'     => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
+		register_meta(
+			'post',
+			'newspack_sponsor_native_byline_display',
+			[
+				'description'       => __( 'Display the sponsorship only, the author byline only, or both.', 'newspack-sponsors' ),
+				'type'              => 'string',
+				'default'           => self::is_sponsor() ? 'sponsor' : 'inherit',
+				'sanitize_callback' => 'sanitize_text_field',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'auth_callback'     => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
+		register_meta(
+			'post',
+			'newspack_sponsor_native_category_display',
+			[
+				'description'       => __( 'Display the sponsor only, or display categories alongside the sponsor.', 'newspack-sponsors' ),
+				'type'              => 'string',
+				'default'           => self::is_sponsor() ? 'sponsor' : 'inherit',
+				'sanitize_callback' => 'sanitize_text_field',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'auth_callback'     => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
+		register_meta(
+			'post',
+			'newspack_sponsor_underwriter_style',
+			[
+				'description'       => __( 'Display the underwriter blurb in standard or simple-text format.', 'newspack-sponsors' ),
+				'type'              => 'string',
+				'default'           => self::is_sponsor() ? 'standard' : 'inherit',
+				'sanitize_callback' => 'sanitize_text_field',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'auth_callback'     => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
+		register_meta(
+			'post',
+			'newspack_sponsor_underwriter_placement',
+			[
+				'description'       => __( 'Display the underwriter blurb at the top or bottom of the post.', 'newspack-sponsors' ),
+				'type'              => 'string',
+				'default'           => self::is_sponsor() ? 'top' : 'inherit',
 				'sanitize_callback' => 'sanitize_text_field',
 				'single'            => true,
 				'show_in_rest'      => true,
@@ -268,6 +336,11 @@ final class Newspack_Sponsors_Core {
 		];
 
 		$tax_args = [
+			'capabilities'  => [
+				'manage_terms' => '',
+				'edit_terms'   => '',
+				'delete_terms' => '',
+			],
 			'hierarchical'  => true,
 			'labels'        => $labels,
 			'public'        => true,
@@ -447,4 +520,4 @@ final class Newspack_Sponsors_Core {
 	}
 }
 
-Newspack_Sponsors_Core::instance();
+Core::instance();

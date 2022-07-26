@@ -9,8 +9,8 @@
 
 namespace Newspack_Sponsors;
 
-use \Newspack_Sponsors\Newspack_Sponsors_Core as Core;
-use \Newspack_Sponsors\Newspack_Sponsors_Settings as Settings;
+use \Newspack_Sponsors\Core;
+use \Newspack_Sponsors\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * Editor class.
  * Editor resources needed for the Sponsors CPT.
  */
-final class Newspack_Sponsors_Editor {
+final class Editor {
 
 	/**
 	 * The single instance of the class.
@@ -69,17 +69,18 @@ final class Newspack_Sponsors_Editor {
 	}
 
 	/**
-	 * Is editing a sponsor?
-	 */
-	public static function is_editing_sponsor() {
-		return Core::NEWSPACK_SPONSORS_CPT === get_post_type();
-	}
-
-	/**
 	 * Load up JS/CSS for editor.
 	 */
 	public static function enqueue_block_editor_assets() {
-		if ( ! self::is_editing_sponsor() && 'post' !== get_post_type() ) {
+		$allowed_post_types = apply_filters(
+			'newspack_sponsors_post_types',
+			[ 'post', 'page' ]
+		);
+
+		$allowed_post_types[] = Core::NEWSPACK_SPONSORS_CPT;
+
+		// Only enqueue assets for allowed post types.
+		if ( ! in_array( get_post_type(), $allowed_post_types, true ) ) {
 			return;
 		}
 
@@ -95,8 +96,11 @@ final class Newspack_Sponsors_Editor {
 			'newspack-sponsors-editor',
 			'newspack_sponsors_data',
 			[
-				'settings' => Settings::get_settings(),
-				'defaults' => Settings::get_default_settings(),
+				'post_type' => get_post_type(),
+				'settings'  => Settings::get_settings(),
+				'defaults'  => Settings::get_default_settings(),
+				'cpt'       => Core::NEWSPACK_SPONSORS_CPT,
+				'tax'       => Core::NEWSPACK_SPONSORS_TAX,
 			]
 		);
 
@@ -111,4 +115,4 @@ final class Newspack_Sponsors_Editor {
 	}
 }
 
-Newspack_Sponsors_Editor::instance();
+Editor::instance();

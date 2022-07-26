@@ -1,9 +1,13 @@
 /**
- * WordPress dependencies
+ * WordPress dependencies.
  */
 import { __, sprintf } from '@wordpress/i18n';
-import { select } from '@wordpress/data';
-import { Fragment } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
+
+/**
+ * Internal dependencies.
+ */
+import { Sidebar } from '../sidebar';
 
 /**
  * Filters the PostTaxonomies component to add explanations unique to Newspack Sponsor posts.
@@ -14,13 +18,30 @@ import { Fragment } from '@wordpress/element';
  */
 export const TaxonomyPanel = PostTaxonomies => {
 	const OriginalComponent = props => {
-		const postType = select( 'core/editor' ).getCurrentPostType();
+		const { post_type: postType, cpt, tax } = window.newspack_sponsors_data;
+		const { slug } = props;
+		const isSponsorsTax = tax === slug;
+		const hasAssignedSponsors = useSelect( select => {
+			const sponsors = select( 'core/editor' ).getEditedPostAttribute( tax );
+			return Array.isArray( sponsors ) && 0 < sponsors.length;
+		} );
 
-		if ( 'newspack_spnsrs_cpt' !== postType && 'post' !== postType ) {
+		// Only filter compoent for sponsors, tax, categories, and tags.
+		if ( 'category' !== slug && 'post_tag' !== slug && ! isSponsorsTax ) {
 			return <PostTaxonomies { ...props } />;
 		}
 
-		const { slug } = props;
+		// Append sponsor settings panel to Sponsors taxonomy panel.
+		if ( isSponsorsTax ) {
+			return (
+				<>
+					<p>{ __( 'Select one or more sponsors:', 'newspack-sponsors' ) }</p>
+					<PostTaxonomies { ...props } />
+					{ hasAssignedSponsors && <Sidebar /> }
+				</>
+			);
+		}
+
 		const hierarchical = 'category' === slug;
 		const label =
 			'category' === slug
@@ -39,18 +60,14 @@ export const TaxonomyPanel = PostTaxonomies => {
 		);
 
 		return (
-			<Fragment>
-				{ 'newspack_spnsrs_cpt' === postType && ( slug === 'category' || slug === 'post_tag' ) && (
+			<>
+				{ cpt === postType && ( slug === 'category' || slug === 'post_tag' ) && (
 					<p>
 						<em>{ message }</em>
 					</p>
 				) }
-				<PostTaxonomies
-					{ ...props }
-					// Remove "Add new sponsors" link since sponsor terms are shadow terms of sponsor posts.
-					hasCreateAction={ 'newspack_spnsrs_tax' !== slug }
-				/>
-			</Fragment>
+				<PostTaxonomies { ...props } />
+			</>
 		);
 	};
 
