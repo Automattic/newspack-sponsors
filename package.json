@@ -4,7 +4,7 @@
 	"description": "",
 	"scripts": {
 		"cm": "newspack-scripts commit",
-		"semantic-release": "newspack-scripts release --files=sponsors.php",
+		"semantic-release": "newspack-scripts release --files=newspack-sponsors.php",
 		"start": "npm ci && newspack-scripts watch",
 		"watch": "newspack-scripts watch",
 		"build": "newspack-scripts build",
