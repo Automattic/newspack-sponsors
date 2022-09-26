@@ -235,7 +235,7 @@ final class Core {
 			'post',
 			'newspack_sponsor_native_byline_display',
 			[
-				'description'       => __( 'Display the sponsorship only, the author byline only, or both.', 'newspack-sponsors' ),
+				'description'       => __( 'Display the sponsor only in the byline, or both the sponsor and post author.', 'newspack-sponsors' ),
 				'type'              => 'string',
 				'default'           => self::is_sponsor() ? 'sponsor' : 'inherit',
 				'sanitize_callback' => 'sanitize_text_field',
