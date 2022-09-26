@@ -102,7 +102,10 @@ const SidebarComponent = props => {
 						value={ newspack_sponsor_native_byline_display || bylineDefault }
 						options={ bylineOptions }
 						onChange={ value => updateMetaValue( 'newspack_sponsor_native_byline_display', value ) }
-						help={ __( 'Display the sponsor only in the byline, or both the sponsor and post author.', 'newspack-sponsors' ) }
+						help={ __(
+							'Display the sponsor only in the byline, or both the sponsor and post author.',
+							'newspack-sponsors'
+						) }
 					/>
 					<SelectControl
 						className="newspack-sponsors__select-control"
