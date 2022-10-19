@@ -1,3 +1,17 @@
+## [1.10.1](https://github.com/Automattic/newspack-sponsors/compare/v1.10.0...v1.10.1) (2022-10-19)
+
+
+### Bug Fixes
+
+* update sponsorship byline dropdown description ([#207](https://github.com/Automattic/newspack-sponsors/issues/207)) ([a64c800](https://github.com/Automattic/newspack-sponsors/commit/a64c80007caf8509d9d93dbde923dba5bd53e479))
+
+## [1.10.1-alpha.1](https://github.com/Automattic/newspack-sponsors/compare/v1.10.0...v1.10.1-alpha.1) (2022-10-06)
+
+
+### Bug Fixes
+
+* update sponsorship byline dropdown description ([#207](https://github.com/Automattic/newspack-sponsors/issues/207)) ([a64c800](https://github.com/Automattic/newspack-sponsors/commit/a64c80007caf8509d9d93dbde923dba5bd53e479))
+
 # [1.10.0](https://github.com/Automattic/newspack-sponsors/compare/v1.9.0...v1.10.0) (2022-07-26)
 
 
