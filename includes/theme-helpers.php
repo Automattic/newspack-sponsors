@@ -118,6 +118,13 @@ function get_sponsors_for_post( $post_id = null, $scope = null, $logo_options = 
 		return false;
 	}
 
+	// Memoization.
+	static $cache = [];
+	$hash         = md5( (string) $post_id . (string) $scope . wp_json_encode( $logo_options ) );
+	if ( isset( $cache[ $hash ] ) ) {
+		return $cache[ $hash ];
+	}
+
 	$sponsors        = [];
 	$direct_sponsors = get_the_terms( $post_id, Core::NEWSPACK_SPONSORS_TAX );
 	$categories      = get_the_category( $post_id );
@@ -185,8 +192,10 @@ function get_sponsors_for_post( $post_id = null, $scope = null, $logo_options = 
 	}
 
 	if ( 0 === count( $sponsors ) ) {
-		return false;
+		$sponsors = false;
 	}
+
+	$cache[ $hash ] = $sponsors;
 
 	return $sponsors;
 }
