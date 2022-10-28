@@ -1,3 +1,10 @@
+## [1.10.2](https://github.com/Automattic/newspack-sponsors/compare/v1.10.1...v1.10.2) (2022-10-28)
+
+
+### Bug Fixes
+
+* memoization for get_sponsors_for_post ([13b127c](https://github.com/Automattic/newspack-sponsors/commit/13b127ce66a9a7b4cfa5dfa4c6e061e6c356a54c))
+
 ## [1.10.1](https://github.com/Automattic/newspack-sponsors/compare/v1.10.0...v1.10.1) (2022-10-19)
 
 
