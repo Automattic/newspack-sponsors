@@ -1,6 +1,6 @@
 {
-  "name": "automattic/newspack-new-plugin-boilerplate",
-  "description": "A new thing.",
+  "name": "automattic/newspack-sponsors",
+  "description": "Add sponsors and sponsor info to posts. Allows special visual treatment for sponsored content.",
   "type": "wordpress-plugin",
   "require": {
   },
