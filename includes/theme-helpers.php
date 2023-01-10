@@ -285,6 +285,7 @@ function is_duplicate_sponsor( $sponsors, $id ) {
 function get_related_post( $slug ) {
 	$related_post = new \WP_Query(
 		[
+			'is_sponsors'    => 1,
 			'post_type'      => Core::NEWSPACK_SPONSORS_CPT,
 			'posts_per_page' => 1,
 			'post_status'    => 'publish',
@@ -333,6 +334,7 @@ function get_sponsor_posts_for_terms( $terms ) {
 
 	$sponsor_posts = new \WP_Query(
 		[
+			'is_sponsors'    => 1,
 			'post_type'      => Core::NEWSPACK_SPONSORS_CPT,
 			'posts_per_page' => 100,
 			'post_status'    => 'publish',
