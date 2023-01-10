@@ -528,7 +528,7 @@ final class Core {
 	 */
 	public static function ensure_only_sponsors( $query ) {
 		if ( boolval( $query->get( 'is_sponsors' ) ) ) {
-			$query->set( 'post_type', self::NEWSPACK_SPONSORS_CPT );
+			$query->set( 'post_type', self::NEWSPACK_SPONSORS_CPT ); // phpcs:ignore WordPressVIPMinimum.Hooks.PreGetPosts.PreGetPosts
 		}
 	}
 }
