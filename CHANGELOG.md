@@ -1,3 +1,10 @@
+## [1.10.3](https://github.com/Automattic/newspack-sponsors/compare/v1.10.2...v1.10.3) (2023-01-10)
+
+
+### Bug Fixes
+
+* add failsafe to ensure that Sponsors queries contain only sponsors CPT ([#221](https://github.com/Automattic/newspack-sponsors/issues/221)) ([8537ddb](https://github.com/Automattic/newspack-sponsors/commit/8537ddbcc4c3156ae2ad27efe100a796de02ff6d))
+
 ## [1.10.2](https://github.com/Automattic/newspack-sponsors/compare/v1.10.1...v1.10.2) (2022-10-28)
 
 
