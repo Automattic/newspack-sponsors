@@ -1,6 +1,6 @@
 {
 	"name": "newspack-sponsors",
-	"version": "1.10.3",
+	"version": "1.10.4-alpha.1",
 	"description": "",
 	"scripts": {
 		"cm": "newspack-scripts commit",
