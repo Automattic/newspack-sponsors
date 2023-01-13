@@ -1,3 +1,17 @@
+## [1.10.4](https://github.com/Automattic/newspack-sponsors/compare/v1.10.3...v1.10.4) (2023-01-13)
+
+
+### Bug Fixes
+
+* update CI orb newspack-scripts ([bb984b3](https://github.com/Automattic/newspack-sponsors/commit/bb984b37938dfa275c023d31e0573caf1d4849b4))
+
+## [1.10.4-alpha.1](https://github.com/Automattic/newspack-sponsors/compare/v1.10.3...v1.10.4-alpha.1) (2023-01-13)
+
+
+### Bug Fixes
+
+* update CI orb newspack-scripts ([bb984b3](https://github.com/Automattic/newspack-sponsors/commit/bb984b37938dfa275c023d31e0573caf1d4849b4))
+
 ## [1.10.3](https://github.com/Automattic/newspack-sponsors/compare/v1.10.2...v1.10.3) (2023-01-10)
 
 
