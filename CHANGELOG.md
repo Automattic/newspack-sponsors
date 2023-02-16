@@ -1,3 +1,17 @@
+## [1.10.5](https://github.com/Automattic/newspack-sponsors/compare/v1.10.4...v1.10.5) (2023-02-16)
+
+
+### Bug Fixes
+
+* ensure term has taxonomy ([deb84af](https://github.com/Automattic/newspack-sponsors/commit/deb84affaa7067d51bf5afad91e3be5275c50780))
+
+## [1.10.5-alpha.1](https://github.com/Automattic/newspack-sponsors/compare/v1.10.4...v1.10.5-alpha.1) (2023-01-26)
+
+
+### Bug Fixes
+
+* ensure term has taxonomy ([deb84af](https://github.com/Automattic/newspack-sponsors/commit/deb84affaa7067d51bf5afad91e3be5275c50780))
+
 ## [1.10.4](https://github.com/Automattic/newspack-sponsors/compare/v1.10.3...v1.10.4) (2023-01-13)
 
 
