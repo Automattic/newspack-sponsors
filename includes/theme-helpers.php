@@ -237,6 +237,10 @@ function get_sponsors_for_archive( $term_id = null, $scope = null, $logo_options
 		return false;
 	}
 
+	if ( ! property_exists( $term, 'taxonomy' ) ) {
+		return false;
+	}
+
 	$sponsors      = [];
 	$type          = 'category' === $term->taxonomy ? 'category' : 'tag';
 	$term_sponsors = get_sponsor_posts_for_terms( [ $term ] );
