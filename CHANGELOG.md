@@ -1,3 +1,10 @@
+## [1.10.6](https://github.com/Automattic/newspack-sponsors/compare/v1.10.5...v1.10.6) (2023-03-14)
+
+
+### Bug Fixes
+
+* update composer file to correct linting error ([#229](https://github.com/Automattic/newspack-sponsors/issues/229)) ([2716ed2](https://github.com/Automattic/newspack-sponsors/commit/2716ed28dbaf41091ef9ab7ec497887ea3af910f))
+
 ## [1.10.6-alpha.1](https://github.com/Automattic/newspack-sponsors/compare/v1.10.5...v1.10.6-alpha.1) (2023-03-03)
 
 
