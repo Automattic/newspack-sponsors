@@ -1,3 +1,10 @@
+## [1.10.7](https://github.com/Automattic/newspack-sponsors/compare/v1.10.6...v1.10.7) (2023-04-10)
+
+
+### Bug Fixes
+
+* remove check for default meta values that isn’t working ([#235](https://github.com/Automattic/newspack-sponsors/issues/235)) ([d45f64b](https://github.com/Automattic/newspack-sponsors/commit/d45f64b6c0b124b0834f62df8edb92a2ca641988))
+
 ## [1.10.7-alpha.1](https://github.com/Automattic/newspack-sponsors/compare/v1.10.6...v1.10.7-alpha.1) (2023-03-31)
 
 
