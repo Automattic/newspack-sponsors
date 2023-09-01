@@ -366,13 +366,13 @@ function get_all_sponsored_terms() {
 	}
 	
 	$tax_query_args = array_map(
-		$taxonomies,
 		function( $taxonomy ) {
 			return [
 				'taxonomy' => $taxonomy,
 				'operator' => 'EXISTS',
 			];
-		}
+		},
+		$taxonomies
 	);
 
 	$tax_query_args['relation'] = 'OR';
