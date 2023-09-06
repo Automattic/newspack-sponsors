@@ -355,6 +355,65 @@ function get_sponsor_posts_for_terms( $terms ) {
 }
 
 /**
+ * Get all sponsored terms.
+ * 
+ * @return array|boolean An associative array keyed by taxonomy name with an array of sponsored term IDs for each, or false if no sponsored terms.
+ */
+function get_all_sponsored_terms() {
+	$taxonomies = \get_object_taxonomies( Core::NEWSPACK_SPONSORS_CPT );
+	if ( empty( $taxonomies ) ) {
+		return false;
+	}
+	
+	$tax_query_args = array_map(
+		function( $taxonomy ) {
+			return [
+				'taxonomy' => $taxonomy,
+				'operator' => 'EXISTS',
+			];
+		},
+		$taxonomies
+	);
+
+	$tax_query_args['relation'] = 'OR';
+	$sponsors_with_terms        = new \WP_Query(
+		[
+			'is_sponsors'    => 1,
+			'fields'         => 'ids',
+			'post_type'      => Core::NEWSPACK_SPONSORS_CPT,
+			'posts_per_page' => 100,
+			'post_status'    => 'publish',
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+			'tax_query'      => $tax_query_args,
+		]
+	);
+
+	if ( empty( $sponsors_with_terms->posts ) ) {
+		return false;
+	}
+
+	$sponsored_terms = \get_terms(
+		[
+			'taxonomy'   => $taxonomies,
+			'object_ids' => $sponsors_with_terms->posts,
+		]
+	);
+
+	return array_reduce(
+		$sponsored_terms,
+		function( $acc, $term ) {
+			if ( ! isset( $acc[ $term->taxonomy ] ) ) {
+				$acc[ $term->taxonomy ] = [];
+			}
+
+			$acc[ $term->taxonomy ][] = $term->term_id;
+			return $acc;
+		},
+		[]
+	);
+}
+
+/**
  * Formats a post object into a sponsor object, for ease of theme developer use.
  *
  * @param array  $post Post object to convert.
