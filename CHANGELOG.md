@@ -1,3 +1,17 @@
+# [1.11.0](https://github.com/Automattic/newspack-sponsors/compare/v1.10.7...v1.11.0) (2023-09-13)
+
+
+### Features
+
+* add helper function to get all sponsored terms ([#263](https://github.com/Automattic/newspack-sponsors/issues/263)) ([0f37ec4](https://github.com/Automattic/newspack-sponsors/commit/0f37ec4161fba90ffb5b36dc0861bbba81832cb0))
+
+# [1.11.0-alpha.1](https://github.com/Automattic/newspack-sponsors/compare/v1.10.7...v1.11.0-alpha.1) (2023-09-06)
+
+
+### Features
+
+* add helper function to get all sponsored terms ([#263](https://github.com/Automattic/newspack-sponsors/issues/263)) ([0f37ec4](https://github.com/Automattic/newspack-sponsors/commit/0f37ec4161fba90ffb5b36dc0861bbba81832cb0))
+
 ## [1.10.7](https://github.com/Automattic/newspack-sponsors/compare/v1.10.6...v1.10.7) (2023-04-10)
 
 
