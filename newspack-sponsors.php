@@ -1,10 +1,10 @@
 <?php
 /**
  * Plugin Name:     Newspack Sponsors
- * Plugin URI:      https://newspack.pub
+ * Plugin URI:      https://newspack.com
  * Description:     Add sponsors and sponsor info to posts. Allows special visual treatment for sponsored content.
  * Author:          Automattic
- * Author URI:      https://newspack.pub
+ * Author URI:      https://newspack.com
  * Text Domain:     newspack-sponsors
  * Domain Path:     /languages
  * Version:         1.11.0
