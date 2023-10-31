@@ -1,3 +1,10 @@
+## [1.11.1](https://github.com/Automattic/newspack-sponsors/compare/v1.11.0...v1.11.1) (2023-10-31)
+
+
+### Bug Fixes
+
+* newspack.pub > newspack.com ([#271](https://github.com/Automattic/newspack-sponsors/issues/271)) ([eb951a2](https://github.com/Automattic/newspack-sponsors/commit/eb951a2e8216564b5beccdaf15a7f865fa458cee))
+
 ## [1.11.1-alpha.1](https://github.com/Automattic/newspack-sponsors/compare/v1.11.0...v1.11.1-alpha.1) (2023-10-16)
 
 
