@@ -1,6 +1,6 @@
 # newspack-sponsors
 
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release) [![newspack-sponsors](https://circleci.com/gh/Automattic/newspack-sponsors/tree/master.svg?style=shield)](https://circleci.com/gh/Automattic/newspack-sponsors)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release) [![newspack-sponsors](https://circleci.com/gh/Automattic/newspack-sponsors/tree/trunk.svg?style=shield)](https://circleci.com/gh/Automattic/newspack-sponsors)
 
 Create sponsors, edit sponsor info, and associate sponsors with posts, categories and tags. Allows special visual treatment for sponsored content.
 

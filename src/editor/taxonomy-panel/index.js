@@ -13,7 +13,7 @@ import { Sidebar } from '../sidebar';
  * Filters the PostTaxonomies component to add explanations unique to Newspack Sponsor posts.
  *
  * @param {Function} PostTaxonomies The original PostTaxonomies component to filter.
- *                                  https://github.com/WordPress/gutenberg/tree/master/packages/editor/src/components/post-taxonomies
+ *                                  https://github.com/WordPress/gutenberg/tree/trunk/packages/editor/src/components/post-taxonomies
  * @return {Function} The filtered component.
  */
 export const TaxonomyPanel = PostTaxonomies => {
