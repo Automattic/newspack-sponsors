@@ -223,13 +223,13 @@ function get_sponsors_for_archive( $term_id = null, $scope = null, $logo_options
 		if ( ! is_archive() ) {
 			return new WP_Error(
 				'newspack-sponsors__is_not_archive',
-				__( 'Please provide a $term_id if not invoking within a term archive page.' )
+				__( 'Please provide a $term_id if not invoking within a term archive page.', 'newspack-sponsors' )
 			);
 		}
 
 		$term = get_queried_object();
 	} else {
-		$term = get_term_by( 'id', $term_id );
+		$term = get_term_by( 'term_taxonomy_id', $term_id );
 	}
 
 	// Return false if there's no term for this $term_id.
