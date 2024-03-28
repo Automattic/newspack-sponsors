@@ -1,3 +1,10 @@
+# [1.12.0-alpha.2](https://github.com/Automattic/newspack-sponsors/compare/v1.12.0-alpha.1...v1.12.0-alpha.2) (2024-03-28)
+
+
+### Bug Fixes
+
+* make sure sponsored categories, tags show sponsor info ([#289](https://github.com/Automattic/newspack-sponsors/issues/289)) ([ad652aa](https://github.com/Automattic/newspack-sponsors/commit/ad652aa7bd511803316669a017da5246130d8f0b))
+
 # [1.12.0-alpha.1](https://github.com/Automattic/newspack-sponsors/compare/v1.11.1...v1.12.0-alpha.1) (2024-02-08)
 
 
