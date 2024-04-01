@@ -37,7 +37,7 @@
 		"url": "https://github.com/Automattic/newspack-sponsors/issues"
 	},
 	"devDependencies": {
-		"@rushstack/eslint-patch": "^1.8.0",
+		"@rushstack/eslint-patch": "^1.10.1",
 		"eslint": "^7.32.0",
 		"lint-staged": "^15.2.2",
 		"newspack-scripts": "^5.3.0",
