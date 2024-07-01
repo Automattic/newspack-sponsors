@@ -1,3 +1,15 @@
+# [1.13.0](https://github.com/Automattic/newspack-sponsors/compare/v1.12.0...v1.13.0) (2024-07-01)
+
+
+### Bug Fixes
+
+* update newspack-scripts to v5.5.1 ([#306](https://github.com/Automattic/newspack-sponsors/issues/306)) ([b1b8b06](https://github.com/Automattic/newspack-sponsors/commit/b1b8b06c9a29c5496b12495238bf2d1d8d4abecd))
+
+
+### Features
+
+* ensure regenerator-runtime is available (for WP 6.6) ([4b0fcfb](https://github.com/Automattic/newspack-sponsors/commit/4b0fcfb286a0ff0a6b96c3710b4c0dab602ee78a))
+
 # [1.12.0](https://github.com/Automattic/newspack-sponsors/compare/v1.11.1...v1.12.0) (2024-04-08)
 
 
