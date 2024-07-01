@@ -2,12 +2,10 @@
 	"name": "automattic/newspack-sponsors",
 	"description": "Add sponsors and sponsor info to posts. Allows special visual treatment for sponsored content.",
 	"type": "wordpress-plugin",
-	"require": {
-		"googleads/googleads-php-lib": "65.0.0"
-	},
+	"require": {},
 	"require-dev": {
-		"automattic/vipwpcs": "^2.0",
-		"wp-coding-standards/wpcs": "^2.2",
+		"automattic/vipwpcs": "^3.0",
+		"wp-coding-standards/wpcs": "^3.0",
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
 		"phpcompatibility/phpcompatibility-wp": "^2.1",
 		"brainmaestro/composer-git-hooks": "^2.8"
