@@ -1,3 +1,10 @@
+## [1.13.1](https://github.com/Automattic/newspack-sponsors/compare/v1.13.0...v1.13.1) (2024-07-02)
+
+
+### Bug Fixes
+
+* specify asset filenames as editor.* ([#309](https://github.com/Automattic/newspack-sponsors/issues/309)) ([484f480](https://github.com/Automattic/newspack-sponsors/commit/484f48075d52333695e737bbe492641e7699de20))
+
 # [1.13.0](https://github.com/Automattic/newspack-sponsors/compare/v1.12.0...v1.13.0) (2024-07-01)
 
 
