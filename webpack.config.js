@@ -12,12 +12,14 @@ const path = require( 'path' );
 /**
  * Internal variables
  */
-const entry = [ 'regenerator-runtime/runtime', path.join( __dirname, 'src', 'editor' ) ];
+const editor = [ 'regenerator-runtime/runtime', path.join( __dirname, 'src', 'editor' ) ];
 
 const webpackConfig = getBaseWebpackConfig(
 	{ WP: true },
 	{
-		entry,
+		entry: {
+			editor,
+		},
 		'output-path': path.join( __dirname, 'dist' ),
 	}
 );
