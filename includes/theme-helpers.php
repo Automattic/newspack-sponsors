@@ -9,9 +9,9 @@
 
 namespace Newspack_Sponsors;
 
-use \Newspack_Sponsors\Core;
-use \Newspack_Sponsors\Settings;
-use \WP_Error as WP_Error;
+use Newspack_Sponsors\Core;
+use Newspack_Sponsors\Settings;
+use WP_Error;
 
 /**
  * Get all sponsors associated with the given ID. Can be a post or term ID.
