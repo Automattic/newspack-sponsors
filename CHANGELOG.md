@@ -1,3 +1,39 @@
+# [2.0.0](https://github.com/Automattic/newspack-sponsors/compare/v1.13.1...v2.0.0) (2024-08-13)
+
+
+### Bug Fixes
+
+* update dependencies to support `@wordpress/scripts` ([#303](https://github.com/Automattic/newspack-sponsors/issues/303)) ([98738e1](https://github.com/Automattic/newspack-sponsors/commit/98738e15cabe1e90be5c1839088d229050d64117))
+
+
+### BREAKING CHANGES
+
+* Updates dependencies for compatibility with WordPress 6.6.*, but breaks JS in WordPress 6.5.* and below. If you need support for WP 6.5.*, please do not upgrade to this new major version.
+
+* chore: refactor for newspack-scripts dependency updates
+
+* refactor: use proxy script for eslint and stylelint scripts
+
+* fix: peer dependencies
+
+* chore: update newspack-scripts to v5.6.0-alpha.3
+
+* chore: add .stylelintrc.js
+
+* chore: update newspack-scripts to v5.6.0-alpha.4
+
+* fix: add missing Prettier config files
+
+* chore: update newspack-scripts to 5.6.0-alpha.5
+
+* chore: update newspack-scripts to v5.6.0-alpha.7
+
+* chore: update newspack-scripts to v5.6.0-alpha.8
+
+* fix: phpcs
+
+* chore: bump newspack-scripts to v5.5.2
+
 ## [1.13.1](https://github.com/Automattic/newspack-sponsors/compare/v1.13.0...v1.13.1) (2024-07-02)
 
 
