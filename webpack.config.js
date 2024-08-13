@@ -2,26 +2,21 @@
  **** WARNING: No ES6 modules here. Not transpiled! ****
  */
 /* eslint-disable import/no-nodejs-modules */
+/* eslint-disable @typescript-eslint/no-var-requires */
 
 /**
  * External dependencies
  */
-const getBaseWebpackConfig = require( '@automattic/calypso-build/webpack.config.js' );
 const path = require( 'path' );
+const getBaseWebpackConfig = require( 'newspack-scripts/config/getWebpackConfig' );
 
 /**
  * Internal variables
  */
-const editor = [ 'regenerator-runtime/runtime', path.join( __dirname, 'src', 'editor' ) ];
+const editor = path.join( __dirname, 'src', 'editor' );
 
-const webpackConfig = getBaseWebpackConfig(
-	{ WP: true },
-	{
-		entry: {
-			editor,
-		},
-		'output-path': path.join( __dirname, 'dist' ),
-	}
-);
+const webpackConfig = getBaseWebpackConfig( {
+	entry: { editor },
+} );
 
 module.exports = webpackConfig;
