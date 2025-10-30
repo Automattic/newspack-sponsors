@@ -72,12 +72,7 @@ const SidebarComponent = props => {
 				<>
 					<h2>{ __( 'Sponsor Display Overrides', 'newspack-sponsors' ) }</h2>
 					<p>
-						<em>
-							{ __(
-								'The following settings optionally override the settings of assigned sponsors.',
-								'newspack-sponsors'
-							) }
-						</em>
+						<em>{ __( 'The following settings optionally override the settings of assigned sponsors.', 'newspack-sponsors' ) }</em>
 					</p>
 				</>
 			) }
@@ -92,9 +87,7 @@ const SidebarComponent = props => {
 					'newspack-sponsors'
 				) }
 			/>
-			{ ( 'native' === newspack_sponsor_sponsorship_scope ||
-				( isSponsor && ! newspack_sponsor_sponsorship_scope ) ||
-				! isSponsor ) && (
+			{ ( 'native' === newspack_sponsor_sponsorship_scope || ( isSponsor && ! newspack_sponsor_sponsorship_scope ) || ! isSponsor ) && (
 				<>
 					<SelectControl
 						className="newspack-sponsors__select-control"
@@ -102,23 +95,15 @@ const SidebarComponent = props => {
 						value={ newspack_sponsor_native_byline_display || bylineDefault }
 						options={ bylineOptions }
 						onChange={ value => updateMetaValue( 'newspack_sponsor_native_byline_display', value ) }
-						help={ __(
-							'Display the sponsor only in the byline, or both the sponsor and post author.',
-							'newspack-sponsors'
-						) }
+						help={ __( 'Display the sponsor only in the byline, or both the sponsor and post author.', 'newspack-sponsors' ) }
 					/>
 					<SelectControl
 						className="newspack-sponsors__select-control"
 						label={ __( 'Sponsorship Category Display', 'newspack-sponsors' ) }
 						value={ newspack_sponsor_native_category_display || categoryDefault }
 						options={ categoryOptions }
-						onChange={ value =>
-							updateMetaValue( 'newspack_sponsor_native_category_display', value )
-						}
-						help={ __(
-							'Show the sponsor only, or the post’s categories alongside the "sponsored" flag.',
-							'newspack-sponsors'
-						) }
+						onChange={ value => updateMetaValue( 'newspack_sponsor_native_category_display', value ) }
+						help={ __( 'Show the sponsor only, or the post’s categories alongside the "sponsored" flag.', 'newspack-sponsors' ) }
 					/>
 				</>
 			) }
@@ -130,10 +115,7 @@ const SidebarComponent = props => {
 						value={ newspack_sponsor_underwriter_style || underwriterStyleDefault }
 						options={ underwriterStyleOptions }
 						onChange={ value => updateMetaValue( 'newspack_sponsor_underwriter_style', value ) }
-						help={ __(
-							'Show the underwriter blurb in a standard or simplified style.',
-							'newspack-sponsors'
-						) }
+						help={ __( 'Show the underwriter blurb in a standard or simplified style.', 'newspack-sponsors' ) }
 					/>
 					<SelectControl
 						className="newspack-sponsors__select-control"
@@ -141,10 +123,7 @@ const SidebarComponent = props => {
 						value={ newspack_sponsor_underwriter_placement || underwriterPlacementDefault }
 						options={ underwriterPlacementOptions }
 						onChange={ value => updateMetaValue( 'newspack_sponsor_underwriter_placement', value ) }
-						help={ __(
-							'Show the underwriter blurb at the top or bottom of the post.',
-							'newspack-sponsors'
-						) }
+						help={ __( 'Show the underwriter blurb at the top or bottom of the post.', 'newspack-sponsors' ) }
 					/>
 				</>
 			) }
@@ -154,10 +133,7 @@ const SidebarComponent = props => {
 						className="newspack-sponsors__text-control"
 						label={ __( 'Sponsor URL', 'newspack-sponsors' ) }
 						placeholder={ __( 'URL to link to for this sponsor', 'newspack-sponsors' ) }
-						help={ __(
-							'Required if you want to show a link to an external URL.',
-							'newspack-sponsors'
-						) }
+						help={ __( 'Required if you want to show a link to an external URL.', 'newspack-sponsors' ) }
 						type="url"
 						value={ newspack_sponsor_url }
 						onChange={ value => updateMetaValue( 'newspack_sponsor_url', value ) }
@@ -177,10 +153,7 @@ const SidebarComponent = props => {
 					<TextareaControl
 						className="newspack-sponsors__textarea-control"
 						label={ __( 'Sponsor Disclaimer Override (Optional)', 'newspack-sponsors' ) }
-						placeholder={ ( settings.disclaimer || defaults.disclaimer ).replace(
-							'[sponsor name]',
-							title
-						) }
+						placeholder={ ( settings.disclaimer || defaults.disclaimer ).replace( '[sponsor name]', title ) }
 						help={ __(
 							'Text shown to explain sponsorship by this sponsor. If not empty, this field will override the site-wide setting.',
 							'newspack-sponsors'
@@ -232,7 +205,4 @@ const mapDispatchToProps = dispatch => {
 	};
 };
 
-export const Sidebar = compose( [
-	withSelect( mapStateToProps ),
-	withDispatch( mapDispatchToProps ),
-] )( SidebarComponent );
+export const Sidebar = compose( [ withSelect( mapStateToProps ), withDispatch( mapDispatchToProps ) ] )( SidebarComponent );

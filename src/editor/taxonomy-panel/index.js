@@ -43,18 +43,11 @@ export const TaxonomyPanel = PostTaxonomies => {
 		}
 
 		const hierarchical = 'category' === slug;
-		const label =
-			'category' === slug
-				? __( 'categories', 'newspack-sponsors' )
-				: __( 'tags', 'newspack-sponsors' );
+		const label = 'category' === slug ? __( 'categories', 'newspack-sponsors' ) : __( 'tags', 'newspack-sponsors' );
 		const message = sprintf(
-			// Translators: explanation for applying sponsors to a taxonomy term.
-			__(
-				'%1$s one or more post %2$s to associate this sponsor with those %3$s.',
-				'newspack-sponsors'
-			),
-			// Translators: "Select" terms if the taxonomy is hierarchical, or "Add" terms if not.
-			hierarchical ? __( 'Select ', 'newspack-sponsors' ) : __( 'Add ', 'newspack-sponsors' ),
+			// translators: %1$s: "Select" or "Add", %2$s: taxonomy label, %3$s: taxonomy label.
+			__( '%1$s one or more post %2$s to associate this sponsor with those %3$s.', 'newspack-sponsors' ),
+			hierarchical ? __( 'Select', 'newspack-sponsors' ) : __( 'Add', 'newspack-sponsors' ),
 			label,
 			label
 		);
