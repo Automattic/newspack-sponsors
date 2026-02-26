@@ -11,22 +11,6 @@ Sponsors are a custom post type (CPT). Each published sponsor post automatically
 - Shadow terms are auto-managed by `wp_insert_post` / `before_delete_post` hooks - never create or delete them manually.
 - Theme code calls `get_sponsors_for_post()` / `get_sponsors_for_archive()` / `get_all_sponsors()` from `includes/theme-helpers.php`.
 
-**Directory layout:**
-```
-newspack-sponsors.php       bootstrap: constants, manual requires
-includes/
-  class-core.php            Core singleton: CPT + tax + meta + shadow relationship
-  class-settings.php        Settings: admin page + options (static-only, no singleton)
-  class-editor.php          Editor singleton: enqueues dist/editor.js
-  theme-helpers.php         global functions used by themes
-src/editor/                 single webpack entry → dist/editor.js + dist/editor.css
-  index.js                  registers PluginDocumentSettingPanel + TaxonomyPanel filter
-  sidebar/index.js          sponsor settings form (withSelect/withDispatch HOC pattern)
-  taxonomy-panel/index.js   wraps PostTaxonomies to inject sponsor UI into tax panels
-```
-
-No autoloading - all four includes are `require_once`'d in the main plugin file.
-
 ## Linting
 
 ```bash
@@ -71,25 +55,6 @@ register_meta(
     ]
 );
 ```
-
-### PHP class instantiation
-
-`Core` and `Editor` use a `protected static $instance` singleton; they self-instantiate at the bottom of their file:
-
-```php
-Core::instance();   // bottom of class-core.php
-Editor::instance(); // bottom of class-editor.php
-```
-
-`Settings` is static-only (no `$instance`). It is initialized inside an `is_admin()` check at the bottom of `class-settings.php`:
-
-```php
-if ( is_admin() ) {
-    Settings::init();
-}
-```
-
-New classes should follow the `Core`/`Editor` singleton pattern and be `require_once`'d in `newspack-sponsors.php`.
 
 ### Settings (wp_options)
 
