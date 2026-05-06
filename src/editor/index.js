@@ -4,7 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { addFilter } from '@wordpress/hooks';
 import { registerPlugin } from '@wordpress/plugins';
-import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
+import { PluginDocumentSettingPanel } from '@wordpress/editor';
 
 /**
  * Internal dependencies
