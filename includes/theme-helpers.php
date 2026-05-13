@@ -146,20 +146,20 @@ function get_sponsors_for_post( $post_id = null, $scope = null, $logo_options = 
 	}
 
 	// Get sponsors for the post's categories, if any.
-	$category_sponsors = get_sponsor_posts_for_terms( $categories );
+	$category_sponsor_ids = get_sponsor_posts_for_terms( $categories );
 
-	if ( is_array( $category_sponsors ) ) {
-		foreach ( $category_sponsors as $category_sponsor ) {
+	if ( is_array( $category_sponsor_ids ) ) {
+		foreach ( $category_sponsor_ids as $category_sponsor_id ) {
 			// Don't add this sponsor if it's already assigned as a different type.
-			if ( true === is_duplicate_sponsor( $sponsors, $category_sponsor->ID ) ) {
+			if ( true === is_duplicate_sponsor( $sponsors, $category_sponsor_id ) ) {
 				continue;
 			}
 
-			$hide_term_sponsor = get_post_meta( $category_sponsor->ID, 'newspack_sponsor_only_direct', true );
+			$hide_term_sponsor = get_post_meta( $category_sponsor_id, 'newspack_sponsor_only_direct', true );
 
 			// Don't add if sponsor is set to show only as direct.
 			if ( empty( $hide_term_sponsor ) ) {
-				$sponsor_object = convert_post_to_sponsor( $category_sponsor, 'category', $logo_options );
+				$sponsor_object = convert_post_to_sponsor( get_post( $category_sponsor_id ), 'category', $logo_options );
 
 				if ( null === $scope || $scope === $sponsor_object['sponsor_scope'] ) {
 					$sponsors[] = $sponsor_object;
@@ -169,20 +169,20 @@ function get_sponsors_for_post( $post_id = null, $scope = null, $logo_options = 
 	}
 
 	// Get sponsors for the post's tags, if any.
-	$tag_sponsors = get_sponsor_posts_for_terms( $tags );
+	$tag_sponsor_ids = get_sponsor_posts_for_terms( $tags );
 
-	if ( is_array( $tag_sponsors ) ) {
-		foreach ( $tag_sponsors as $tag_sponsor ) {
+	if ( is_array( $tag_sponsor_ids ) ) {
+		foreach ( $tag_sponsor_ids as $tag_sponsor_id ) {
 			// Don't add this sponsor if it's already assigned as a different type.
-			if ( true === is_duplicate_sponsor( $sponsors, $tag_sponsor->ID ) ) {
+			if ( true === is_duplicate_sponsor( $sponsors, $tag_sponsor_id ) ) {
 				continue;
 			}
 
-			$hide_term_sponsor = get_post_meta( $tag_sponsor->ID, 'newspack_sponsor_only_direct', true );
+			$hide_term_sponsor = get_post_meta( $tag_sponsor_id, 'newspack_sponsor_only_direct', true );
 
 			// Don't add if sponsor is set to show only as direct.
 			if ( empty( $hide_term_sponsor ) ) {
-				$sponsor_object = convert_post_to_sponsor( $tag_sponsor, 'tag', $logo_options );
+				$sponsor_object = convert_post_to_sponsor( get_post( $tag_sponsor_id ), 'tag', $logo_options );
 
 				if ( null === $scope || $scope === $sponsor_object['sponsor_scope'] ) {
 					$sponsors[] = $sponsor_object;
@@ -241,13 +241,13 @@ function get_sponsors_for_archive( $term_id = null, $scope = null, $logo_options
 		return false;
 	}
 
-	$sponsors      = [];
-	$type          = 'category' === $term->taxonomy ? 'category' : 'tag';
-	$term_sponsors = get_sponsor_posts_for_terms( [ $term ] );
+	$sponsors          = [];
+	$type              = 'category' === $term->taxonomy ? 'category' : 'tag';
+	$term_sponsor_ids  = get_sponsor_posts_for_terms( [ $term ] );
 
-	if ( is_array( $term_sponsors ) ) {
-		foreach ( $term_sponsors as $term_sponsor ) {
-			$sponsor_object = convert_post_to_sponsor( $term_sponsor, $type, $logo_options );
+	if ( is_array( $term_sponsor_ids ) ) {
+		foreach ( $term_sponsor_ids as $term_sponsor_id ) {
+			$sponsor_object = convert_post_to_sponsor( get_post( $term_sponsor_id ), $type, $logo_options );
 
 			if ( null === $scope || $scope === $sponsor_object['sponsor_scope'] ) {
 				$sponsors[] = $sponsor_object;
@@ -308,8 +308,12 @@ function get_related_post( $slug ) {
 /**
  * Get all sponsors who are associated with the given terms.
  *
+ * Returns IDs only to avoid priming the full post cache for every matching
+ * sponsor. Callers should materialize the post via get_post() only for
+ * sponsors they actually intend to render.
+ *
  * @param array $terms Array of term objects to look up.
- * @return array|bool Array of sponsor post objects, if any, or false.
+ * @return array|bool Array of sponsor post IDs, if any, or false.
  */
 function get_sponsor_posts_for_terms( $terms ) {
 	if ( empty( $terms ) ) {
@@ -338,12 +342,16 @@ function get_sponsor_posts_for_terms( $terms ) {
 
 	$sponsor_posts = new \WP_Query(
 		[
-			'is_sponsors'    => 1,
-			'post_type'      => Core::NEWSPACK_SPONSORS_CPT,
-			'posts_per_page' => 100,
-			'post_status'    => 'publish',
+			'is_sponsors'            => 1,
+			'post_type'              => Core::NEWSPACK_SPONSORS_CPT,
+			'posts_per_page'         => 100,
+			'post_status'            => 'publish',
+			'fields'                 => 'ids',
+			'no_found_rows'          => true,
+			'update_post_meta_cache' => false,
+			'update_post_term_cache' => false,
 			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
-			'tax_query'      => $tax_query_args,
+			'tax_query'              => $tax_query_args,
 		]
 	);
 
