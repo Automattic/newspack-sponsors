@@ -1,22 +1,22 @@
 # Copyright (C) 2026 Automattic
-# This file is distributed under the same license as the Newspack Sponsors plugin.
+# This file is distributed under the same license as the Newspack Sponsors (final version, please migrate) plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Newspack Sponsors 2.2.0\n"
+"Project-Id-Version: Newspack Sponsors (final version, please migrate) 2.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/newspack-sponsors\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-02-03T18:36:57+00:00\n"
+"POT-Creation-Date: 2026-08-18T14:59:07+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: newspack-sponsors\n"
 
 #. Plugin Name of the plugin
 #: newspack-sponsors.php
-msgid "Newspack Sponsors"
+msgid "Newspack Sponsors (final version, please migrate)"
 msgstr ""
 
 #. Plugin URI of the plugin
@@ -27,7 +27,7 @@ msgstr ""
 
 #. Description of the plugin
 #: newspack-sponsors.php
-msgid "Add sponsors and sponsor info to posts. Allows special visual treatment for sponsored content."
+msgid "Final version released from the legacy plugin repository. This copy will not receive further updates. Download the current version at https://newspack.com/download-center"
 msgstr ""
 
 #. Author of the plugin
@@ -241,6 +241,16 @@ msgstr ""
 
 #: includes/theme-helpers.php:226
 msgid "Please provide a $term_id if not invoking within a term archive page."
+msgstr ""
+
+#: newspack-sponsors.php:39
+msgid "You are running an outdated version of the Newspack Sponsors plugin."
+msgstr ""
+
+#. translators: 1: URL of the announcement post. 2: URL of the download center.
+#: newspack-sponsors.php:45
+#, php-format
+msgid "This is the final version released from the legacy plugin repository, and it will not receive further updates. <a href=\"%1$s\">Read the announcement</a>, then download the current version from the <a href=\"%2$s\">Newspack download center</a>."
 msgstr ""
 
 #: dist/editor.js:1
